@@ -1,3 +1,2 @@
 # Selm
-
-A description of this package.
+Selm is the Cmd framework liked the Elm Cmd.
