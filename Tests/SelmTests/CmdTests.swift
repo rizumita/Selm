@@ -18,22 +18,22 @@ final class CmdTests: XCTestCase {
         XCTAssertEqual(msg, Msg1.first)
     }
 
-    func testOfMsgOptionWithMsg() {
+    func testOfMsgOptionalWithMsg() {
         var msg: Msg1?
         let dispatch: Dispatch<Msg1> = { msg = $0 }
 
-        let cmd = Cmd<Msg1>.ofMsgOption(.first)
+        let cmd = Cmd<Msg1>.ofMsgOptional(.first)
         cmd.dispatch(dispatch)
 
         XCTAssertEqual(cmd.value.count, 1)
         XCTAssertEqual(msg, Msg1.first)
     }
 
-    func testOfMsgOptionWithNil() {
+    func testOfMsgOptionalWithNil() {
         var msg: Msg1?
         let dispatch: Dispatch<Msg1> = { msg = $0 }
 
-        let cmd = Cmd<Msg1>.ofMsgOption(.none)
+        let cmd = Cmd<Msg1>.ofMsgOptional(.none)
         cmd.dispatch(dispatch)
 
         XCTAssertEqual(cmd.value.count, 1)
@@ -121,12 +121,12 @@ final class CmdTests: XCTestCase {
         XCTAssertEqual(msg, Msg1.second)
     }
 
-    func testOfAsyncMsgOptionWithMsg() {
+    func testOfAsyncMsgOptionalWithMsg() {
         let exp = expectation(description: #function)
         var msg: Msg1?
         let dispatch: Dispatch<Msg1> = { msg = $0 }
 
-        let cmd = Cmd<Msg1>.ofAsyncMsgOption { fulfill in
+        let cmd = Cmd<Msg1>.ofAsyncMsgOptional { fulfill in
             DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(100)) {
                 fulfill(.second)
                 exp.fulfill()
@@ -140,12 +140,12 @@ final class CmdTests: XCTestCase {
         XCTAssertEqual(msg, Msg1.second)
     }
 
-    func testOfAsyncMsgOptionWithNil() {
+    func testOfAsyncMsgOptionalWithNil() {
         let exp = expectation(description: #function)
         var msg: Msg1?
         let dispatch: Dispatch<Msg1> = { msg = $0 }
 
-        let cmd = Cmd<Msg1>.ofAsyncMsgOption { fulfill in
+        let cmd = Cmd<Msg1>.ofAsyncMsgOptional { fulfill in
             DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(100)) {
                 fulfill(.none)
                 exp.fulfill()
@@ -170,5 +170,4 @@ final class CmdTests: XCTestCase {
         case fifth
         case sixth
     }
-
 }

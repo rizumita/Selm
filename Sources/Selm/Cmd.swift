@@ -13,7 +13,7 @@ public struct Cmd<Msg> {
         return Cmd(value: [{ dispatch in dispatch(msg) }])
     }
 
-    public static func ofMsgOption(_ msg: Msg?) -> Cmd<Msg> {
+    public static func ofMsgOptional(_ msg: Msg?) -> Cmd<Msg> {
         return Cmd(value: [{ dispatch in msg.map(dispatch) }])
     }
 
@@ -53,7 +53,7 @@ public struct Cmd<Msg> {
         }])
     }
 
-    public static func ofAsyncMsgOption(_ async: @escaping (@escaping (Msg?) -> ()) -> ()) -> Cmd<Msg> {
+    public static func ofAsyncMsgOptional(_ async: @escaping (@escaping (Msg?) -> ()) -> ()) -> Cmd<Msg> {
         return Cmd(value: [{ dispatch in
             async { msg in
                 guard let msg = msg else { return }

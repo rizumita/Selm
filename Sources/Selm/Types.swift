@@ -12,3 +12,6 @@ public typealias Dispatch<Msg> = (Msg) -> ()
 public typealias Sub<Msg> = (@escaping Dispatch<Msg>) -> ()
 public typealias DependsOnOptional<Item: Equatable> = (Item?, (Item) -> ()) -> ()
 public typealias DependsOn<Item: Equatable> = (Item, (Item) -> ()) -> ()
+public typealias DependsOnOptionalReturn<Item: Equatable, R> = (Item?, (Item) -> R) -> R
+public typealias DependsOnReturn<Item: Equatable, R> = (Item, (Item) -> R) -> R
+public typealias ChangesOn<Item: Equatable> = (Item?, (Item?) -> ()) -> ()
