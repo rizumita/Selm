@@ -61,4 +61,21 @@ public struct Cmd<Msg> {
             }
         }])
     }
+
+    public static func ofAsyncCmd(_ async: @escaping (@escaping (Cmd<Msg>) -> ()) -> ()) -> Cmd<Msg> {
+        return Cmd(value: [{ dispatch in
+            async { cmd in
+                DispatchQueue.main.async { cmd.dispatch(dispatch) }
+            }
+        }])
+    }
+
+    public static func ofAsyncCmdOptional(_ async: @escaping (@escaping (Cmd<Msg>?) -> ()) -> ()) -> Cmd<Msg> {
+        return Cmd(value: [{ dispatch in
+            async { cmd in
+                guard let cmd = cmd else { return }
+                DispatchQueue.main.async { cmd.dispatch(dispatch) }
+            }
+        }])
+    }
 }

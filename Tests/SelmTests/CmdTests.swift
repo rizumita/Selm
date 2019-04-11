@@ -159,6 +159,63 @@ final class CmdTests: XCTestCase {
         XCTAssertNil(msg)
     }
 
+    func testAsyncCmd() {
+        let exp = expectation(description: #function)
+        var msg: Msg1?
+        let dispatch: Dispatch<Msg1> = { msg = $0 }
+
+        let cmd = Cmd<Msg1>.ofAsyncCmd { fulfill in
+            DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(100)) {
+                fulfill(Cmd.ofMsg(.second))
+                exp.fulfill()
+            }
+        }
+        cmd.dispatch(dispatch)
+
+        waitForExpectations(timeout: 2.0)
+
+        XCTAssertEqual(cmd.value.count, 1)
+        XCTAssertEqual(msg, Msg1.second)
+    }
+
+    func testOfAsyncCmdOptionalWithMsg() {
+        let exp = expectation(description: #function)
+        var msg: Msg1?
+        let dispatch: Dispatch<Msg1> = { msg = $0 }
+
+        let cmd = Cmd<Msg1>.ofAsyncCmdOptional { fulfill in
+            DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(100)) {
+                fulfill(Cmd.ofMsg(.second))
+                exp.fulfill()
+            }
+        }
+        cmd.dispatch(dispatch)
+
+        waitForExpectations(timeout: 2.0)
+
+        XCTAssertEqual(cmd.value.count, 1)
+        XCTAssertEqual(msg, Msg1.second)
+    }
+
+    func testOfAsyncCmdOptionalWithNil() {
+        let exp = expectation(description: #function)
+        var msg: Msg1?
+        let dispatch: Dispatch<Msg1> = { msg = $0 }
+
+        let cmd = Cmd<Msg1>.ofAsyncCmdOptional { fulfill in
+            DispatchQueue.global().asyncAfter(deadline: .now() + .milliseconds(100)) {
+                fulfill(Cmd.none)
+                exp.fulfill()
+            }
+        }
+        cmd.dispatch(dispatch)
+
+        waitForExpectations(timeout: 2.0)
+
+        XCTAssertEqual(cmd.value.count, 1)
+        XCTAssertNil(msg)
+    }
+
     enum Msg1: Equatable {
         case first
         case second
