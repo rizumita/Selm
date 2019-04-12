@@ -4,6 +4,8 @@
 
 import Foundation
 
+public typealias SelmInited<Msg, Model> = (Model, Cmd<Msg>)
+public typealias SelmInit<Msg, Model> = () -> SelmInited<Msg, Model>
 public typealias SelmUpdate<Msg, Model> = (Msg, Model) -> (Model, Cmd<Msg>)
 public typealias SelmUpdateExt<Msg, ExternalMsg, Model> = (Msg, Model) -> (Model, Cmd<Msg>, ExternalMsg)
 public typealias SelmRoute<Msg, Model> = (Model, @escaping Dispatch<Msg>) -> ()

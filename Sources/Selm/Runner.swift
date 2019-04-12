@@ -11,7 +11,7 @@ public class Runner<Model, Msg> {
     private let dispatcher = Dispatcher<Msg>()
     private var lastModel:  Model
 
-    public static func create(initialize: @escaping () -> (Model, Cmd<Msg>),
+    public static func create(initialize: @escaping SelmInit<Msg, Model>,
                               update: @escaping SelmUpdate<Msg, Model>,
                               view: @escaping SelmView<Msg, Model>) -> Dispatch<Msg> {
         let runner = Runner(initialize: initialize, update: update, view: view)
