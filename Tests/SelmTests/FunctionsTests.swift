@@ -3,33 +3,7 @@ import Foundation
 @testable import Selm
 
 final class FunctionsTests: XCTestCase {
-    func testDependsOnOptional() {
-        let dep: DependsOnOptional<String> = dependsOn()
-
-        var called = false
-
-        dep(.none) { v in called = true }
-        XCTAssertFalse(called)
-
-        dep("test") { v in
-            XCTAssertEqual(v, "test")
-            called = true
-        }
-        XCTAssertTrue(called)
-
-        called = false
-
-        dep("test") { v in called = true }
-        XCTAssertFalse(called)
-
-        dep("test updated") { v in
-            XCTAssertEqual(v, "test updated")
-            called = true
-        }
-        XCTAssertTrue(called)
-    }
-
-    func testDependsOn() {
+    func testDependsOnWithNonOptional() {
         let dep: DependsOn<String> = dependsOn()
 
         var called = false
@@ -57,27 +31,19 @@ final class FunctionsTests: XCTestCase {
         XCTAssertTrue(called)
     }
 
-    func testDependsOnReturnOptional() {
-        let dep: DependsOnOptionalReturn<String, String> = dependsOn(defaultValue: "")
-
-        XCTAssertEqual(dep("test") { $0 }, "test")
-        XCTAssertEqual(dep("test") { $0 }, "")
-        XCTAssertEqual(dep(.none) { $0 }, "")
-    }
-
-    func testDependsOnReturn() {
-        let dep: DependsOnReturn<String, String> = dependsOn(defaultValue: "")
-
-        XCTAssertEqual(dep("test") { $0 }, "test")
-        XCTAssertEqual(dep("test") { $0 }, "")
-    }
-
-    func testChangesOn() {
-        let cha: ChangesOn<String> = changesOn()
+    func testDependsOnWithOptional() {
+        let dep: DependsOn<String?> = dependsOn()
 
         var called = false
 
-        cha("test") { v in
+        dep(.none) { v in
+            called = true
+        }
+        XCTAssertTrue(called)
+
+        called = false
+
+        dep("test") { v in
             XCTAssertEqual(v, "test")
             called = true
         }
@@ -85,16 +51,45 @@ final class FunctionsTests: XCTestCase {
 
         called = false
 
-        cha(.none) { v in
-            XCTAssertNil(v)
+        dep("test") { v in
+            XCTAssertEqual(v, "test")
+            called = true
+        }
+        XCTAssertFalse(called)
+
+        called = false
+
+        dep("test updated") { v in
+            XCTAssertEqual(v, "test updated")
+            called = true
+        }
+        XCTAssertTrue(called)
+    }
+
+    func testDependsOn2() {
+        let dep: DependsOn2<String, String?> = dependsOn()
+
+        var called = false
+
+        dep("test", .none) { v1, v2 in
+            XCTAssertEqual(v1, "test")
+            XCTAssertNil(v2)
             called = true
         }
         XCTAssertTrue(called)
 
         called = false
 
-        cha(.none) { v in
-            XCTAssertNil(v)
+        dep("test", "test") { v1, v2 in
+            XCTAssertEqual(v1, "test")
+            XCTAssertEqual(v2, "test")
+            called = true
+        }
+        XCTAssertTrue(called)
+
+        called = false
+
+        dep("test", "test") { _, _ in
             called = true
         }
         XCTAssertFalse(called)
