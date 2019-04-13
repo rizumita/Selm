@@ -4,7 +4,7 @@ import Foundation
 
 final class FunctionsTests: XCTestCase {
     func testDependsOnWithNonOptional() {
-        let dep: DependsOn<String> = dependsOn()
+        let dep = dependsOn(String.self)
 
         var called = false
 
@@ -32,7 +32,7 @@ final class FunctionsTests: XCTestCase {
     }
 
     func testDependsOnWithOptional() {
-        let dep: DependsOn<String?> = dependsOn()
+        let dep = dependsOn(String?.self)
 
         var called = false
 

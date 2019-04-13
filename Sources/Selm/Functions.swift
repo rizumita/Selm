@@ -4,7 +4,7 @@
 
 import Foundation
 
-public func dependsOn<Item>() -> DependsOn<Item> {
+public func dependsOn<Item>(_ type: Item.Type = Item.self) -> DependsOn<Item> {
     var oldItem: Item?
     return { item, f in
         defer { oldItem = item }
@@ -13,7 +13,7 @@ public func dependsOn<Item>() -> DependsOn<Item> {
     }
 }
 
-public func dependsOn<Item1, Item2>() -> DependsOn2<Item1, Item2> {
+public func dependsOn<Item1, Item2>(_ type1: Item1.Type = Item1.self, _ type2: Item2.Type = Item2.self) -> DependsOn2<Item1, Item2> {
     var oldItem1: Item1?
     var oldItem2: Item2?
     return { item1, item2, f in
