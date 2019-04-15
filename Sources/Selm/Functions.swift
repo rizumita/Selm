@@ -13,6 +13,12 @@ public func dependsOn<Item>(_ type: Item.Type = Item.self) -> DependsOn<Item> {
     }
 }
 
+public func dependsOn<Item>(_ type: Item.Type = Item.self, defaultValue: Item) -> DependsOn<Item> {
+    let result = dependsOn(type)
+    result(defaultValue) { _ in }
+    return result
+}
+
 public func dependsOn<Item1, Item2>(_ type1: Item1.Type = Item1.self, _ type2: Item2.Type = Item2.self) -> DependsOn2<Item1, Item2> {
     var oldItem1: Item1?
     var oldItem2: Item2?
