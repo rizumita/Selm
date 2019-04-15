@@ -13,9 +13,9 @@ public func dependsOn<Item>(_ type: Item.Type = Item.self) -> DependsOn<Item> {
     }
 }
 
-public func dependsOn<Item>(_ type: Item.Type = Item.self, defaultValue: Item) -> DependsOn<Item> {
+public func dependsOn<Item>(_ type: Item.Type = Item.self, initial: Item) -> DependsOn<Item> {
     let result = dependsOn(type)
-    result(defaultValue) { _ in }
+    result(initial) { _ in }
     return result
 }
 
