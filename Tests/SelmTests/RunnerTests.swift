@@ -42,6 +42,42 @@ final class RunnerTests: XCTestCase {
         XCTAssertTrue(thirdDispatched)
     }
 
+    func testAsync() {
+        let exp = expectation(description: #function)
+        exp.assertForOverFulfill = false
+        exp.expectedFulfillmentCount = 3
+        let dispatch = Runner<Model, Msg>.create(initialize: { (Model(string: "test"), .none) },
+                                                 update: { msg, model in
+                                                     var model = model
+                                                     defer { exp.fulfill() }
+
+                                                     switch msg {
+                                                     case .first:
+                                                         model.string = "first"
+                                                         return (model,
+                                                                 Cmd.ofAsyncMsg { fulfill in
+                                                                     DispatchQueue
+                                                                         .global()
+                                                                         .asyncAfter(deadline: .now() + .seconds(1)) {
+                                                                             fulfill(.second)
+                                                                         }
+                                                                 })
+                                                     case .second:
+                                                         model.string = "second"
+                                                         return (model, .none)
+                                                     case .third:
+                                                         model.string = "third"
+                                                         return (model, .none)
+                                                     }
+                                                 },
+                                                 view: { model, dispatch in print(model.string) })
+        dispatch(.first)
+        dispatch(.third)
+
+        waitForExpectations(timeout: 2.0)
+    }
+
+
     struct Model {
         var string: String
     }
