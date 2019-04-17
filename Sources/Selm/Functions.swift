@@ -25,7 +25,7 @@ public func dependsOn<Item1, Item2>(_ type1: Item1.Type = Item1.self, _ type2: I
     return { item1, item2, f in
         defer { (oldItem1, oldItem2) = (item1, item2) }
         guard oldItem1 != item1 || oldItem2 != item2 else { return }
-        f(item1, item2)
+        f((item1, item2))
     }
 }
 
@@ -38,6 +38,6 @@ public func dependsOn<Item1, Item2, Item3>(_ type1: Item1.Type = Item1.self,
     return { item1, item2, item3, f in
         defer { (oldItem1, oldItem2, oldItem3) = (item1, item2, item3) }
         guard oldItem1 != item1 || oldItem2 != item2 || oldItem3 != item3 else { return }
-        f(item1, item2, item3)
+        f((item1, item2, item3))
     }
 }
