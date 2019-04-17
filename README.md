@@ -1,5 +1,5 @@
 # Selm
-Selm is the Cmd framework liked the Elm Cmd.
+Selm is the Cmd framework like the Elm Cmd.
 
 I call an architecture pattern using Selm 'Selm architecture pattern'. Because Selm doesn't have a virtual DOM system. Selm is 'Sham Elm'.
 
