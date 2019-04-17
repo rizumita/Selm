@@ -28,3 +28,16 @@ public func dependsOn<Item1, Item2>(_ type1: Item1.Type = Item1.self, _ type2: I
         f(item1, item2)
     }
 }
+
+public func dependsOn<Item1, Item2, Item3>(_ type1: Item1.Type = Item1.self,
+                                           _ type2: Item2.Type = Item2.self,
+                                           _ type3: Item3.Type = Item3.self) -> DependsOn3<Item1, Item2, Item3> {
+    var oldItem1: Item1?
+    var oldItem2: Item2?
+    var oldItem3: Item3?
+    return { item1, item2, item3, f in
+        defer { (oldItem1, oldItem2, oldItem3) = (item1, item2, item3) }
+        guard oldItem1 != item1 || oldItem2 != item2 || oldItem3 != item3 else { return }
+        f(item1, item2, item3)
+    }
+}
