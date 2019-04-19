@@ -78,7 +78,7 @@ public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>
     }
 }
 
-public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ root: Root, f: ((Value1, Value2)) -> R) -> R {
+public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ root: Root, _ f: ((Value1, Value2)) -> R) -> R {
     let value1 = root[keyPath: keyPath1]
     let value2 = root[keyPath: keyPath2]
     let key = Memoizations.Key(keyPath: [keyPath1, keyPath2], value: [.init(value1), .init(value2)], resultType: String(describing: R.self))
@@ -92,7 +92,7 @@ public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1:
     }
 }
 
-public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ keyPath3: KeyPath<Root, Value3>, _ root: Root, f: ((Value1, Value2, Value3)) -> R) -> R {
+public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ keyPath3: KeyPath<Root, Value3>, _ root: Root, _ f: ((Value1, Value2, Value3)) -> R) -> R {
     let value1 = root[keyPath: keyPath1]
     let value2 = root[keyPath: keyPath2]
     let value3 = root[keyPath: keyPath3]
