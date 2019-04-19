@@ -3,95 +3,51 @@ import Foundation
 @testable import Selm
 
 final class FunctionsTests: XCTestCase {
-    func testDependsOnWithNonOptional() {
-        let dep = dependsOn(String.self)
+    struct Model {
+        var int: Int
+        var string: String
+        var bool: Bool
+    }
+    
+    func testDependsOn_1() {
+        var model = Model(int: 0, string: "", bool: false)
 
-        var called = false
+        var r = dependsOn(\.int, model) { int in 1 }
+        XCTAssertEqual(r, 1)
 
-        dep("test") { v in
-            XCTAssertEqual(v, "test")
-            called = true
-        }
-        XCTAssertTrue(called)
+        r = dependsOn(\.int, model) { int in 2 }
+        XCTAssertEqual(r, 1)
 
-        called = false
-
-        dep("test") { v in
-            XCTAssertEqual(v, "test")
-            called = true
-        }
-        XCTAssertFalse(called)
-
-        called = false
-
-        dep("test updated") { v in
-            XCTAssertEqual(v, "test updated")
-            called = true
-        }
-        XCTAssertTrue(called)
+        model.int = 1
+        r = dependsOn(\.int, model) { int in 3 }
+        XCTAssertEqual(r, 3)
     }
 
-    func testDependsOnWithOptional() {
-        let dep = dependsOn(String?.self)
+    func testDependsOn_2() {
+        var model = Model(int: 0, string: "", bool: false)
 
-        var called = false
+        var r = dependsOn(\.int, \.string, model) { int in 1 }
+        XCTAssertEqual(r, 1)
 
-        dep(.none) { v in
-            called = true
-        }
-        XCTAssertTrue(called)
+        r = dependsOn(\.int, \.string, model) { int in 2 }
+        XCTAssertEqual(r, 1)
 
-        called = false
-
-        dep("test") { v in
-            XCTAssertEqual(v, "test")
-            called = true
-        }
-        XCTAssertTrue(called)
-
-        called = false
-
-        dep("test") { v in
-            XCTAssertEqual(v, "test")
-            called = true
-        }
-        XCTAssertFalse(called)
-
-        called = false
-
-        dep("test updated") { v in
-            XCTAssertEqual(v, "test updated")
-            called = true
-        }
-        XCTAssertTrue(called)
+        model.int = 1
+        r = dependsOn(\.int, \.string, model) { int in 3 }
+        XCTAssertEqual(r, 3)
     }
 
-    func testDependsOn2() {
-        let dep: DependsOn2<String, String?> = dependsOn()
+    func testDependsOn_3() {
+        var model = Model(int: 0, string: "", bool: false)
 
-        var called = false
+        var r = dependsOn(\.int, \.string, \.bool, model) { int in 1 }
+        XCTAssertEqual(r, 1)
 
-        dep("test", .none) { v1, v2 in
-            XCTAssertEqual(v1, "test")
-            XCTAssertNil(v2)
-            called = true
-        }
-        XCTAssertTrue(called)
+        r = dependsOn(\.int, \.string, \.bool, model) { int in 2 }
+        XCTAssertEqual(r, 1)
 
-        called = false
-
-        dep("test", "test") { v1, v2 in
-            XCTAssertEqual(v1, "test")
-            XCTAssertEqual(v2, "test")
-            called = true
-        }
-        XCTAssertTrue(called)
-
-        called = false
-
-        dep("test", "test") { _, _ in
-            called = true
-        }
-        XCTAssertFalse(called)
+        model.int = 1
+        r = dependsOn(\.int, \.string, \.bool, model) { int in 3 }
+        XCTAssertEqual(r, 3)
     }
 }
