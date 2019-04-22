@@ -21,6 +21,10 @@ final class FunctionsTests: XCTestCase {
         model.int = 1
         r = dependsOn(\.int, model) { int in 3 }
         XCTAssertEqual(r, 3)
+
+        model.int = 0
+        r = dependsOn(\.int, model) { int in 4 }
+        XCTAssertEqual(r, 4)
     }
 
     func testDependsOn_2() {
