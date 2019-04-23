@@ -78,6 +78,13 @@ struct Memoizations {
     }
 }
 
+public func clearDependsOn<Root>(_ rootType: Root.Type) {
+    Memoizations.store.keys.filter { key in
+        guard let keyPath = key.keyPath.first else { return false }
+        return type(of: keyPath).rootType == rootType
+    }.forEach { key in Memoizations.store.removeValue(forKey: key) }
+}
+
 public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>, _ root: Root, _ f: (Value) -> R) -> R {
     let value = root[keyPath: keyPath]
     let key = Memoizations.Key(keyPath: [keyPath], value: [.init(value)], resultType: String(describing: R.self))
