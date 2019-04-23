@@ -9,11 +9,11 @@
 /* Begin PBXAggregateTarget section */
 		"Selm::SelmPackageTests::ProductTarget" /* SelmPackageTests */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_32 /* Build configuration list for PBXAggregateTarget "SelmPackageTests" */;
+			buildConfigurationList = OBJ_52 /* Build configuration list for PBXAggregateTarget "SelmPackageTests" */;
 			buildPhases = (
 			);
 			dependencies = (
-				OBJ_35 /* PBXTargetDependency */,
+				OBJ_55 /* PBXTargetDependency */,
 			);
 			name = SelmPackageTests;
 			productName = SelmPackageTests;
@@ -21,134 +21,158 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		CB8761B871C24DF073F1752C /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8762D7420C3D86A187C778 /* Functions.swift */; };
-		CB87624327FA1D2F8B43FFBF /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87626B0E415EA73FFCC42A /* RunnerTests.swift */; };
-		CB87628DA21990A8C5F28E31 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876C6D6B566D636A3D8108 /* FunctionsTests.swift */; };
-		CB87636AC8C19CA328494CFE /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876CB767B98DE12179B8F4 /* DispatcherTests.swift */; };
-		CB87669CA143D1530A6870B6 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876CEF580C280EE0F17297 /* Types.swift */; };
-		CB8767E82223024ECAACF81C /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764F9F17B2A2CE85872D9 /* Cmd.swift */; };
-		CB876B9EBB0EEF8DEAF65ADA /* CmdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876D3865A0682B611AC8D5 /* CmdTests.swift */; };
-		CB876C33685BBDAFB41F3D55 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876CBC3FA247F9B861B20D /* Dispatcher.swift */; };
-		CB876DB06719F216A4F003A2 /* Runner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8762F0ED4AC64C2ADB1F27 /* Runner.swift */; };
-		OBJ_30 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_42 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* XCTestManifests.swift */; };
-		OBJ_44 /* Selm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Selm::Selm::Product" /* Selm.framework */; };
+		CB8760330F04012D646B11CE /* UIViewController+Swizzling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8769A471932429EA332C53 /* UIViewController+Swizzling.swift */; };
+		CB876C6D5A2D821BFF70F731 /* LifecycleObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */; };
+		CB876D2AD218947043CA7FD4 /* LifecycleWireframeProtocol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8768D90005B8A625A11788 /* LifecycleWireframeProtocol+Extensions.swift */; };
+		CB876FC4E3EF21E378FF2A1C /* UIViewController+ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876E15FAD826B7E91677B9 /* UIViewController+ViewProtocol.swift */; };
+		OBJ_36 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Cmd.swift */; };
+		OBJ_37 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Dispatcher.swift */; };
+		OBJ_38 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Functions.swift */; };
+		OBJ_39 /* LifecycleMsgProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* LifecycleMsgProtocol.swift */; };
+		OBJ_40 /* LifecycleWireframeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* LifecycleWireframeProtocol.swift */; };
+		OBJ_41 /* Runner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Runner.swift */; };
+		OBJ_42 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Types.swift */; };
+		OBJ_43 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* ViewProtocol.swift */; };
+		OBJ_50 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_61 /* CmdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* CmdTests.swift */; };
+		OBJ_62 /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* DispatcherTests.swift */; };
+		OBJ_63 /* FunctionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* FunctionsTests.swift */; };
+		OBJ_64 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* RunnerTests.swift */; };
+		OBJ_65 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* XCTestManifests.swift */; };
+		OBJ_67 /* Selm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Selm::Selm::Product" /* Selm.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		6A368C7D225AB58F0087D39A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "Selm::Selm";
-			remoteInfo = Selm;
-		};
-		6A368C7E225AB5900087D39A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "Selm::SelmTests";
-			remoteInfo = SelmTests;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		CB87626B0E415EA73FFCC42A /* RunnerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
-		CB8762D7420C3D86A187C778 /* Functions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
-		CB8762F0ED4AC64C2ADB1F27 /* Runner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runner.swift; sourceTree = "<group>"; };
-		CB8764F9F17B2A2CE85872D9 /* Cmd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
-		CB876C6D6B566D636A3D8108 /* FunctionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
-		CB876CB767B98DE12179B8F4 /* DispatcherTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
-		CB876CBC3FA247F9B861B20D /* Dispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
-		CB876CEF580C280EE0F17297 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		CB876D3865A0682B611AC8D5 /* CmdTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CmdTests.swift; sourceTree = "<group>"; };
-		OBJ_13 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
-		OBJ_17 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifecycleObservation.swift; sourceTree = "<group>"; };
+		CB8768D90005B8A625A11788 /* LifecycleWireframeProtocol+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LifecycleWireframeProtocol+Extensions.swift"; sourceTree = "<group>"; };
+		CB8769A471932429EA332C53 /* UIViewController+Swizzling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Swizzling.swift"; sourceTree = "<group>"; };
+		CB876E15FAD826B7E91677B9 /* UIViewController+ViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ViewProtocol.swift"; sourceTree = "<group>"; };
+		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; path = Cmd.swift; sourceTree = "<group>"; };
+		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; path = Dispatcher.swift; sourceTree = "<group>"; };
+		OBJ_13 /* Functions.swift */ = {isa = PBXFileReference; path = Functions.swift; sourceTree = "<group>"; };
+		OBJ_14 /* LifecycleMsgProtocol.swift */ = {isa = PBXFileReference; path = LifecycleMsgProtocol.swift; sourceTree = "<group>"; };
+		OBJ_15 /* LifecycleWireframeProtocol.swift */ = {isa = PBXFileReference; path = LifecycleWireframeProtocol.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Runner.swift */ = {isa = PBXFileReference; path = Runner.swift; sourceTree = "<group>"; };
+		OBJ_17 /* Types.swift */ = {isa = PBXFileReference; path = Types.swift; sourceTree = "<group>"; };
+		OBJ_18 /* ViewProtocol.swift */ = {isa = PBXFileReference; path = ViewProtocol.swift; sourceTree = "<group>"; };
+		OBJ_21 /* CmdTests.swift */ = {isa = PBXFileReference; path = CmdTests.swift; sourceTree = "<group>"; };
+		OBJ_22 /* DispatcherTests.swift */ = {isa = PBXFileReference; path = DispatcherTests.swift; sourceTree = "<group>"; };
+		OBJ_23 /* FunctionsTests.swift */ = {isa = PBXFileReference; path = FunctionsTests.swift; sourceTree = "<group>"; };
+		OBJ_24 /* RunnerTests.swift */ = {isa = PBXFileReference; path = RunnerTests.swift; sourceTree = "<group>"; };
+		OBJ_25 /* XCTestManifests.swift */ = {isa = PBXFileReference; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_29 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_30 /* README.md */ = {isa = PBXFileReference; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		"Selm::Selm::Product" /* Selm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Selm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Selm::SelmTests::Product" /* SelmTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = SelmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_8 /* ios.xcconfig */ = {isa = PBXFileReference; name = ios.xcconfig; path = Sources/ios.xcconfig; sourceTree = "<group>"; };
+		"Selm::Selm::Product" /* Selm.framework */ = {isa = PBXFileReference; path = Selm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Selm::SelmTests::Product" /* SelmTests.xctest */ = {isa = PBXFileReference; path = SelmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_24 /* Frameworks */ = {
+		OBJ_44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_43 /* Frameworks */ = {
+		OBJ_66 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 0;
 			files = (
-				OBJ_44 /* Selm.framework in Frameworks */,
+				OBJ_67 /* Selm.framework in Frameworks */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		OBJ_10 /* Tests */ = {
+		CB876996BDBAD44C4840493B /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_11 /* SelmTests */,
+				CB876E15FAD826B7E91677B9 /* UIViewController+ViewProtocol.swift */,
+				CB8768D90005B8A625A11788 /* LifecycleWireframeProtocol+Extensions.swift */,
+				CB8769A471932429EA332C53 /* UIViewController+Swizzling.swift */,
 			);
-			name = Tests;
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		OBJ_10 /* Selm */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_11 /* Cmd.swift */,
+				OBJ_12 /* Dispatcher.swift */,
+				OBJ_13 /* Functions.swift */,
+				OBJ_14 /* LifecycleMsgProtocol.swift */,
+				OBJ_15 /* LifecycleWireframeProtocol.swift */,
+				OBJ_16 /* Runner.swift */,
+				OBJ_17 /* Types.swift */,
+				OBJ_18 /* ViewProtocol.swift */,
+				CB876996BDBAD44C4840493B /* iOS */,
+				CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */,
+			);
+			name = Selm;
+			path = Sources/Selm;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_11 /* SelmTests */ = {
+		OBJ_19 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_13 /* XCTestManifests.swift */,
-				CB876D3865A0682B611AC8D5 /* CmdTests.swift */,
-				CB876CB767B98DE12179B8F4 /* DispatcherTests.swift */,
-				CB87626B0E415EA73FFCC42A /* RunnerTests.swift */,
-				CB876C6D6B566D636A3D8108 /* FunctionsTests.swift */,
+				OBJ_20 /* SelmTests */,
+			);
+			name = Tests;
+			path = "";
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_20 /* SelmTests */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_21 /* CmdTests.swift */,
+				OBJ_22 /* DispatcherTests.swift */,
+				OBJ_23 /* FunctionsTests.swift */,
+				OBJ_24 /* RunnerTests.swift */,
+				OBJ_25 /* XCTestManifests.swift */,
 			);
 			name = SelmTests;
 			path = Tests/SelmTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_14 /* Products */ = {
+		OBJ_26 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				"Selm::SelmTests::Product" /* SelmTests.xctest */,
 				"Selm::Selm::Product" /* Selm.framework */,
+				"Selm::SelmTests::Product" /* SelmTests.xctest */,
 			);
 			name = Products;
+			path = "";
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
-				OBJ_7 /* Sources */,
-				OBJ_10 /* Tests */,
-				OBJ_14 /* Products */,
-				OBJ_17 /* README.md */,
+				OBJ_7 /* Configs */,
+				OBJ_9 /* Sources */,
+				OBJ_19 /* Tests */,
+				OBJ_26 /* Products */,
+				OBJ_29 /* LICENSE */,
+				OBJ_30 /* README.md */,
 			);
-			name = "";
+			path = "";
 			sourceTree = "<group>";
 		};
-		OBJ_7 /* Sources */ = {
+		OBJ_7 /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_8 /* Selm */,
+				OBJ_8 /* ios.xcconfig */,
+			);
+			name = Configs;
+			path = "";
+			sourceTree = "<group>";
+		};
+		OBJ_9 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_10 /* Selm */,
 			);
 			name = Sources;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_8 /* Selm */ = {
-			isa = PBXGroup;
-			children = (
-				CB8764F9F17B2A2CE85872D9 /* Cmd.swift */,
-				CB876CEF580C280EE0F17297 /* Types.swift */,
-				CB876CBC3FA247F9B861B20D /* Dispatcher.swift */,
-				CB8762F0ED4AC64C2ADB1F27 /* Runner.swift */,
-				CB8762D7420C3D86A187C778 /* Functions.swift */,
-			);
-			name = Selm;
-			path = Sources/Selm;
+			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
@@ -156,12 +180,10 @@
 /* Begin PBXNativeTarget section */
 		"Selm::Selm" /* Selm */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_19 /* Build configuration list for PBXNativeTarget "Selm" */;
+			buildConfigurationList = OBJ_32 /* Build configuration list for PBXNativeTarget "Selm" */;
 			buildPhases = (
-				OBJ_22 /* Sources */,
-				OBJ_24 /* Frameworks */,
-			);
-			buildRules = (
+				OBJ_35 /* Sources */,
+				OBJ_44 /* Frameworks */,
 			);
 			dependencies = (
 			);
@@ -172,15 +194,13 @@
 		};
 		"Selm::SelmTests" /* SelmTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_37 /* Build configuration list for PBXNativeTarget "SelmTests" */;
+			buildConfigurationList = OBJ_57 /* Build configuration list for PBXNativeTarget "SelmTests" */;
 			buildPhases = (
-				OBJ_40 /* Sources */,
-				OBJ_43 /* Frameworks */,
-			);
-			buildRules = (
+				OBJ_60 /* Sources */,
+				OBJ_66 /* Frameworks */,
 			);
 			dependencies = (
-				OBJ_45 /* PBXTargetDependency */,
+				OBJ_68 /* PBXTargetDependency */,
 			);
 			name = SelmTests;
 			productName = SelmTests;
@@ -189,11 +209,9 @@
 		};
 		"Selm::SwiftPMPackageDescription" /* SelmPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_26 /* Build configuration list for PBXNativeTarget "SelmPackageDescription" */;
+			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "SelmPackageDescription" */;
 			buildPhases = (
-				OBJ_29 /* Sources */,
-			);
-			buildRules = (
+				OBJ_49 /* Sources */,
 			);
 			dependencies = (
 			);
@@ -215,13 +233,11 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = OBJ_5 /*  */;
-			productRefGroup = OBJ_14 /* Products */;
-			projectDirPath = "";
-			projectRoot = "";
+			productRefGroup = OBJ_26 /* Products */;
+			projectDirPath = .;
 			targets = (
 				"Selm::Selm" /* Selm */,
 				"Selm::SwiftPMPackageDescription" /* SelmPackageDescription */,
@@ -232,128 +248,53 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_22 /* Sources */ = {
+		OBJ_35 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
 			files = (
-				CB8767E82223024ECAACF81C /* Cmd.swift in Sources */,
-				CB87669CA143D1530A6870B6 /* Types.swift in Sources */,
-				CB876C33685BBDAFB41F3D55 /* Dispatcher.swift in Sources */,
-				CB876DB06719F216A4F003A2 /* Runner.swift in Sources */,
-				CB8761B871C24DF073F1752C /* Functions.swift in Sources */,
+				OBJ_36 /* Cmd.swift in Sources */,
+				OBJ_37 /* Dispatcher.swift in Sources */,
+				OBJ_38 /* Functions.swift in Sources */,
+				OBJ_39 /* LifecycleMsgProtocol.swift in Sources */,
+				OBJ_40 /* LifecycleWireframeProtocol.swift in Sources */,
+				OBJ_41 /* Runner.swift in Sources */,
+				OBJ_42 /* Types.swift in Sources */,
+				OBJ_43 /* ViewProtocol.swift in Sources */,
+				CB876FC4E3EF21E378FF2A1C /* UIViewController+ViewProtocol.swift in Sources */,
+				CB876D2AD218947043CA7FD4 /* LifecycleWireframeProtocol+Extensions.swift in Sources */,
+				CB876C6D5A2D821BFF70F731 /* LifecycleObservation.swift in Sources */,
+				CB8760330F04012D646B11CE /* UIViewController+Swizzling.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_29 /* Sources */ = {
+		OBJ_49 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
 			files = (
-				OBJ_30 /* Package.swift in Sources */,
+				OBJ_50 /* Package.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_40 /* Sources */ = {
+		OBJ_60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
 			files = (
-				OBJ_42 /* XCTestManifests.swift in Sources */,
-				CB876B9EBB0EEF8DEAF65ADA /* CmdTests.swift in Sources */,
-				CB87636AC8C19CA328494CFE /* DispatcherTests.swift in Sources */,
-				CB87624327FA1D2F8B43FFBF /* RunnerTests.swift in Sources */,
-				CB87628DA21990A8C5F28E31 /* FunctionsTests.swift in Sources */,
+				OBJ_61 /* CmdTests.swift in Sources */,
+				OBJ_62 /* DispatcherTests.swift in Sources */,
+				OBJ_63 /* FunctionsTests.swift in Sources */,
+				OBJ_64 /* RunnerTests.swift in Sources */,
+				OBJ_65 /* XCTestManifests.swift in Sources */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_35 /* PBXTargetDependency */ = {
+		OBJ_55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Selm::SelmTests" /* SelmTests */;
-			targetProxy = 6A368C7E225AB5900087D39A /* PBXContainerItemProxy */;
 		};
-		OBJ_45 /* PBXTargetDependency */ = {
+		OBJ_68 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Selm::Selm" /* Selm */;
-			targetProxy = 6A368C7D225AB58F0087D39A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		OBJ_20 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Selm;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = Selm;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		OBJ_21 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Selm;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 5.0;
-				TARGET_NAME = Selm;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		OBJ_27 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		OBJ_28 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -371,11 +312,25 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-DXcode";
+				OTHER_SWIFT_FLAGS = (
+					"-DXcode",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SUPPORTED_PLATFORMS = (
+					macosx,
+					iphoneos,
+					iphonesimulator,
+					appletvos,
+					appletvsimulator,
+					watchos,
+					watchsimulator,
+				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					SWIFT_PACKAGE,
+					DEBUG,
+				);
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USE_HEADERMAP = NO;
 			};
@@ -383,61 +338,83 @@
 		};
 		OBJ_33 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* ios.xcconfig */;
 			buildSettings = {
-			};
-			name = Debug;
-		};
-		OBJ_34 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		OBJ_38 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Selm;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+				);
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SelmTests;
+				TARGET_NAME = Selm;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
-		OBJ_39 /* Release */ = {
+		OBJ_34 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* ios.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @loader_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Selm;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+				);
 				SWIFT_VERSION = 5.0;
-				TARGET_NAME = SelmTests;
+				TARGET_NAME = Selm;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -457,28 +434,160 @@
 					"SWIFT_PACKAGE=1",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = "-DXcode";
+				OTHER_SWIFT_FLAGS = (
+					"-DXcode",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SUPPORTED_PLATFORMS = (
+					macosx,
+					iphoneos,
+					iphonesimulator,
+					appletvos,
+					appletvsimulator,
+					watchos,
+					watchsimulator,
+				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					SWIFT_PACKAGE,
+				);
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = (
+					"-swift-version",
+					5,
+					"-I",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+					"-target",
+					"x86_64-apple-macosx10.10",
+					"-sdk",
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk,
+				);
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		OBJ_48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = (
+					"-swift-version",
+					5,
+					"-I",
+					"$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
+					"-target",
+					"x86_64-apple-macosx10.10",
+					"-sdk",
+					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk,
+				);
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		OBJ_53 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		OBJ_54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		OBJ_58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* ios.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+				);
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = SelmTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_59 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* ios.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+				);
+				OTHER_SWIFT_FLAGS = (
+					"$(inherited)",
+				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+				);
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = SelmTests;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		OBJ_19 /* Build configuration list for PBXNativeTarget "Selm" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_20 /* Debug */,
-				OBJ_21 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		OBJ_2 /* Build configuration list for PBXProject "Selm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -488,16 +597,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_26 /* Build configuration list for PBXNativeTarget "SelmPackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_27 /* Debug */,
-				OBJ_28 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_32 /* Build configuration list for PBXAggregateTarget "SelmPackageTests" */ = {
+		OBJ_32 /* Build configuration list for PBXNativeTarget "Selm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				OBJ_33 /* Debug */,
@@ -506,11 +606,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		OBJ_37 /* Build configuration list for PBXNativeTarget "SelmTests" */ = {
+		OBJ_46 /* Build configuration list for PBXNativeTarget "SelmPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_38 /* Debug */,
-				OBJ_39 /* Release */,
+				OBJ_47 /* Debug */,
+				OBJ_48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_52 /* Build configuration list for PBXAggregateTarget "SelmPackageTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_53 /* Debug */,
+				OBJ_54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_57 /* Build configuration list for PBXNativeTarget "SelmTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_58 /* Debug */,
+				OBJ_59 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
