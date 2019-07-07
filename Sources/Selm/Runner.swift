@@ -4,33 +4,29 @@
 
 import Foundation
 
+
 public class Runner<Model, Msg> {
-    private let initialize: () -> (Model, Cmd<Msg>)
     private let update:     SelmUpdate<Msg, Model>
-    private let view:       SelmView<Msg, Model>
     private let dispatcher = Dispatcher<Msg>()
     private var lastModel:  Model
+    private let dispatchQueue = DispatchQueue(label: "Selm.Runner.Queue")
 
     public static func create(initialize: @escaping SelmInit<Msg, Model>,
-                              update: @escaping SelmUpdate<Msg, Model>,
-                              view: @escaping SelmView<Msg, Model>) -> Dispatch<Msg> {
-        let runner = Runner(initialize: initialize, update: update, view: view)
-        return { msg in runner.dispatcher.dispatch(msg) }
+                              update: @escaping SelmUpdate<Msg, Model>) -> (Model, Dispatch<Msg>) {
+        let runner = Runner(initialize: initialize, update: update)
+        return (runner.lastModel, runner.dispatcher.dispatch)
     }
 
     private init(initialize: @escaping () -> (Model, Cmd<Msg>),
-                 update: @escaping (Msg, Model) -> (Model, Cmd<Msg>),
-                 view: @escaping SelmView<Msg, Model>) {
-        self.initialize = initialize
+                 update: @escaping (Msg, Model) -> (Model, Cmd<Msg>)) {
         self.update = update
-        self.view = view
 
-        let (initialModel, cmd) = self.initialize()
+        let (initialModel, cmd) = initialize()
         self.lastModel = initialModel
-
-        self.dispatcher.setDispatchThunk { [weak self] msg in
-            DispatchQueue.main.async {
-                self?.process(msg)
+        
+        self.dispatcher.setDispatchThunk { msg in
+            self.dispatchQueue.sync {
+                self.process(msg)
             }
         }
 
@@ -40,7 +36,6 @@ public class Runner<Model, Msg> {
     private func process(_ msg: Msg) {
         let (updatedModel, newCommand) = update(msg, lastModel)
         lastModel = updatedModel
-        view(updatedModel, self.dispatcher.dispatch)
         newCommand.value.forEach { (sub: Sub<Msg>) in sub(dispatcher.dispatch) }
     }
 }
