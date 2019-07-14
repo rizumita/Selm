@@ -4,17 +4,16 @@
 
 import Foundation
 
-
 public class Runner<Model, Msg> {
     private let update:     SelmUpdate<Msg, Model>
     private let dispatcher = Dispatcher<Msg>()
-    private var lastModel:  Model
+    private var driver: Driver<Msg, Model>!
     private let dispatchQueue = DispatchQueue(label: "Selm.Runner.Queue")
 
     public static func create(initialize: @escaping SelmInit<Msg, Model>,
-                              update: @escaping SelmUpdate<Msg, Model>) -> (Model, Dispatch<Msg>) {
+                              update: @escaping SelmUpdate<Msg, Model>) -> Driver<Msg, Model> {
         let runner = Runner(initialize: initialize, update: update)
-        return (runner.lastModel, runner.dispatcher.dispatch)
+        return runner.driver
     }
 
     private init(initialize: @escaping () -> (Model, Cmd<Msg>),
@@ -22,20 +21,21 @@ public class Runner<Model, Msg> {
         self.update = update
 
         let (initialModel, cmd) = initialize()
-        self.lastModel = initialModel
         
         self.dispatcher.setDispatchThunk { msg in
-            self.dispatchQueue.sync {
+            self.dispatchQueue.async {
                 self.process(msg)
             }
         }
+        
+        self.driver = Driver(model: initialModel, dispatch: self.dispatcher.dispatch)
 
         cmd.dispatch(self.dispatcher.dispatch)
     }
 
     private func process(_ msg: Msg) {
-        let (updatedModel, newCommand) = update(msg, lastModel)
-        lastModel = updatedModel
-        newCommand.value.forEach { (sub: Sub<Msg>) in sub(dispatcher.dispatch) }
+        let (updatedModel, newCommand) = update(msg, driver.model)
+        driver.model = updatedModel
+        newCommand.dispatch(dispatcher.dispatch)
     }
 }

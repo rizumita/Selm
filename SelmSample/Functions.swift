@@ -20,3 +20,7 @@ public func write<Item, Value>(_ keyPath: WritableKeyPath<Item, Value>) -> (@esc
 public func set<Item, Value>(_ keyPath: WritableKeyPath<Item, Value>, _ value: Value) -> (Item) -> Item {
     return (write(keyPath)) { _ in value }
 }
+
+public func get<Item, Value>(_ keyPath: KeyPath<Item, Value>) -> (Item) -> Value {
+    return { item in item[keyPath: keyPath] }
+}

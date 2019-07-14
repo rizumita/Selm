@@ -12,13 +12,13 @@ import Swiftx
 import Operadics
 import Selm
 
-struct SafariPage {
-    class Model: BindableObject {
-        var didChange = PassthroughSubject<(), Never>()
+struct SafariView : UIViewControllerRepresentable {
+    struct Model: Equatable {
         var url: URL
         
-        init(url: URL) {
-            self.url = url
+        static func ==(lhs: Model, rhs: Model) -> Bool {
+            if lhs.url != rhs.url { return false }
+            return true
         }
     }
     
@@ -41,14 +41,11 @@ struct SafariPage {
             return (model, .none, .dismiss)
         }
     }
-}
 
-struct SafariView : UIViewControllerRepresentable {
-    @ObjectBinding var model: SafariPage.Model
-    var dispatch: Dispatch<SafariPage.Msg>
+    @ObjectBinding var driver: Driver<Msg, Model>
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        SFSafariViewController(url: model.url)
+        SFSafariViewController(url: driver.model.url)
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {}
@@ -57,7 +54,7 @@ struct SafariView : UIViewControllerRepresentable {
 #if DEBUG
 struct WebView_Previews : PreviewProvider {
     static var previews: some View {
-        SafariView(model: .init(url: URL(string: "http://example.com")!), dispatch: { _ in })
+        SafariView(driver: .init(model: .init(url: URL(string: "https://example.com")!), dispatch: { _ in }))
     }
 }
 #endif

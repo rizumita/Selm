@@ -13,8 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-    var dispatch: Dispatch<MainPage.Msg>!
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -24,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            let (model, dispatch) = Runner.create(initialize: MainPage.initialize, update: MainPage.update)
+            let driver = Runner.create(initialize: ContentView.initialize, update: ContentView.update)
             
-            window.rootViewController = UIHostingController(rootView: ContentView(model: model, dispatch: dispatch))
+            window.rootViewController = UIHostingController(rootView: ContentView(driver: driver))
             self.window = window
             window.makeKeyAndVisible()
         }
