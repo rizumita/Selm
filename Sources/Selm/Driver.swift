@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public class Driver<Msg, Model>: BindableObject {
     public var didChange = PassthroughSubject<Model, Never>()
     @Published public private(set) var model: Model
@@ -77,6 +78,7 @@ public class Driver<Msg, Model>: BindableObject {
     }
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension Driver: Equatable where Model: Equatable {
     public static func ==(lhs: Driver<Msg, Model>, rhs: Driver<Msg, Model>) -> Bool {
         if lhs.model != rhs.model { return false }
