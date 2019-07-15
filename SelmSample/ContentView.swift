@@ -40,7 +40,7 @@ struct ContentView : View, Hashable {
     }
     
     static func initialize() -> (Model, Cmd<Msg>) {
-        return (Model(), .none)
+        (Model(), .none)
     }
     
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>) {
