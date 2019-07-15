@@ -104,7 +104,7 @@ struct ContentView : View, Hashable {
                 
                 NavigationLink(destination:
                     dependsOn(\.self, self.driver, historyView(driver:))
-                ) { Text("History") }
+                ) { Text("Show history and down") }
 
                 Spacer()
 
