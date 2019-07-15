@@ -5,7 +5,7 @@
 import Foundation
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Runner<Model, Msg> {
+public class Runner<Msg, Model> {
     private let update:     SelmUpdate<Msg, Model>
     private let dispatcher = Dispatcher<Msg>()
     private var driver: Driver<Msg, Model>!
