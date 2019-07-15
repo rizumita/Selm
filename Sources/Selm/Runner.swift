@@ -35,7 +35,7 @@ public class Runner<Model, Msg> {
 
     private func process(_ msg: Msg) {
         let (updatedModel, newCommand) = update(msg, driver.model)
-        driver.model = updatedModel
+        driver.update(updatedModel)
         newCommand.dispatch(dispatcher.dispatch)
     }
 }

@@ -105,12 +105,10 @@ struct ContentView : View, Hashable {
                 NavigationLink(destination:
                     dependsOn(\.self, self.driver, historyView(driver:))
                 ) { Text("History") }
-                
-                Spacer()
-                
-                TextField("URL", text: driver.binding(\.url, Msg.setURL))
 
-                TextField("URL", text: $driver.model.url)
+                Spacer()
+
+                TextField("URL", text: driver.binding(\.url, Msg.setURL))
                     .textContentType(.URL)
                     .frame(width: 300.0, alignment: .center)
                     .foregroundColor(.white)

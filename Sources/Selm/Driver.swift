@@ -11,7 +11,7 @@ import Combine
 
 public class Driver<Msg, Model>: BindableObject {
     public var didChange = PassthroughSubject<Model, Never>()
-    @Published public var model: Model
+    @Published public private(set) var model: Model
     public var dispatch: Dispatch<Msg>
     private var cancellable: AnyCancellable?
     private var deinitSubject = PassthroughSubject<(), Never>()
@@ -70,6 +70,10 @@ public class Driver<Msg, Model>: BindableObject {
         }) { [weak self] value in
             self?.dispatch(messaging(value))
         }
+    }
+
+    func update(_ model: Model) {
+        self.model = model
     }
 }
 
