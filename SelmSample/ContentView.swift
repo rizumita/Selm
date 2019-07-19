@@ -16,7 +16,7 @@ struct ContentView : View, Hashable {
         var count: Int = 0
         var history: [Step] = []
         var url: String = ""
-        var historyViewModel: HistoryView.Model = .init(history: [])
+        var historyViewModel: HistoryView.Model
         var safariViewModel: SafariView.Model?
         
         static func == (lhs: Model, rhs: Model) -> Bool {
@@ -34,13 +34,14 @@ struct ContentView : View, Hashable {
         case historyViewMsg(HistoryView.Msg)
         case safariViewMsg(SafariView.Msg)
         case step(Step)
-        case showHistory
         case setURL(String)
         case showWeb
+        case hideWeb
     }
     
     static func initialize() -> (Model, Cmd<Msg>) {
-        (Model(), .none)
+        let (m, c) = HistoryView.initialize(history: [])
+        return (Model(historyViewModel: m), c.map(Msg.historyViewMsg))
     }
     
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>) {
@@ -62,22 +63,8 @@ struct ContentView : View, Hashable {
             }
             
         case .step(let step):
-            let history = model.history + [step]
-            return (model
-                |> set(\.count, step.step(count: model.count))
-                |> set(\.history, history)
-                |> set(\.historyViewModel.history, history),
-                    .none)
-            
-        case .showHistory:
-            let (m, c) = HistoryView.initialize(history: model.history)
-            return (model |> set(\.historyViewModel, m),
-                    .batch([
-                        .ofAsyncMsg { fulfill in
-                            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(2)) { fulfill(.step(.down)) }
-                        },
-                        c.map(Msg.historyViewMsg)
-                    ]))
+            return (model |> set(\.count, step.step(count: model.count)),
+                    .ofMsg(.historyViewMsg(.add(step))))
             
         case .setURL(let urlString):
             return (model |> set(\.url, urlString), .none)
@@ -86,6 +73,9 @@ struct ContentView : View, Hashable {
             guard let url = URL(string: model.url) else { return (model, .none) }
             let (m, c) = SafariView.initialize(url: url)
             return (model |> set(\.safariViewModel, m), c.map(Msg.safariViewMsg))
+            
+        case .hideWeb:
+            return (model |> set(\.safariViewModel, .none), .none)
         }
     }
     
@@ -102,9 +92,9 @@ struct ContentView : View, Hashable {
                 
                 Spacer()
                 
-                NavigationLink(destination:
-                    dependsOn(\.self, self.driver, historyView(driver:))
-                ) { Text("Show history and down") }
+                NavigationLink(destination: dependsOn(\.model.historyViewModel, self.driver, historyView(driver:))) {
+                    Text("Show history")
+                }
 
                 Spacer()
 
@@ -118,7 +108,9 @@ struct ContentView : View, Hashable {
                     self.driver.dispatch(.showWeb)
                 }) {
                     Text("Show web")
-                }.presentation(dependsOn(\.model.safariViewModel, self.driver, safariViewModal(driver:)))
+                }.sheet(item: driver.derivedBinding(\.safariViewModel, Msg.safariViewMsg), onDismiss: {
+                    self.driver.dispatch(.hideWeb)
+                }, content: SafariView.init(driver:))
 
                 Group {
                     Spacer()
@@ -127,9 +119,10 @@ struct ContentView : View, Hashable {
                     Spacer()
                 }
             }
-        }
-        .onDisappear {
-            print("disappear")
+            .onDisappear {
+                print("disappear")
+            }
+
         }
     }
     
@@ -144,15 +137,7 @@ struct ContentView : View, Hashable {
     }
     
     func historyView(driver: Driver<Msg, Model>) -> some View {
-        HistoryView(driver: driver.derive(\Model.historyViewModel, Msg.historyViewMsg))
-            .onAppear { self.driver.dispatch(.showHistory) }
-    }
-    
-    func safariViewModal(driver: Driver<Msg, Model>) -> Modal? {
-        guard let d = driver.derive(\.safariViewModel, Msg.safariViewMsg) else { return .none }
-        return Modal(SafariView(driver: d).onDisappear(perform: {
-            d.dispatch(.onDisappear)
-        }))
+        HistoryView(driver: driver.derived(\Model.historyViewModel, Msg.historyViewMsg))
     }
     
     static func == (lhs: ContentView, rhs: ContentView) -> Bool {
@@ -168,7 +153,7 @@ struct ContentView : View, Hashable {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(driver: Driver(model: .init(), dispatch: { _ in }))
+        ContentView(driver: Driver(model: .init(historyViewModel: .init(history: [])), dispatch: { _ in }))
     }
 }
 #endif
