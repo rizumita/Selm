@@ -13,7 +13,7 @@ import Combine
 public class Driver<Msg, Model>: BindableObject {
     public var willChange = PassthroughSubject<Model, Never>()
     
-    public private(set) var model: Model {
+    @Published public private(set) var model: Model {
         willSet {
             willChange.send(newValue)
         }
@@ -21,12 +21,17 @@ public class Driver<Msg, Model>: BindableObject {
     public var dispatch: Dispatch<Msg>
     
     private var isSubscribing: Bool = false
+    private var deinitSubject = PassthroughSubject<(), Never>()
     
     public init(model: Model, dispatch: @escaping Dispatch<Msg>) {
         self.model = model
         self.dispatch = dispatch
         
         subscribe()
+    }
+    
+    deinit {
+        deinitSubject.send(())
     }
     
     public func subscribe() {
@@ -39,13 +44,28 @@ public class Driver<Msg, Model>: BindableObject {
     
     public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel>,
                                           _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel> {
-        return Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+        let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+        let sink = $model.share().map(keyPath).sink { [weak result] model in
+            result?.model = model
+        }
+        _ = result.deinitSubject.sink {
+            sink.cancel()
+        }
+        return result
     }
     
     public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
                                           _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel>? {
         guard let m = model[keyPath: keyPath] else { return .none }
-        return Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        let sink = $model.share().map(keyPath).sink { [weak result] model in
+            guard let model = model else { return }
+            result?.model = model
+        }
+        _ = result.deinitSubject.sink {
+            sink.cancel()
+        }
+        return result
     }
     
     public func derivedBinding<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,

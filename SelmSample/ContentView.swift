@@ -34,7 +34,7 @@ struct ContentView : View {
     }
     
     static func initialize() -> (Model, Cmd<Msg>) {
-        let (m, c) = HistoryView.initialize(history: [])
+        let (m, c) = HistoryView.initialize()
         return (Model(historyViewModel: m), c.map(Msg.historyViewMsg))
     }
     
@@ -44,8 +44,8 @@ struct ContentView : View {
             switch HistoryView.update(hvMsg, model.historyViewModel) {
             case (let m, let c, .noOp):
                 return (model |> set(\.historyViewModel, m), c.map(Msg.historyViewMsg))
-            case (_, _, .dismiss):
-                return (model |> set(\.historyViewModel, .init(history: [])), .none)
+            case (let m, let c, .updated(count: let count)):
+                return (model |> set(\.historyViewModel, m) |> set(\.count, count), c.map(Msg.historyViewMsg))
             }
             
         case .safariViewMsg(let spMsg):

@@ -13,10 +13,8 @@ import Selm
 
 struct HistoryView : View {
     struct Model: Equatable {
-        var history: [Step]
+        var history: [Step] = []
                 
-        init(history: [Step]) { self.history = history }
-        
         static func ==(_ lhs: Model, _ rhs: Model) -> Bool {
             if lhs.history != rhs.history { return false }
             return true
@@ -25,25 +23,28 @@ struct HistoryView : View {
     
     enum Msg {
         case add(Step)
-        case onDisappear
+        case remove(IndexSet)
     }
     
-    enum ExternalMsg {
+    enum ExtMsg {
         case noOp
-        case dismiss
+        case updated(count: Int)
     }
     
-    static func initialize(history: [Step]) -> (Model, Cmd<Msg>) {
-        (Model(history: history), .none)
+    static func initialize() -> (Model, Cmd<Msg>) {
+        (Model(), .none)
     }
     
-    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
+    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExtMsg) {
         switch msg {
         case .add(let step):
             return (model |> set(\.history, model.history + [step]), .none, .noOp)
             
-        case .onDisappear:
-            return (model, .none, .dismiss)
+        case .remove(let indexSet):
+            var history = model.history
+            indexSet.forEach { index in history.remove(at: index) }
+            let count = history.reduce(0) { result, step in step.step(count: result) }
+            return (model |> set(\.history, history), .none, .updated(count: count))
         }
     }
     
@@ -54,7 +55,7 @@ struct HistoryView : View {
             List {
                 ForEach(driver.model.history, id: \.self) { step in
                     Text(step.string)
-                }
+                }.onDelete(perform: driver.dispatch • Msg.remove)
             }
         }
     }
