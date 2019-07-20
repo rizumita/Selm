@@ -11,22 +11,16 @@ import Swiftx
 import Operadics
 import Selm
 
-struct ContentView : View, Hashable {
-    struct Model: Hashable {
+struct ContentView : View {
+    struct Model: Equatable {
         var count: Int = 0
-        var history: [Step] = []
         var url: String = ""
         var historyViewModel: HistoryView.Model
         var safariViewModel: SafariView.Model?
         
         static func == (lhs: Model, rhs: Model) -> Bool {
             if lhs.count != rhs.count { return false }
-            if lhs.history != rhs.history { return false }
             return true
-        }
-        
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(count)
         }
     }
     
@@ -138,15 +132,6 @@ struct ContentView : View, Hashable {
     
     func historyView(driver: Driver<Msg, Model>) -> some View {
         HistoryView(driver: driver.derived(\Model.historyViewModel, Msg.historyViewMsg))
-    }
-    
-    static func == (lhs: ContentView, rhs: ContentView) -> Bool {
-        if lhs.driver != rhs.driver { return false }
-        return true
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(driver.model)
     }
 }
 
