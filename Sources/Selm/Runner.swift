@@ -9,7 +9,7 @@ public class Runner<Msg, Model> {
     private let update:     SelmUpdate<Msg, Model>
     private let dispatcher = Dispatcher<Msg>()
     private var driver: Driver<Msg, Model>!
-    private let dispatchQueue = DispatchQueue(label: "Selm.Runner.Queue")
+    private let dispatchQueue = DispatchQueue.main
 
     public static func create(initialize: @escaping SelmInit<Msg, Model>,
                               update: @escaping SelmUpdate<Msg, Model>) -> Driver<Msg, Model> {
