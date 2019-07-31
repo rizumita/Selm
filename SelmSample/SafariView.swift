@@ -42,7 +42,7 @@ struct SafariView : UIViewControllerRepresentable {
         }
     }
 
-    @ObjectBinding var driver: Driver<Msg, Model>
+    @ObservedObject var driver: Driver<Msg, Model>
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
         SFSafariViewController(url: driver.model.url)

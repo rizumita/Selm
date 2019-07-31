@@ -7,11 +7,14 @@
 
 import Foundation
 import SwiftUI
-import Combine
+#if canImport(Combine)
+    import Combine
+#endif
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Driver<Msg, Model>: BindableObject {
+public class Driver<Msg, Model>: ObservableObject, Identifiable {
     public var willChange = PassthroughSubject<Model, Never>()
+    public let id = UUID()
     
     @Published public private(set) var model: Model {
         willSet {
@@ -70,19 +73,19 @@ public class Driver<Msg, Model>: BindableObject {
     
     public func derivedBinding<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
                                                  _ messaging: @escaping (SubMsg) -> Msg) -> Binding<Driver<SubMsg, SubModel>?> {
-        Binding(getValue: { [weak self] in
+        Binding(get: { [weak self] in
             self?.derived(keyPath, messaging)
             },
-                setValue: { value in
+                set: { value in
         })
     }
     
     public func binding<Value>(_ keyPath: KeyPath<Model, Value>, _ messaging: @escaping (Value) -> Msg) -> Binding<Value> {
-        Binding(getValue: { [weak self] in
+        Binding(get: { [weak self] in
             guard let this = self else { fatalError() }
             return this.model[keyPath: keyPath]
             },
-                setValue: { [weak self] value in
+                set: { [weak self] value in
                     self?.dispatch(messaging(value))
         })
     }

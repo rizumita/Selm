@@ -73,7 +73,7 @@ struct ContentView : View {
         }
     }
     
-    @ObjectBinding var driver: Driver<Msg, Model>
+    @ObservedObject var driver: Driver<Msg, Model>
     
     var body: some View {
         NavigationView {
