@@ -18,12 +18,15 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
     
     @Published public private(set) var model: Model {
         willSet {
-            willChange.send(newValue)
+            if isSubscribing {
+                willChange.send(newValue)
+            }
         }
     }
     public var dispatch: Dispatch<Msg>
     
     private var isSubscribing: Bool = false
+    private var cancellables = Set<AnyCancellable>()
     private var deinitSubject = PassthroughSubject<(), Never>()
     
     public init(model: Model, dispatch: @escaping Dispatch<Msg>) {
@@ -44,30 +47,50 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
     public func unsubscribe() {
         isSubscribing = false
     }
-    
+
+    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel>,
+                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel> where SubModel: Equatable {
+        let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+        $model.share().map(keyPath).removeDuplicates().sink { [weak result] model in
+            result?.model = model
+        }.store(in: &cancellables)
+
+        return result
+    }
+
     public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel>,
                                           _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel> {
         let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
-        let sink = $model.share().map(keyPath).sink { [weak result] model in
+        $model.share().map(keyPath).sink { [weak result] model in
             result?.model = model
-        }
-        _ = result.deinitSubject.sink {
-            sink.cancel()
-        }
+        }.store(in: &cancellables)
+
         return result
     }
-    
+
+    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
+                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel>? where SubModel: Equatable {
+        guard let m = model[keyPath: keyPath] else { return .none }
+        let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        
+        $model.share().map(keyPath).removeDuplicates().sink { [weak result] model in
+            guard let model = model else { return }
+            result?.model = model
+        }.store(in: &cancellables)
+        
+        return result
+    }
+
     public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
                                           _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel>? {
         guard let m = model[keyPath: keyPath] else { return .none }
         let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
-        let sink = $model.share().map(keyPath).sink { [weak result] model in
+        
+        $model.share().map(keyPath).sink { [weak result] model in
             guard let model = model else { return }
             result?.model = model
-        }
-        _ = result.deinitSubject.sink {
-            sink.cancel()
-        }
+        }.store(in: &cancellables)
+        
         return result
     }
     
