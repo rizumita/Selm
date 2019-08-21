@@ -85,7 +85,7 @@ public func clearDependsOn<Root>(_ rootType: Root.Type) {
     }.forEach { key in Memoizations.store.removeValue(forKey: key) }
 }
 
-public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>, _ root: Root, _ f: (Value) -> R) -> R {
+public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>, _ root: Root, _ f: (Root) -> R) -> R {
     let value = root[keyPath: keyPath]
     let key = Memoizations.Key(keyPath: [keyPath], value: [.init(value)], resultType: String(describing: R.self))
 
@@ -96,7 +96,7 @@ public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>
        let res = stored.value.value as? R {
         result = res
     } else {
-        result = f(value)
+        result = f(root)
     }
 
     let weakRef = Memoizations.Value(result)
@@ -104,7 +104,7 @@ public func dependsOn<Root, Value: Equatable, R>(_ keyPath: KeyPath<Root, Value>
     return result
 }
 
-public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ root: Root, _ f: ((Value1, Value2)) -> R) -> R {
+public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ root: Root, _ f: (Root) -> R) -> R {
     let value1 = root[keyPath: keyPath1]
     let value2 = root[keyPath: keyPath2]
     let key = Memoizations.Key(keyPath: [keyPath1, keyPath2], value: [.init(value1), .init(value2)], resultType: String(describing: R.self))
@@ -116,7 +116,7 @@ public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1:
        let res = stored.value.value as? R {
         result = res
     } else {
-        result = f((value1, value2))
+        result = f(root)
     }
 
     let weakRef = Memoizations.Value(result)
@@ -124,7 +124,7 @@ public func dependsOn<Root, Value1: Equatable, Value2: Equatable, R>(_ keyPath1:
     return result
 }
 
-public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ keyPath3: KeyPath<Root, Value3>, _ root: Root, _ f: ((Value1, Value2, Value3)) -> R) -> R {
+public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equatable, R>(_ keyPath1: KeyPath<Root, Value1>, _ keyPath2: KeyPath<Root, Value2>, _ keyPath3: KeyPath<Root, Value3>, _ root: Root, _ f: (Root) -> R) -> R {
     let value1 = root[keyPath: keyPath1]
     let value2 = root[keyPath: keyPath2]
     let value3 = root[keyPath: keyPath3]
@@ -137,7 +137,7 @@ public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equata
        let res = stored.value.value as? R {
         result = res
     } else {
-        result = f((value1, value2, value3))
+        result = f(root)
     }
 
     let weakRef = Memoizations.Value(result)

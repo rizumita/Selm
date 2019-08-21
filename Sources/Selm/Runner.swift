@@ -4,43 +4,39 @@
 
 import Foundation
 
-public class Runner<Model, Msg> {
-    private let initialize: () -> (Model, Cmd<Msg>)
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public class Runner<Msg, Model> {
     private let update:     SelmUpdate<Msg, Model>
-    private let view:       SelmView<Msg, Model>
     private let dispatcher = Dispatcher<Msg>()
-    private var lastModel:  Model
+    private var driver: Driver<Msg, Model>!
+    private let dispatchQueue = DispatchQueue.main
 
     public static func create(initialize: @escaping SelmInit<Msg, Model>,
-                              update: @escaping SelmUpdate<Msg, Model>,
-                              view: @escaping SelmView<Msg, Model>) -> Dispatch<Msg> {
-        let runner = Runner(initialize: initialize, update: update, view: view)
-        return { msg in runner.dispatcher.dispatch(msg) }
+                              update: @escaping SelmUpdate<Msg, Model>) -> Driver<Msg, Model> {
+        let runner = Runner(initialize: initialize, update: update)
+        return runner.driver
     }
 
     private init(initialize: @escaping () -> (Model, Cmd<Msg>),
-                 update: @escaping (Msg, Model) -> (Model, Cmd<Msg>),
-                 view: @escaping SelmView<Msg, Model>) {
-        self.initialize = initialize
+                 update: @escaping (Msg, Model) -> (Model, Cmd<Msg>)) {
         self.update = update
-        self.view = view
 
-        let (initialModel, cmd) = self.initialize()
-        self.lastModel = initialModel
-
-        self.dispatcher.setDispatchThunk { [weak self] msg in
-            DispatchQueue.main.async {
-                self?.process(msg)
+        let (initialModel, cmd) = initialize()
+        
+        self.dispatcher.setDispatchThunk { msg in
+            self.dispatchQueue.async {
+                self.process(msg)
             }
         }
+        
+        self.driver = Driver(model: initialModel, dispatch: self.dispatcher.dispatch)
 
         cmd.dispatch(self.dispatcher.dispatch)
     }
 
     private func process(_ msg: Msg) {
-        let (updatedModel, newCommand) = update(msg, lastModel)
-        lastModel = updatedModel
-        view(updatedModel, self.dispatcher.dispatch)
-        newCommand.value.forEach { (sub: Sub<Msg>) in sub(dispatcher.dispatch) }
+        let (updatedModel, newCommand) = update(msg, driver.model)
+        driver.update(updatedModel)
+        newCommand.dispatch(dispatcher.dispatch)
     }
 }

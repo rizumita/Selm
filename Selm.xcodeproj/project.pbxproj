@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -21,6 +21,20 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6A26077E22C98A6F0005A1AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26077D22C98A6F0005A1AF /* AppDelegate.swift */; };
+		6A26078022C98A6F0005A1AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26077F22C98A6F0005A1AF /* SceneDelegate.swift */; };
+		6A26078222C98A6F0005A1AF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26078122C98A6F0005A1AF /* ContentView.swift */; };
+		6A26078422C98A710005A1AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A26078322C98A710005A1AF /* Assets.xcassets */; };
+		6A26078722C98A710005A1AF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A26078622C98A710005A1AF /* Preview Assets.xcassets */; };
+		6A26078A22C98A710005A1AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A26078822C98A710005A1AF /* LaunchScreen.storyboard */; };
+		6A26079022C98A7A0005A1AF /* Selm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Selm::Selm::Product" /* Selm.framework */; };
+		6A46606322C9915C0067FD51 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46606222C9915C0067FD51 /* HistoryView.swift */; };
+		6A46606522C9B5C20067FD51 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46606422C9B5C20067FD51 /* SafariView.swift */; };
+		6A64C07022D21C620028584F /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C06F22D21C620028584F /* Driver.swift */; };
+		6A64C07222D228DB0028584F /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C07122D228DB0028584F /* Step.swift */; };
+		6ACB294722F447980096AFF4 /* DriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB294622F447980096AFF4 /* DriverTests.swift */; };
+		6ACBC35E22C98E8A00845746 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 6ACBC35D22C98E8A00845746 /* Swiftz */; };
+		6ACBC36022C98EA600845746 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACBC35F22C98EA600845746 /* Functions.swift */; };
 		CB8760330F04012D646B11CE /* UIViewController+Swizzling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8769A471932429EA332C53 /* UIViewController+Swizzling.swift */; };
 		CB876C6D5A2D821BFF70F731 /* LifecycleObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */; };
 		CB876D2AD218947043CA7FD4 /* LifecycleWireframeProtocol+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8768D90005B8A625A11788 /* LifecycleWireframeProtocol+Extensions.swift */; };
@@ -42,47 +56,117 @@
 		OBJ_67 /* Selm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Selm::Selm::Product" /* Selm.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6A26077622C98A500005A1AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Selm::Selm";
+			remoteInfo = Selm;
+		};
+		6A26078F22C98A740005A1AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Selm::SelmTests";
+			remoteInfo = SelmTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6A26077B22C98A6F0005A1AF /* SelmSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SelmSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A26077D22C98A6F0005A1AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6A26077F22C98A6F0005A1AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		6A26078122C98A6F0005A1AF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6A26078322C98A710005A1AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A26078622C98A710005A1AF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6A26078922C98A710005A1AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6A26078B22C98A710005A1AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A46606222C9915C0067FD51 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		6A46606422C9B5C20067FD51 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		6A64C06F22D21C620028584F /* Driver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
+		6A64C07122D228DB0028584F /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
+		6ACB294622F447980096AFF4 /* DriverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverTests.swift; sourceTree = "<group>"; };
+		6ACBC35F22C98EA600845746 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifecycleObservation.swift; sourceTree = "<group>"; };
 		CB8768D90005B8A625A11788 /* LifecycleWireframeProtocol+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LifecycleWireframeProtocol+Extensions.swift"; sourceTree = "<group>"; };
 		CB8769A471932429EA332C53 /* UIViewController+Swizzling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Swizzling.swift"; sourceTree = "<group>"; };
 		CB876E15FAD826B7E91677B9 /* UIViewController+ViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+ViewProtocol.swift"; sourceTree = "<group>"; };
-		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; path = Cmd.swift; sourceTree = "<group>"; };
-		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; path = Dispatcher.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Functions.swift */ = {isa = PBXFileReference; path = Functions.swift; sourceTree = "<group>"; };
-		OBJ_14 /* LifecycleMsgProtocol.swift */ = {isa = PBXFileReference; path = LifecycleMsgProtocol.swift; sourceTree = "<group>"; };
-		OBJ_15 /* LifecycleWireframeProtocol.swift */ = {isa = PBXFileReference; path = LifecycleWireframeProtocol.swift; sourceTree = "<group>"; };
-		OBJ_16 /* Runner.swift */ = {isa = PBXFileReference; path = Runner.swift; sourceTree = "<group>"; };
-		OBJ_17 /* Types.swift */ = {isa = PBXFileReference; path = Types.swift; sourceTree = "<group>"; };
-		OBJ_18 /* ViewProtocol.swift */ = {isa = PBXFileReference; path = ViewProtocol.swift; sourceTree = "<group>"; };
-		OBJ_21 /* CmdTests.swift */ = {isa = PBXFileReference; path = CmdTests.swift; sourceTree = "<group>"; };
-		OBJ_22 /* DispatcherTests.swift */ = {isa = PBXFileReference; path = DispatcherTests.swift; sourceTree = "<group>"; };
-		OBJ_23 /* FunctionsTests.swift */ = {isa = PBXFileReference; path = FunctionsTests.swift; sourceTree = "<group>"; };
-		OBJ_24 /* RunnerTests.swift */ = {isa = PBXFileReference; path = RunnerTests.swift; sourceTree = "<group>"; };
-		OBJ_25 /* XCTestManifests.swift */ = {isa = PBXFileReference; path = XCTestManifests.swift; sourceTree = "<group>"; };
-		OBJ_29 /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
-		OBJ_30 /* README.md */ = {isa = PBXFileReference; path = README.md; sourceTree = "<group>"; };
+		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
+		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
+		OBJ_13 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		OBJ_14 /* LifecycleMsgProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleMsgProtocol.swift; sourceTree = "<group>"; };
+		OBJ_15 /* LifecycleWireframeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifecycleWireframeProtocol.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Runner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runner.swift; sourceTree = "<group>"; };
+		OBJ_17 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		OBJ_18 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
+		OBJ_21 /* CmdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmdTests.swift; sourceTree = "<group>"; };
+		OBJ_22 /* DispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
+		OBJ_23 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
+		OBJ_24 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
+		OBJ_25 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
+		OBJ_29 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_30 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		OBJ_8 /* ios.xcconfig */ = {isa = PBXFileReference; name = ios.xcconfig; path = Sources/ios.xcconfig; sourceTree = "<group>"; };
-		"Selm::Selm::Product" /* Selm.framework */ = {isa = PBXFileReference; path = Selm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Selm::SelmTests::Product" /* SelmTests.xctest */ = {isa = PBXFileReference; path = SelmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_8 /* ios.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = ios.xcconfig; path = Sources/ios.xcconfig; sourceTree = "<group>"; };
+		"Selm::Selm::Product" /* Selm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Selm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Selm::SelmTests::Product" /* SelmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = SelmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6A26077822C98A6F0005A1AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A26079022C98A7A0005A1AF /* Selm.framework in Frameworks */,
+				6ACBC35E22C98E8A00845746 /* Swiftz in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
 			files = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		OBJ_66 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
 			files = (
 				OBJ_67 /* Selm.framework in Frameworks */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6A26077C22C98A6F0005A1AF /* SelmSample */ = {
+			isa = PBXGroup;
+			children = (
+				6A26077D22C98A6F0005A1AF /* AppDelegate.swift */,
+				6A26077F22C98A6F0005A1AF /* SceneDelegate.swift */,
+				6A26078122C98A6F0005A1AF /* ContentView.swift */,
+				6A46606222C9915C0067FD51 /* HistoryView.swift */,
+				6A46606422C9B5C20067FD51 /* SafariView.swift */,
+				6A26078322C98A710005A1AF /* Assets.xcassets */,
+				6A26078822C98A710005A1AF /* LaunchScreen.storyboard */,
+				6A26078B22C98A710005A1AF /* Info.plist */,
+				6A26078522C98A710005A1AF /* Preview Content */,
+				6ACBC35F22C98EA600845746 /* Functions.swift */,
+				6A64C07122D228DB0028584F /* Step.swift */,
+			);
+			path = SelmSample;
+			sourceTree = "<group>";
+		};
+		6A26078522C98A710005A1AF /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				6A26078622C98A710005A1AF /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		CB876996BDBAD44C4840493B /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +190,7 @@
 				OBJ_18 /* ViewProtocol.swift */,
 				CB876996BDBAD44C4840493B /* iOS */,
 				CB8762D5E0B038A7D63CF38D /* LifecycleObservation.swift */,
+				6A64C06F22D21C620028584F /* Driver.swift */,
 			);
 			name = Selm;
 			path = Sources/Selm;
@@ -117,7 +202,6 @@
 				OBJ_20 /* SelmTests */,
 			);
 			name = Tests;
-			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
 		OBJ_20 /* SelmTests */ = {
@@ -128,6 +212,7 @@
 				OBJ_23 /* FunctionsTests.swift */,
 				OBJ_24 /* RunnerTests.swift */,
 				OBJ_25 /* XCTestManifests.swift */,
+				6ACB294622F447980096AFF4 /* DriverTests.swift */,
 			);
 			name = SelmTests;
 			path = Tests/SelmTests;
@@ -138,23 +223,23 @@
 			children = (
 				"Selm::Selm::Product" /* Selm.framework */,
 				"Selm::SelmTests::Product" /* SelmTests.xctest */,
+				6A26077B22C98A6F0005A1AF /* SelmSample.app */,
 			);
 			name = Products;
-			path = "";
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Configs */,
 				OBJ_9 /* Sources */,
 				OBJ_19 /* Tests */,
+				6A26077C22C98A6F0005A1AF /* SelmSample */,
 				OBJ_26 /* Products */,
 				OBJ_29 /* LICENSE */,
 				OBJ_30 /* README.md */,
 			);
-			path = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Configs */ = {
@@ -163,7 +248,6 @@
 				OBJ_8 /* ios.xcconfig */,
 			);
 			name = Configs;
-			path = "";
 			sourceTree = "<group>";
 		};
 		OBJ_9 /* Sources */ = {
@@ -172,18 +256,39 @@
 				OBJ_10 /* Selm */,
 			);
 			name = Sources;
-			path = "";
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6A26077A22C98A6F0005A1AF /* SelmSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A26078E22C98A710005A1AF /* Build configuration list for PBXNativeTarget "SelmSample" */;
+			buildPhases = (
+				6A26077722C98A6F0005A1AF /* Sources */,
+				6A26077822C98A6F0005A1AF /* Frameworks */,
+				6A26077922C98A6F0005A1AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SelmSample;
+			packageProductDependencies = (
+				6ACBC35D22C98E8A00845746 /* Swiftz */,
+			);
+			productName = SelmSample;
+			productReference = 6A26077B22C98A6F0005A1AF /* SelmSample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		"Selm::Selm" /* Selm */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_32 /* Build configuration list for PBXNativeTarget "Selm" */;
 			buildPhases = (
 				OBJ_35 /* Sources */,
 				OBJ_44 /* Frameworks */,
+			);
+			buildRules = (
 			);
 			dependencies = (
 			);
@@ -199,6 +304,8 @@
 				OBJ_60 /* Sources */,
 				OBJ_66 /* Frameworks */,
 			);
+			buildRules = (
+			);
 			dependencies = (
 				OBJ_68 /* PBXTargetDependency */,
 			);
@@ -213,6 +320,8 @@
 			buildPhases = (
 				OBJ_49 /* Sources */,
 			);
+			buildRules = (
+			);
 			dependencies = (
 			);
 			name = SelmPackageDescription;
@@ -226,35 +335,79 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 9999;
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					6A26077A22C98A6F0005A1AF = {
+						CreatedOnToolsVersion = 11.0;
+						DevelopmentTeam = RV6DJ2NMCD;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Selm" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
+				Base,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
+			packageReferences = (
+				6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */,
+			);
 			productRefGroup = OBJ_26 /* Products */;
-			projectDirPath = .;
+			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				"Selm::Selm" /* Selm */,
 				"Selm::SwiftPMPackageDescription" /* SelmPackageDescription */,
 				"Selm::SelmPackageTests::ProductTarget" /* SelmPackageTests */,
 				"Selm::SelmTests" /* SelmTests */,
+				6A26077A22C98A6F0005A1AF /* SelmSample */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		6A26077922C98A6F0005A1AF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A26078A22C98A710005A1AF /* LaunchScreen.storyboard in Resources */,
+				6A26078722C98A710005A1AF /* Preview Assets.xcassets in Resources */,
+				6A26078422C98A710005A1AF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		6A26077722C98A6F0005A1AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A26077E22C98A6F0005A1AF /* AppDelegate.swift in Sources */,
+				6A26078022C98A6F0005A1AF /* SceneDelegate.swift in Sources */,
+				6A26078222C98A6F0005A1AF /* ContentView.swift in Sources */,
+				6A64C07222D228DB0028584F /* Step.swift in Sources */,
+				6A46606522C9B5C20067FD51 /* SafariView.swift in Sources */,
+				6A46606322C9915C0067FD51 /* HistoryView.swift in Sources */,
+				6ACBC36022C98EA600845746 /* Functions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_35 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
 			files = (
 				OBJ_36 /* Cmd.swift in Sources */,
 				OBJ_37 /* Dispatcher.swift in Sources */,
 				OBJ_38 /* Functions.swift in Sources */,
 				OBJ_39 /* LifecycleMsgProtocol.swift in Sources */,
+				6A64C07022D21C620028584F /* Driver.swift in Sources */,
 				OBJ_40 /* LifecycleWireframeProtocol.swift in Sources */,
 				OBJ_41 /* Runner.swift in Sources */,
 				OBJ_42 /* Types.swift in Sources */,
@@ -264,22 +417,28 @@
 				CB876C6D5A2D821BFF70F731 /* LifecycleObservation.swift in Sources */,
 				CB8760330F04012D646B11CE /* UIViewController+Swizzling.swift in Sources */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		OBJ_49 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
 			files = (
 				OBJ_50 /* Package.swift in Sources */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		OBJ_60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
 			files = (
 				OBJ_61 /* CmdTests.swift in Sources */,
 				OBJ_62 /* DispatcherTests.swift in Sources */,
 				OBJ_63 /* FunctionsTests.swift in Sources */,
+				6ACB294722F447980096AFF4 /* DriverTests.swift in Sources */,
 				OBJ_64 /* RunnerTests.swift in Sources */,
 				OBJ_65 /* XCTestManifests.swift in Sources */,
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -287,14 +446,159 @@
 		OBJ_55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Selm::SelmTests" /* SelmTests */;
+			targetProxy = 6A26078F22C98A740005A1AF /* PBXContainerItemProxy */;
 		};
 		OBJ_68 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "Selm::Selm" /* Selm */;
+			targetProxy = 6A26077622C98A500005A1AF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		6A26078822C98A710005A1AF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A26078922C98A710005A1AF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		6A26078C22C98A710005A1AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "SelmSample/Preview\\ Content";
+				DEVELOPMENT_TEAM = RV6DJ2NMCD;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SelmSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.caph.SelmSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6A26078D22C98A710005A1AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_ASSET_PATHS = "SelmSample/Preview\\ Content";
+				DEVELOPMENT_TEAM = RV6DJ2NMCD;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SelmSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.caph.SelmSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -310,27 +614,14 @@
 					"SWIFT_PACKAGE=1",
 					"DEBUG=1",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = (
-					"-DXcode",
-				);
+				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = (
-					macosx,
-					iphoneos,
-					iphonesimulator,
-					appletvos,
-					appletvsimulator,
-					watchos,
-					watchsimulator,
-				);
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					SWIFT_PACKAGE,
-					DEBUG,
-				);
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USE_HEADERMAP = NO;
 			};
@@ -345,36 +636,26 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = Selm;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = Selm;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -387,36 +668,26 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Selm.xcodeproj/Selm_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(TOOLCHAIN_DIR)/usr/lib/swift/macosx",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = Selm;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = Selm;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
@@ -433,26 +704,15 @@
 					"$(inherited)",
 					"SWIFT_PACKAGE=1",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_SWIFT_FLAGS = (
-					"-DXcode",
-				);
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = (
-					macosx,
-					iphoneos,
-					iphonesimulator,
-					appletvos,
-					appletvsimulator,
-					watchos,
-					watchsimulator,
-				);
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					SWIFT_PACKAGE,
-				);
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
@@ -461,16 +721,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = (
-					"-swift-version",
-					5,
-					"-I",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-					"-target",
-					"x86_64-apple-macosx10.10",
-					"-sdk",
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk,
-				);
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -479,16 +730,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = (
-					"-swift-version",
-					5,
-					"-I",
-					"$(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2",
-					"-target",
-					"x86_64-apple-macosx10.10",
-					"-sdk",
-					/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk,
-				);
+				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -515,33 +757,23 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-				);
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = SelmTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Debug;
 		};
@@ -555,39 +787,38 @@
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Selm.xcodeproj/SelmTests_Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@loader_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-				);
-				OTHER_SWIFT_FLAGS = (
-					"$(inherited)",
-				);
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = SelmTests;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				TVOS_DEPLOYMENT_TARGET = 13.0;
+				WATCHOS_DEPLOYMENT_TARGET = 6.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6A26078E22C98A710005A1AF /* Build configuration list for PBXNativeTarget "SelmSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A26078C22C98A710005A1AF /* Debug */,
+				6A26078D22C98A710005A1AF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "Selm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -634,6 +865,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/typelift/Swiftz";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6ACBC35D22C98E8A00845746 /* Swiftz */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */;
+			productName = Swiftz;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = OBJ_1 /* Project object */;
 }
