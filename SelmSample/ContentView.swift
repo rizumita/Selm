@@ -92,7 +92,7 @@ struct ContentView : View {
 
                 Spacer()
 
-                TextField("URL", text: driver.binding(\.url, Msg.setURL))
+                TextField("URL", text: driver.binding(Msg.setURL, \.url))
                     .textContentType(.URL)
                     .frame(width: 300.0, alignment: .center)
                     .foregroundColor(.white)
@@ -102,7 +102,7 @@ struct ContentView : View {
                     self.driver.dispatch(.showWeb)
                 }) {
                     Text("Show web")
-                }.sheet(item: driver.derivedBinding(\.safariViewModel, Msg.safariViewMsg), onDismiss: {
+                }.sheet(item: driver.derivedBinding(Msg.safariViewMsg, \.safariViewModel), onDismiss: {
                     self.driver.dispatch(.hideWeb)
                 }, content: SafariView.init(driver:))
 
@@ -131,7 +131,7 @@ struct ContentView : View {
     }
     
     func historyView(driver: Driver<Msg, Model>) -> some View {
-        HistoryView(driver: driver.derived(\Model.historyViewModel, Msg.historyViewMsg))
+        HistoryView(driver: driver.derived(Msg.historyViewMsg, \Model.historyViewModel))
     }
 }
 
