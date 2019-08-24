@@ -40,7 +40,6 @@
 		OBJ_38 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Functions.swift */; };
 		OBJ_41 /* Runner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Runner.swift */; };
 		OBJ_42 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Types.swift */; };
-		OBJ_43 /* ViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* ViewProtocol.swift */; };
 		OBJ_50 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_61 /* CmdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* CmdTests.swift */; };
 		OBJ_62 /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* DispatcherTests.swift */; };
@@ -87,7 +86,6 @@
 		OBJ_13 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		OBJ_16 /* Runner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runner.swift; sourceTree = "<group>"; };
 		OBJ_17 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		OBJ_18 /* ViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProtocol.swift; sourceTree = "<group>"; };
 		OBJ_21 /* CmdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmdTests.swift; sourceTree = "<group>"; };
 		OBJ_22 /* DispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
 		OBJ_23 /* FunctionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionsTests.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 				OBJ_13 /* Functions.swift */,
 				OBJ_16 /* Runner.swift */,
 				OBJ_17 /* Types.swift */,
-				OBJ_18 /* ViewProtocol.swift */,
 				6A64C06F22D21C620028584F /* Driver.swift */,
 			);
 			name = Selm;
@@ -383,7 +380,6 @@
 				6A64C07022D21C620028584F /* Driver.swift in Sources */,
 				OBJ_41 /* Runner.swift in Sources */,
 				OBJ_42 /* Types.swift in Sources */,
-				OBJ_43 /* ViewProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
