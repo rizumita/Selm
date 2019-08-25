@@ -28,6 +28,7 @@ public protocol SelmPageExt: _SelmPage {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg)
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol SelmView {
     associatedtype Page: _SelmPage
     associatedtype Msg = Page.Msg
