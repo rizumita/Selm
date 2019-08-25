@@ -48,8 +48,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         isSubscribing = false
     }
 
-    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel>,
-                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel> where SubModel: Equatable {
+    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
+                                          _ keyPath: KeyPath<Model, SubModel>) -> Driver<SubMsg, SubModel> where SubModel: Equatable {
         let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).removeDuplicates().sink { [weak result] model in
             result?.model = model
@@ -58,8 +58,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel>,
-                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel> {
+    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
+                                          _ keyPath: KeyPath<Model, SubModel>) -> Driver<SubMsg, SubModel> {
         let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).sink { [weak result] model in
             result?.model = model
@@ -68,8 +68,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
-                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel>? where SubModel: Equatable {
+    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
+                                          _ keyPath: KeyPath<Model, SubModel?>) -> Driver<SubMsg, SubModel>? where SubModel: Equatable {
         guard let m = model[keyPath: keyPath] else { return .none }
         let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
         
@@ -81,8 +81,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
-                                          _ messaging: @escaping (SubMsg) -> Msg) -> Driver<SubMsg, SubModel>? {
+    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
+                                          _ keyPath: KeyPath<Model, SubModel?>) -> Driver<SubMsg, SubModel>? {
         guard let m = model[keyPath: keyPath] else { return .none }
         let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
         
@@ -94,16 +94,17 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
     
-    public func derivedBinding<SubMsg, SubModel>(_ keyPath: KeyPath<Model, SubModel?>,
-                                                 _ messaging: @escaping (SubMsg) -> Msg) -> Binding<Driver<SubMsg, SubModel>?> {
+    public func derivedBinding<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
+                                                 _ keyPath: KeyPath<Model, SubModel?>) -> Binding<Driver<SubMsg, SubModel>?> {
         Binding(get: { [weak self] in
-            self?.derived(keyPath, messaging)
+            self?.derived(messaging, keyPath)
             },
                 set: { value in
         })
     }
     
-    public func binding<Value>(_ keyPath: KeyPath<Model, Value>, _ messaging: @escaping (Value) -> Msg) -> Binding<Value> {
+    public func binding<Value>(_ messaging: @escaping (Value) -> Msg,
+                               _ keyPath: KeyPath<Model, Value>) -> Binding<Value> {
         Binding(get: { [weak self] in
             guard let this = self else { fatalError() }
             return this.model[keyPath: keyPath]

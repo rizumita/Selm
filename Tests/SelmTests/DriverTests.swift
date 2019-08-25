@@ -30,8 +30,8 @@ class DriverTests: XCTestCase {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
         
-        let driver2 = driver1.derived(\.view2Model, View1.Msg.view2Msg)
-        let driver3 = driver2?.derived(\.view3Model, View2.Msg.view3Msg)
+        let driver2 = driver1.derived(View1.Msg.view2Msg, \.view2Model)
+        let driver3 = driver2?.derived(View2.Msg.view3Msg, \.view3Model)
         var expectedNum = 2
         driver2?.willChange.sink(receiveValue: { model in
             defer { expectedNum += 1 }
