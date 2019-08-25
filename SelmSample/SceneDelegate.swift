@@ -22,9 +22,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            let driver = Runner.create(initialize: ContentPage.initialize, update: ContentPage.update)
+            let store = Runner<ContentPage>.create(initialize: ContentPage.initialize, update: ContentPage.update)
             
-            window.rootViewController = UIHostingController(rootView: ContentView(driver: driver))
+            window.rootViewController = UIHostingController(rootView: ContentView(store: store))
             self.window = window
             window.makeKeyAndVisible()
         }

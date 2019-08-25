@@ -1,5 +1,5 @@
 //
-//  Driver.swift
+//  Store.swift
 //  Selm
 //
 //  Created by 和泉田 領一 on 2019/07/07.
@@ -12,7 +12,10 @@ import SwiftUI
 #endif
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Driver<Msg, Model>: ObservableObject, Identifiable {
+public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
+    public typealias Msg = Page.Msg
+    public typealias Model = Page.Model
+    
     public var willChange = PassthroughSubject<Model, Never>()
     public let id = UUID()
     
@@ -48,9 +51,9 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         isSubscribing = false
     }
 
-    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
-                                          _ keyPath: KeyPath<Model, SubModel>) -> Driver<SubMsg, SubModel> where SubModel: Equatable {
-        let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+    public func derived<SubPage, SubModel>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                 _ keyPath: KeyPath<Model, SubModel>) -> Store<SubPage> where SubPage.Model == SubModel, SubModel: Equatable {
+        let result = Store<SubPage>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).removeDuplicates().sink { [weak result] model in
             result?.model = model
         }.store(in: &cancellables)
@@ -58,9 +61,9 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
-                                          _ keyPath: KeyPath<Model, SubModel>) -> Driver<SubMsg, SubModel> {
-        let result = Driver<SubMsg, SubModel>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                 _ keyPath: KeyPath<Model, SubPage.Model>) -> Store<SubPage> {
+        let result = Store<SubPage>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).sink { [weak result] model in
             result?.model = model
         }.store(in: &cancellables)
@@ -68,10 +71,10 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
-                                          _ keyPath: KeyPath<Model, SubModel?>) -> Driver<SubMsg, SubModel>? where SubModel: Equatable {
+    public func derived<SubPage, SubModel>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                 _ keyPath: KeyPath<Model, SubModel?>) -> Store<SubPage>? where SubPage.Model == SubModel, SubModel: Equatable {
         guard let m = model[keyPath: keyPath] else { return .none }
-        let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        let result = Store<SubPage>(model: m, dispatch: { self.dispatch(messaging($0)) })
         
         $model.share().map(keyPath).removeDuplicates().sink { [weak result] model in
             guard let model = model else { return }
@@ -81,10 +84,10 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
 
-    public func derived<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
-                                          _ keyPath: KeyPath<Model, SubModel?>) -> Driver<SubMsg, SubModel>? {
+    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                 _ keyPath: KeyPath<Model, SubPage.Model?>) -> Store<SubPage>? {
         guard let m = model[keyPath: keyPath] else { return .none }
-        let result = Driver<SubMsg, SubModel>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        let result = Store<SubPage>(model: m, dispatch: { self.dispatch(messaging($0)) })
         
         $model.share().map(keyPath).sink { [weak result] model in
             guard let model = model else { return }
@@ -94,8 +97,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
         return result
     }
     
-    public func derivedBinding<SubMsg, SubModel>(_ messaging: @escaping (SubMsg) -> Msg,
-                                                 _ keyPath: KeyPath<Model, SubModel?>) -> Binding<Driver<SubMsg, SubModel>?> {
+    public func derivedBinding<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                        _ keyPath: KeyPath<Model, SubPage.Model?>) -> Binding<Store<SubPage>?> {
         Binding(get: { [weak self] in
             self?.derived(messaging, keyPath)
             },
@@ -120,8 +123,8 @@ public class Driver<Msg, Model>: ObservableObject, Identifiable {
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension Driver: Equatable where Model: Equatable {
-    public static func ==(lhs: Driver<Msg, Model>, rhs: Driver<Msg, Model>) -> Bool {
+extension Store: Equatable where Page.Model: Equatable {
+    public static func ==(lhs: Store<Page>, rhs: Store<Page>) -> Bool {
         if lhs.model != rhs.model { return false }
         return true
     }

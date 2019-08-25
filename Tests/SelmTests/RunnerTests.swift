@@ -11,7 +11,7 @@ final class RunnerTests: XCTestCase {
         var firstDispatched  = false
         var secondDispatched = false
         var thirdDispatched  = false
-        let driver = Runner<Msg, Model>.create(initialize: { (Model(string: "test"), Cmd.ofMsg(Msg.first)) },
+        let store = Runner<Msg, Model>.create(initialize: { (Model(string: "test"), Cmd.ofMsg(Msg.first)) },
                                                update: { msg, model in
                                                 defer { exp.fulfill() }
                                                 
@@ -30,7 +30,7 @@ final class RunnerTests: XCTestCase {
                                                     return (model, Cmd.none)
                                                 }
         })
-        driver.dispatch(.third)
+        store.dispatch(.third)
         
         waitForExpectations(timeout: 100.0)
         
@@ -43,7 +43,7 @@ final class RunnerTests: XCTestCase {
         let exp = expectation(description: #function)
         exp.assertForOverFulfill = false
         exp.expectedFulfillmentCount = 3
-        let driver = Runner<Msg, Model>.create(initialize: { (Model(string: "test"), .none) },
+        let store = Runner<Msg, Model>.create(initialize: { (Model(string: "test"), .none) },
                                                update: { msg, model in
                                                 var model = model
                                                 defer { exp.fulfill() }
@@ -67,8 +67,8 @@ final class RunnerTests: XCTestCase {
                                                     return (model, .none)
                                                 }
         })
-        driver.dispatch(.first)
-        driver.dispatch(.third)
+        store.dispatch(.first)
+        store.dispatch(.third)
         
         waitForExpectations(timeout: 2.0)
     }

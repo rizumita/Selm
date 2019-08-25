@@ -12,16 +12,14 @@ import Operadics
 import Selm
 
 struct HistoryView : View, SelmView {
-    typealias Page = HistoryPage
-    
-    @ObservedObject var driver: Driver<Msg, Model>
+    @ObservedObject var store: Store<HistoryPage>
     
     var body: some View {
         VStack(spacing: 20.0) {
             List {
-                ForEach(driver.model.history, id: \.self) { step in
+                ForEach(store.model.history, id: \.self) { step in
                     Text(step.string)
-                }.onDelete(perform: driver.dispatch • Msg.remove)
+                }.onDelete(perform: store.dispatch • Msg.remove)
             }
         }
     }
@@ -30,7 +28,7 @@ struct HistoryView : View, SelmView {
 #if DEBUG
 struct HistoryView_Previews : PreviewProvider {
     static var previews: some View {
-        HistoryView(driver: .init(model: .init(history: []), dispatch: { _ in }))
+        HistoryView(store: .init(model: .init(history: []), dispatch: { _ in }))
     }
 }
 #endif

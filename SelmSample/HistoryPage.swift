@@ -26,7 +26,7 @@ struct HistoryPage: SelmPageExt {
         case remove(IndexSet)
     }
     
-    enum ExtMsg {
+    enum ExternalMsg {
         case noOp
         case updated(count: Int)
     }
@@ -35,7 +35,7 @@ struct HistoryPage: SelmPageExt {
         (Model(), .none)
     }
     
-    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExtMsg) {
+    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
         case .add(let step):
             return (model |> set(\.history, model.history + [step]), .none, .noOp)

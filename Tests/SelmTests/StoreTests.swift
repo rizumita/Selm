@@ -1,5 +1,5 @@
 //
-//  DriverTests.swift
+//  StoreTests.swift
 //  SelmTests
 //
 //  Created by 和泉田 領一 on 2019/08/02.
@@ -9,7 +9,7 @@ import XCTest
 import Combine
 @testable import Selm
 
-class DriverTests: XCTestCase {
+class StoreTests: XCTestCase {
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -23,24 +23,24 @@ class DriverTests: XCTestCase {
         let exp = expectation(description: #function)
         exp.expectedFulfillmentCount = 2
         
-        let driver1 = Runner.create(initialize: View1.initialize, update: View1.update)
-        driver1.dispatch(.showView2)
+        let store1 = Runner.create(initialize: View1.initialize, update: View1.update)
+        store1.dispatch(.showView2)
         
-        while driver1.model.view2Model == nil {
+        while store1.model.view2Model == nil {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
         
-        let driver2 = driver1.derived(View1.Msg.view2Msg, \.view2Model)
-        let driver3 = driver2?.derived(View2.Msg.view3Msg, \.view3Model)
+        let store2 = store1.derived(View1.Msg.view2Msg, \.view2Model)
+        let store3 = store2?.derived(View2.Msg.view3Msg, \.view3Model)
         var expectedNum = 2
-        driver2?.willChange.sink(receiveValue: { model in
+        store2?.willChange.sink(receiveValue: { model in
             defer { expectedNum += 1 }
             XCTAssertEqual(model.num, expectedNum)
             exp.fulfill()
             }).store(in: &cancellables)
-        driver1.dispatch(.setNum(1))
-        driver2?.dispatch(.setNum(2))
-        driver3?.dispatch(.setNum(3))
+        store1.dispatch(.setNum(1))
+        store2?.dispatch(.setNum(2))
+        store3?.dispatch(.setNum(3))
 
         waitForExpectations(timeout: 1.0)
     }
@@ -92,7 +92,7 @@ class DriverTests: XCTestCase {
             var num: Int
             var view3Model = View3.Model(num: 0)
             
-            static func == (lhs: DriverTests.View2.Model, rhs: DriverTests.View2.Model) -> Bool {
+            static func == (lhs: StoreTests.View2.Model, rhs: StoreTests.View2.Model) -> Bool {
                 if lhs.num != rhs.num { return false }
                 return true
             }

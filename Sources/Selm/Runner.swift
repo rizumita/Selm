@@ -5,20 +5,20 @@
 import Foundation
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Runner<Msg, Model> {
-    private let update:     SelmUpdate<Msg, Model>
-    private let dispatcher = Dispatcher<Msg>()
-    private var driver: Driver<Msg, Model>!
+public class Runner<Page> where Page: _SelmPage {
+    private let update:     SelmUpdate<Page.Msg, Page.Model>
+    private let dispatcher = Dispatcher<Page.Msg>()
+    private var store: Store<Page>!
     private let dispatchQueue = DispatchQueue.main
 
-    public static func create(initialize: @escaping SelmInit<Msg, Model>,
-                              update: @escaping SelmUpdate<Msg, Model>) -> Driver<Msg, Model> {
+    public static func create(initialize: @escaping SelmInit<Page.Msg, Page.Model>,
+                              update: @escaping SelmUpdate<Page.Msg, Page.Model>) -> Store<Page> {
         let runner = Runner(initialize: initialize, update: update)
-        return runner.driver
+        return runner.store
     }
 
-    private init(initialize: @escaping () -> (Model, Cmd<Msg>),
-                 update: @escaping (Msg, Model) -> (Model, Cmd<Msg>)) {
+    private init(initialize: @escaping () -> (Page.Model, Cmd<Page.Msg>),
+                 update: @escaping (Page.Msg, Page.Model) -> (Page.Model, Cmd<Page.Msg>)) {
         self.update = update
 
         let (initialModel, cmd) = initialize()
@@ -29,14 +29,14 @@ public class Runner<Msg, Model> {
             }
         }
         
-        self.driver = Driver(model: initialModel, dispatch: self.dispatcher.dispatch)
+        self.store = Store(model: initialModel, dispatch: self.dispatcher.dispatch)
 
         cmd.dispatch(self.dispatcher.dispatch)
     }
 
-    private func process(_ msg: Msg) {
-        let (updatedModel, newCommand) = update(msg, driver.model)
-        driver.update(updatedModel)
+    private func process(_ msg: Page.Msg) {
+        let (updatedModel, newCommand) = update(msg, store.model)
+        store.update(updatedModel)
         newCommand.dispatch(dispatcher.dispatch)
     }
 }

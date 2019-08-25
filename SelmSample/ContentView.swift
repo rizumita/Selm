@@ -12,9 +12,7 @@ import Operadics
 import Selm
 
 struct ContentView : View, SelmView {
-    typealias Page = ContentPage
-    
-    @ObservedObject var driver: Driver<Msg, Model>
+    @ObservedObject var store: Store<ContentPage>
     
     var body: some View {
         NavigationView {
@@ -27,25 +25,25 @@ struct ContentView : View, SelmView {
                 
                 Spacer()
                 
-                NavigationLink(destination: HistoryView(driver: driver.derived(Msg.historyPageMsg, \.historyPageModel))) {
+                NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
                     Text("Show history")
                 }
 
                 Spacer()
 
-                TextField("URL", text: driver.binding(Msg.setURL, \.url))
+                TextField("URL", text: store.binding(Msg.setURL, \.url))
                     .textContentType(.URL)
                     .frame(width: 300.0, alignment: .center)
                     .foregroundColor(.white)
                     .background(Color.gray.opacity(0.5))
 
                 Button(action: {
-                    self.driver.dispatch(.showWeb)
+                    self.store.dispatch(.showWeb)
                 }) {
                     Text("Show web")
-                }.sheet(item: driver.derivedBinding(Msg.safariPageMsg, \Model.safariPageModel), onDismiss: {
-                    self.driver.dispatch(.hideWeb)
-                }, content: SafariView.init(driver:))
+                }.sheet(item: store.derivedBinding(Msg.safariPageMsg, \Model.safariPageModel), onDismiss: {
+                    self.store.dispatch(.hideWeb)
+                }, content: SafariView.init(store:))
 
                 Group {
                     Spacer()
@@ -63,23 +61,19 @@ struct ContentView : View, SelmView {
     
     var stepper: some View {
         Stepper(onIncrement: {
-            self.driver.dispatch(.step(.up))
+            self.store.dispatch(.step(.up))
         }, onDecrement: {
-            self.driver.dispatch(.step(.down))
+            self.store.dispatch(.step(.down))
         }) {
-            Text(String(self.driver.model.count))
+            Text(String(self.store.model.count))
         }
-    }
-    
-    func historyView(driver: Driver<Msg, Model>) -> some View {
-        HistoryView(driver: driver.derived(Msg.historyPageMsg, \Model.historyPageModel))
     }
 }
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(driver: Driver(model: .init(historyPageModel: .init(history: [])), dispatch: { _ in }))
+        ContentView(store: Store(model: .init(historyPageModel: .init(history: [])), dispatch: { _ in }))
     }
 }
 #endif

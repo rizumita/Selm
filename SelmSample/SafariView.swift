@@ -13,12 +13,10 @@ import Operadics
 import Selm
 
 struct SafariView : UIViewControllerRepresentable, SelmView {
-    typealias Page = SafariPage
-
-    @ObservedObject var driver: Driver<Msg, Model>
+    @ObservedObject var store: Store<SafariPage>
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        SFSafariViewController(url: driver.model.url)
+        SFSafariViewController(url: store.model.url)
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {}
@@ -27,7 +25,7 @@ struct SafariView : UIViewControllerRepresentable, SelmView {
 #if DEBUG
 struct WebView_Previews : PreviewProvider {
     static var previews: some View {
-        SafariView(driver: .init(model: .init(url: URL(string: "https://example.com")!), dispatch: { _ in }))
+        SafariView(store: .init(model: .init(url: URL(string: "https://example.com")!), dispatch: { _ in }))
     }
 }
 #endif

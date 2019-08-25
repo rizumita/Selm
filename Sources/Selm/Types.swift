@@ -34,5 +34,5 @@ public protocol SelmView {
     associatedtype Msg = Page.Msg
     associatedtype Model = Page.Model
 
-    var driver: Driver<Msg, Model> { get }
+    var store: Store<Page> { get }
 }
