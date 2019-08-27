@@ -38,11 +38,11 @@ struct ContentView : View, SelmView {
                     .background(Color.gray.opacity(0.5))
 
                 Button(action: {
-                    self.store.dispatch(.showWeb)
+                    self.dispatch(.showWeb)
                 }) {
                     Text("Show web")
                 }.sheet(item: store.derivedBinding(Msg.safariPageMsg, \Model.safariPageModel), onDismiss: {
-                    self.store.dispatch(.hideWeb)
+                    self.dispatch(.hideWeb)
                 }, content: SafariView.init(store:))
 
                 Group {
@@ -61,11 +61,11 @@ struct ContentView : View, SelmView {
     
     var stepper: some View {
         Stepper(onIncrement: {
-            self.store.dispatch(.step(.up))
+            self.dispatch(.step(.up))
         }, onDecrement: {
-            self.store.dispatch(.step(.down))
+            self.dispatch(.step(.down))
         }) {
-            Text(String(self.store.model.count))
+            Text(String(self.model.count))
         }
     }
 }

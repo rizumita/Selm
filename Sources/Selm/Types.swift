@@ -36,3 +36,9 @@ public protocol SelmView {
 
     var store: Store<Page> { get }
 }
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension SelmView {
+    public var model: Page.Model { store.model }
+    public var dispatch: Dispatch<Page.Msg> { store.dispatch }
+}

@@ -16,7 +16,7 @@ struct SafariView : UIViewControllerRepresentable, SelmView {
     @ObservedObject var store: Store<SafariPage>
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
-        SFSafariViewController(url: store.model.url)
+        SFSafariViewController(url: model.url)
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {}

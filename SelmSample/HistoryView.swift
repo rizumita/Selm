@@ -17,9 +17,9 @@ struct HistoryView : View, SelmView {
     var body: some View {
         VStack(spacing: 20.0) {
             List {
-                ForEach(store.model.history, id: \.self) { step in
+                ForEach(model.history, id: \.self) { step in
                     Text(step.string)
-                }.onDelete(perform: store.dispatch • Msg.remove)
+                }.onDelete(perform: dispatch • Msg.remove)
             }
         }
     }
