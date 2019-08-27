@@ -30,17 +30,12 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     
     private var isSubscribing: Bool = false
     private var cancellables = Set<AnyCancellable>()
-    private var deinitSubject = PassthroughSubject<(), Never>()
     
     public init(model: Model, dispatch: @escaping Dispatch<Msg>) {
         self.model = model
         self.dispatch = dispatch
         
         subscribe()
-    }
-    
-    deinit {
-        deinitSubject.send(())
     }
     
     public func subscribe() {
