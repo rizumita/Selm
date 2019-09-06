@@ -38,13 +38,17 @@ struct HistoryPage: SelmPageExt {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
         case .add(let step):
-            return (model |> set(\.history, model.history + [step]), .none, .noOp)
+            return (model |> set(\.history, model.history + [step]),
+                    .none,
+                    .noOp)
             
         case .remove(let indexSet):
             var history = model.history
             indexSet.forEach { index in history.remove(at: index) }
             let count = history.reduce(0) { result, step in step.step(count: result) }
-            return (model |> set(\.history, history), .none, .updated(count: count))
+            return (model |> set(\.history, history),
+                    .none,
+                    .updated(count: count))
         }
     }
 }

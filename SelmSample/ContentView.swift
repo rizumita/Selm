@@ -20,7 +20,22 @@ struct ContentView : View, SelmView {
                 Spacer()
                 
                 HStack {
-                    stepper.frame(width: 200.0, alignment: .center)
+                    Stepper(onIncrement: {
+                        self.dispatch(.step(.up))
+                    }, onDecrement: {
+                        self.dispatch(.step(.down))
+                    }) {
+                        Text(String(self.model.count))
+                    }
+                    .frame(width: 200.0, alignment: .center)
+                }
+                
+                Spacer()
+
+                Button(action: {
+                    self.dispatch(.stepDelayed(.up))
+                }) {
+                    Text("Up with delay")
                 }
                 
                 Spacer()
@@ -30,42 +45,7 @@ struct ContentView : View, SelmView {
                 }
 
                 Spacer()
-
-                TextField("URL", text: store.binding(Msg.setURL, \.url))
-                    .textContentType(.URL)
-                    .frame(width: 300.0, alignment: .center)
-                    .foregroundColor(.white)
-                    .background(Color.gray.opacity(0.5))
-
-                Button(action: {
-                    self.dispatch(.showWeb)
-                }) {
-                    Text("Show web")
-                }.sheet(item: store.derivedBinding(Msg.safariPageMsg, \Model.safariPageModel), onDismiss: {
-                    self.dispatch(.hideWeb)
-                }, content: SafariView.init(store:))
-
-                Group {
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                    Spacer()
-                }
             }
-            .onDisappear {
-                print("disappear")
-            }
-
-        }
-    }
-    
-    var stepper: some View {
-        Stepper(onIncrement: {
-            self.dispatch(.step(.up))
-        }, onDecrement: {
-            self.dispatch(.step(.down))
-        }) {
-            Text(String(self.model.count))
         }
     }
 }
