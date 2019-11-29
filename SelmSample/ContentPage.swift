@@ -27,6 +27,8 @@ struct ContentPage: SelmPage {
         case historyPageMsg(HistoryPage.Msg)
         case step(Step)
         case stepDelayed(Step)
+        case stepDelayedTask(Step)
+        case stepDelayedTaskFinished(Result<Step, Error>)
         case updateCount(Step)
     }
     
@@ -63,8 +65,29 @@ struct ContentPage: SelmPage {
                         }
                     })
             
+        case .stepDelayedTask(let step):
+            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimer()))
+        case .stepDelayedTaskFinished(let result):
+            switch result {
+            case .success(let step):
+                let newModel = model
+                    |> set(\.count, step.step(count: model.count))
+                    |> set(\.historyPageModel.history, model.historyPageModel.history + [step])
+                return (newModel, .none)
+            case .failure:
+                return (model, .none)
+            }
+            
         case .updateCount(let step):
             return (model |> set(\.count, step.step(count: model.count)), .none)
+        }
+    }
+    
+    static func incrementTimer() -> Task<Step, Error> {
+        return Task { fulfill in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+                fulfill(.success(.up))
+            }
         }
     }
 }
