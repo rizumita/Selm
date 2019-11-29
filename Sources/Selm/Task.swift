@@ -32,12 +32,7 @@ public struct Task<Value> {
         mapResult: @escaping (Result<Value, Error>) -> Msg,
         task: Task<Value>) -> Cmd<Msg>
     {
-        return Cmd(value: [ { dispatch in
-            task.work { result in
-                let msg = mapResult(result)
-                dispatch(msg)
-            }
-        }])
+        return .ofTask(mapResult: mapResult, task: task)
     }
     
     public func flatMap<NewValue>(
