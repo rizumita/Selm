@@ -38,6 +38,12 @@ struct ContentView : View, SelmView {
                     Text("Up with delay")
                 }
                 
+                Button(action: {
+                    self.dispatch(.stepDelayedTask(.up))
+                }) {
+                    Text("Up with delay task")
+                }
+                
                 Spacer()
                 
                 NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
