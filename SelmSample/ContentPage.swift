@@ -66,7 +66,7 @@ struct ContentPage: SelmPage {
                     })
             
         case .stepDelayedTask(let step):
-            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimer()))
+            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimer(step: step)))
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
@@ -83,10 +83,10 @@ struct ContentPage: SelmPage {
         }
     }
     
-    static func incrementTimer() -> Task<Step, Error> {
+    static func incrementTimer(step: Step) -> Task<Step> {
         return Task { fulfill in
             DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
-                fulfill(.success(.up))
+                fulfill(.success(step))
             }
         }
     }

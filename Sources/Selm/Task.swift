@@ -7,9 +7,9 @@
 
 import Foundation
 
-public struct Task<Value, E: Error> {
+public struct Task<Value> {
     
-    public typealias Observer = (Result<Value, E>) -> Void
+    public typealias Observer = (Result<Value, Error>) -> Void
     public typealias Work = (@escaping Observer) -> Void
 
     let work: Work
@@ -18,9 +18,19 @@ public struct Task<Value, E: Error> {
         self.work = work
     }
     
+    public init(result: Result<Value, Error>) {
+        self.init { fulfill in
+            fulfill(result)
+        }
+    }
+    
+    public init(value: Value) {
+        self.init(result: .success(value))
+    }
+    
     public static func attempt<Msg>(
-        mapResult: @escaping (Result<Value, E>) -> Msg,
-        task: Task<Value, E>) -> Cmd<Msg>
+        mapResult: @escaping (Result<Value, Error>) -> Msg,
+        task: Task<Value>) -> Cmd<Msg>
     {
         return Cmd(value: [ { dispatch in
             task.work { result in
@@ -30,20 +40,23 @@ public struct Task<Value, E: Error> {
         }])
     }
     
-    public func andThen<NewValue>(
-        mapTask: @escaping (Value) -> Task<NewValue, E>) -> Task<NewValue, E> {
-        return Task<NewValue, E> { result in
-            self.work { (oldResult: Result<Value, E>) in
-                switch oldResult {
-                case .success(let valueA):
-                    let taskB = mapTask(valueA)
-                    taskB.work { (bResult: Result<NewValue, E>) in
-                        result(bResult)
-                    }
-                case .failure(let error):
-                    result(Result<NewValue, E>.failure(error))
+    public func flatMap<NewValue>(
+        mapTask: @escaping (Value) -> Task<NewValue>) -> Task<NewValue> {
+        return Task<NewValue> { fulfill in
+            self.work { (oldResult: Result<Value, Error>) in
+                do {
+                    let mappedTask = mapTask(try oldResult.get())
+                    mappedTask.work(fulfill)
+                } catch let error {
+                    fulfill(.failure(error))
                 }
             }
+        }
+    }
+    
+    public func map<NewValue>(transform: @escaping (Value) -> NewValue) -> Task<NewValue> {
+        return flatMap { value in
+            return Task<NewValue>(value: transform(value))
         }
     }
     
