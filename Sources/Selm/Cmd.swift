@@ -83,7 +83,7 @@ public struct Cmd<Msg> {
         return Cmd(value: [ { dispatch in
             task.work { result in
                 let msg = mapResult(result)
-                dispatch(msg)
+                DispatchQueue.main.async { dispatch(msg) }
             }
         }])
     }
