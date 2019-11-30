@@ -83,7 +83,7 @@ struct ContentPage: SelmPage {
         }
     }
     
-    static func incrementTimer(step: Step) -> Task<Step> {
+    static func incrementTimer(step: Step) -> Task<Step, Error> {
         return Task { fulfill in
             DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
                 fulfill(.success(step))

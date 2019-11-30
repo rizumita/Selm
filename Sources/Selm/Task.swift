@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import Combine
 
-public struct Task<Value> {
+public struct Task<Value, ErrorType: Swift.Error> {
     
-    public typealias Observer = (Result<Value, Error>) -> Void
+    public typealias Observer = (Result<Value, ErrorType>) -> Void
     public typealias Work = (@escaping Observer) -> Void
 
     let work: Work
@@ -18,7 +19,7 @@ public struct Task<Value> {
         self.work = work
     }
     
-    public init(result: Result<Value, Error>) {
+    public init(result: Result<Value, ErrorType>) {
         self.init { fulfill in
             fulfill(result)
         }
@@ -29,29 +30,30 @@ public struct Task<Value> {
     }
     
     public static func attempt<Msg>(
-        mapResult: @escaping (Result<Value, Error>) -> Msg,
-        task: Task<Value>) -> Cmd<Msg>
+        mapResult: @escaping (Result<Value, ErrorType>) -> Msg,
+        task: Task<Value, ErrorType>) -> Cmd<Msg>
     {
         return .ofTask(mapResult: mapResult, task: task)
     }
     
     public func flatMap<NewValue>(
-        mapTask: @escaping (Value) -> Task<NewValue>) -> Task<NewValue> {
-        return Task<NewValue> { fulfill in
-            self.work { (oldResult: Result<Value, Error>) in
-                do {
-                    let mappedTask = mapTask(try oldResult.get())
+        mapTask: @escaping (Value) -> Task<NewValue, ErrorType>) -> Task<NewValue, ErrorType> {
+        return Task<NewValue, ErrorType> { fulfill in
+            self.work { (oldResult: Result<Value, ErrorType>) in
+                switch oldResult {
+                case .success(let oldValue):
+                    let mappedTask = mapTask(oldValue)
                     mappedTask.work(fulfill)
-                } catch let error {
+                case .failure(let error):
                     fulfill(.failure(error))
                 }
             }
         }
     }
     
-    public func map<NewValue>(transform: @escaping (Value) -> NewValue) -> Task<NewValue> {
+    public func map<NewValue>(transform: @escaping (Value) -> NewValue) -> Task<NewValue, ErrorType> {
         return flatMap { value in
-            return Task<NewValue>(value: transform(value))
+            return Task<NewValue, ErrorType>(value: transform(value))
         }
     }
     

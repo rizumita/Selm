@@ -79,7 +79,7 @@ public struct Cmd<Msg> {
         }])
     }
     
-    public static func ofTask<Value>(mapResult: @escaping (Result<Value, Error>) -> Msg, task: Task<Value>) -> Cmd<Msg> {
+    public static func ofTask<Value, ErrorType: Swift.Error>(mapResult: @escaping (Result<Value, ErrorType>) -> Msg, task: Task<Value, ErrorType>) -> Cmd<Msg> {
         return Cmd(value: [ { dispatch in
             task.work { result in
                 let msg = mapResult(result)
