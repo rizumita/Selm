@@ -104,13 +104,11 @@ struct ContentPage: SelmPage {
     
     static func incrementTimerCombine(step: Step) -> Task<Step, Error> {
         return Task { observer, set in
-            let anyCanellable = Timer.publish(every: 5.0, on: RunLoop.main, in: .common)
+            Timer.publish(every: 5.0, on: RunLoop.main, in: .common)
                 .autoconnect()
                 .sink { _ in
                     observer(.success(step))
-                }
-            
-            set.insert(anyCanellable)
+                }.store(in: &set)
         }
     }
 }
