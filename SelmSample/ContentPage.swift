@@ -67,7 +67,11 @@ struct ContentPage: SelmPage {
                     })
             
         case .stepDelayedTask(let step):
-            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimer(step: step)))
+            return (
+                model,
+                incrementTimer(step: step)
+                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+            )
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
@@ -82,7 +86,11 @@ struct ContentPage: SelmPage {
         case .updateCount(let step):
             return (model |> set(\.count, step.step(count: model.count)), .none)
         case .stepTimer(let step):
-            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimerCombine(step: step)))
+            return (
+                model,
+                incrementTimerCombine(step: step)
+                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+            )
         }
     }
     

@@ -44,10 +44,18 @@ public struct Task<Value, ErrorType: Swift.Error> {
     }
     
     public static func attempt<Msg>(
-        mapResult: @escaping (Result<Value, ErrorType>) -> Msg,
-        task: Task<Value, ErrorType>) -> Cmd<Msg>
-    {
-        return .ofTask(mapResult: mapResult, task: task)
+        toMsg: @escaping (Result<Value, ErrorType>) -> Msg) -> (Task<Value, ErrorType>) -> Cmd<Msg> {
+        return { task in
+            return .ofTask(
+                toMsg: toMsg,
+                work: { fulfill in
+                    task.work { result in
+                        _ = task
+                        fulfill(result)
+                    }
+                }
+            )
+        }
     }
     
     public func flatMap<NewValue>(
