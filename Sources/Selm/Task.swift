@@ -8,15 +8,29 @@
 import Foundation
 import Combine
 
+class CancellablesHolder {
+    
+    var cancellables = Set<AnyCancellable>()
+    
+}
+
 public struct Task<Value, ErrorType: Swift.Error> {
     
     public typealias Observer = (Result<Value, ErrorType>) -> Void
     public typealias Work = (@escaping Observer) -> Void
 
     let work: Work
+    let cancellablesHolder = CancellablesHolder()
     
     public init(work: @escaping  Work) {
         self.work = work
+    }
+    
+    public init(workWithCancellables: @escaping (@escaping Observer, inout Set<AnyCancellable>) -> Void) {
+        let holder = self.cancellablesHolder
+        self.work = { fulfill in
+            workWithCancellables(fulfill, &holder.cancellables)
+        }
     }
     
     public init(result: Result<Value, ErrorType>) {

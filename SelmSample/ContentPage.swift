@@ -28,6 +28,7 @@ struct ContentPage: SelmPage {
         case step(Step)
         case stepDelayed(Step)
         case stepDelayedTask(Step)
+        case stepTimer(Step)
         case stepDelayedTaskFinished(Result<Step, Error>)
         case updateCount(Step)
     }
@@ -80,6 +81,8 @@ struct ContentPage: SelmPage {
             
         case .updateCount(let step):
             return (model |> set(\.count, step.step(count: model.count)), .none)
+        case .stepTimer(let step):
+            return (model, Task.attempt(mapResult: { .stepDelayedTaskFinished($0) }, task: incrementTimerCombine(step: step)))
         }
     }
     
@@ -88,6 +91,18 @@ struct ContentPage: SelmPage {
             DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
                 fulfill(.success(step))
             }
+        }
+    }
+    
+    static func incrementTimerCombine(step: Step) -> Task<Step, Error> {
+        return Task { observer, set in
+            let anyCanellable = Timer.publish(every: 5.0, on: RunLoop.main, in: .common)
+                .autoconnect()
+                .sink { _ in
+                    observer(.success(step))
+                }
+            
+            set.insert(anyCanellable)
         }
     }
 }
