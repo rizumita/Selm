@@ -22,13 +22,19 @@ struct HistoryView : View, SelmView {
                 }.onDelete(perform: dispatch • Msg.remove)
             }
         }
+        .onAppear {
+            self.store.subscribe()
+        }
+        .onDisappear {
+            self.store.unsubscribe()
+        }
     }
 }
 
 #if DEBUG
 struct HistoryView_Previews : PreviewProvider {
     static var previews: some View {
-        HistoryView(store: .init(model: .init(history: []), dispatch: { _ in }))
+        HistoryView(store: .init(model: .init(history: [])))
     }
 }
 #endif

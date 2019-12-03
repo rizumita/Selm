@@ -11,7 +11,7 @@ import Swiftx
 import Operadics
 import Selm
 
-struct ContentView : View, SelmView {
+struct ContentView: SelmView {
     @ObservedObject var store: Store<ContentPage>
     
     var body: some View {
@@ -55,6 +55,15 @@ struct ContentView : View, SelmView {
                 NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
                     Text("Show history")
                 }
+                
+                Button(action: {
+                    self.store.dispatch(.showSafariPage)
+                }) {
+                    Text("Show Safari sheet")
+                }
+                .sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { substore in
+                    SafariView(store: substore)
+                }
 
                 Spacer()
             }
@@ -65,7 +74,7 @@ struct ContentView : View, SelmView {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(store: Store(model: .init(historyPageModel: .init(history: [])), dispatch: { _ in }))
+        ContentView(store: Store(model: .init(historyPageModel: .init(history: []))))
     }
 }
 #endif

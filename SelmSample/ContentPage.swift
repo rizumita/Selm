@@ -16,6 +16,7 @@ struct ContentPage: SelmPage {
         var count: Int = 0
         var url: String = ""
         var historyPageModel: HistoryPage.Model
+        var safariPageModel: SafariPage.Model?
         
         static func == (lhs: Model, rhs: Model) -> Bool {
             if lhs.count != rhs.count { return false }
@@ -25,12 +26,14 @@ struct ContentPage: SelmPage {
     
     enum Msg {
         case historyPageMsg(HistoryPage.Msg)
+        case safariPageMsg(SafariPage.Msg)
         case step(Step)
         case stepDelayed(Step)
         case stepDelayedTask(Step)
         case stepTimer(Step)
         case stepDelayedTaskFinished(Result<Step, Error>)
         case updateCount(Step)
+        case showSafariPage
     }
     
     static func initialize() -> (Model, Cmd<Msg>) {
@@ -49,6 +52,15 @@ struct ContentPage: SelmPage {
             case (let m, let c, .updated(count: let count)):
                 return (model |> set(\.historyPageModel, m) |> set(\.count, count),
                         c.map(Msg.historyPageMsg))
+            }
+            
+        case .safariPageMsg(let sMsg):
+            guard let sModel = model.safariPageModel else { return (model, .none) }
+            switch SafariPage.update(sMsg, sModel) {
+            case (let m, let c, .noOp):
+                return (model |> set(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+            case (_, let c, .dismiss):
+                return (model |> set(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
             }
             
         case .step(let step):
@@ -85,12 +97,17 @@ struct ContentPage: SelmPage {
             
         case .updateCount(let step):
             return (model |> set(\.count, step.step(count: model.count)), .none)
+            
         case .stepTimer(let step):
             return (
                 model,
                 incrementTimerCombine(step: step)
                     |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
             )
+            
+        case .showSafariPage:
+            let (m, c) = SafariPage.initialize(url: URL(string: "https://www.google.com")!)
+            return (model |> set(\.safariPageModel, m), c.map(Msg.safariPageMsg))
         }
     }
     
@@ -104,8 +121,9 @@ struct ContentPage: SelmPage {
     
     static func incrementTimerCombine(step: Step) -> Task<Step, Error> {
         return Task { observer, set in
-            Timer.publish(every: 5.0, on: RunLoop.main, in: .common)
+            Timer.publish(every: 2.0, on: RunLoop.main, in: .common)
                 .autoconnect()
+                .first()
                 .sink { _ in
                     observer(.success(step))
                 }.store(in: &set)
