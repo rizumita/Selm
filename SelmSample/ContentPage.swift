@@ -27,6 +27,9 @@ struct ContentPage: SelmPage {
         case historyPageMsg(HistoryPage.Msg)
         case step(Step)
         case stepDelayed(Step)
+        case stepDelayedTask(Step)
+        case stepTimer(Step)
+        case stepDelayedTaskFinished(Result<Step, Error>)
         case updateCount(Step)
     }
     
@@ -63,8 +66,49 @@ struct ContentPage: SelmPage {
                         }
                     })
             
+        case .stepDelayedTask(let step):
+            return (
+                model,
+                incrementTimer(step: step)
+                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+            )
+        case .stepDelayedTaskFinished(let result):
+            switch result {
+            case .success(let step):
+                let newModel = model
+                    |> set(\.count, step.step(count: model.count))
+                    |> set(\.historyPageModel.history, model.historyPageModel.history + [step])
+                return (newModel, .none)
+            case .failure:
+                return (model, .none)
+            }
+            
         case .updateCount(let step):
             return (model |> set(\.count, step.step(count: model.count)), .none)
+        case .stepTimer(let step):
+            return (
+                model,
+                incrementTimerCombine(step: step)
+                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+            )
+        }
+    }
+    
+    static func incrementTimer(step: Step) -> Task<Step, Error> {
+        return Task { fulfill in
+            DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+                fulfill(.success(step))
+            }
+        }
+    }
+    
+    static func incrementTimerCombine(step: Step) -> Task<Step, Error> {
+        return Task { observer, set in
+            Timer.publish(every: 5.0, on: RunLoop.main, in: .common)
+                .autoconnect()
+                .sink { _ in
+                    observer(.success(step))
+                }.store(in: &set)
         }
     }
 }

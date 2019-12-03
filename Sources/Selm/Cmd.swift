@@ -78,4 +78,18 @@ public struct Cmd<Msg> {
             }
         }])
     }
+    
+    static func ofTask<Value, ErrorType: Swift.Error>(toMsg: @escaping (Result<Value, ErrorType>) -> Msg, work: @escaping Task<Value, ErrorType>.Work) -> Cmd<Msg> {
+        return Cmd(
+            value: [
+                { dispatch in
+                    work { result in
+                        let msg = toMsg(result)
+                        DispatchQueue.main.async { dispatch(msg) }
+                    }
+                }
+            ]
+        )
+    }
+    
 }
