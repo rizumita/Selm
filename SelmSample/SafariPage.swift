@@ -22,7 +22,7 @@ struct SafariPage: SelmPageExt {
     }
     
     enum Msg {
-        case onDisappear
+        case dismiss
     }
     
     enum ExternalMsg {
@@ -36,7 +36,7 @@ struct SafariPage: SelmPageExt {
     
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
-        case .onDisappear:
+        case .dismiss:
             return (model, .none, .dismiss)
         }
     }

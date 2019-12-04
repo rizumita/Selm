@@ -12,20 +12,30 @@ import Swiftx
 import Operadics
 import Selm
 
-struct SafariView : UIViewControllerRepresentable, SelmView {
+struct SafariView: SelmView {
+    @ObservedObject var store: Store<SafariPage>
+    
+    var body: some View {
+        _SafariView(store: store).onDisappear {
+            self.store.dispatch(.dismiss)
+        }
+    }
+}
+
+struct _SafariView : UIViewControllerRepresentable, SelmView {
     @ObservedObject var store: Store<SafariPage>
 
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<_SafariView>) -> SFSafariViewController {
         SFSafariViewController(url: model.url)
     }
 
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {}
+    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<_SafariView>) {}
 }
 
 #if DEBUG
 struct WebView_Previews : PreviewProvider {
     static var previews: some View {
-        SafariView(store: .init(model: .init(url: URL(string: "https://example.com")!), dispatch: { _ in }))
+        SafariView(store: .init(model: .init(url: URL(string: "https://example.com")!)))
     }
 }
 #endif

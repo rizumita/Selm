@@ -14,11 +14,6 @@ import Selm
 struct HistoryPage: SelmPageExt {
     struct Model: Equatable {
         var history: [Step] = []
-                
-        static func ==(_ lhs: Model, _ rhs: Model) -> Bool {
-            if lhs.history != rhs.history { return false }
-            return true
-        }
     }
     
     enum Msg {
