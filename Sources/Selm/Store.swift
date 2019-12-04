@@ -39,8 +39,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     public init(model: Model, dispatch: @escaping Dispatch<Msg> = { _ in }) {
         self.model = model
         self.dispatch = dispatch
-        
-        subscribe()
+        self.isSubscribing = true
     }
 
     deinit {
@@ -141,21 +140,19 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
 
     private func addSubstore(_ substore: Any, for keyPath: AnyKeyPath) {
         substoreQueue.sync {
-            print("Add substore \(substore) for \(keyPath)")
             substores[keyPath] = substore
         }
     }
     
     private func removeSubstore(for keyPath: AnyKeyPath) {
         substoreQueue.sync {
-            print("Remove substore for \(keyPath)")
             substores.removeValue(forKey: keyPath)
         }
     }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension Store: Equatable where Page.Model: Equatable {
+extension Store: Equatable where Model: Equatable {
     public static func ==(lhs: Store<Page>, rhs: Store<Page>) -> Bool {
         if lhs.model != rhs.model { return false }
         return true
