@@ -16,17 +16,18 @@ struct SafariView: SelmView {
     @ObservedObject var store: Store<SafariPage>
     
     var body: some View {
-        _SafariView(store: store).onDisappear {
-            self.store.dispatch(.dismiss)
-        }
+        _SafariView(url: store.model.url)
+            .onDisappear {
+                self.store.dispatch(.dismiss)
+            }
     }
 }
 
-struct _SafariView : UIViewControllerRepresentable, SelmView {
-    @ObservedObject var store: Store<SafariPage>
+struct _SafariView : UIViewControllerRepresentable {
+    var url: URL
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<_SafariView>) -> SFSafariViewController {
-        SFSafariViewController(url: model.url)
+        SFSafariViewController(url: url)
     }
 
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<_SafariView>) {}

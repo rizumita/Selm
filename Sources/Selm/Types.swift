@@ -37,8 +37,33 @@ public protocol SelmView: View {
     associatedtype Page: _SelmPage
     associatedtype Msg = Page.Msg
     associatedtype Model = Page.Model
+    associatedtype ViewType: View
 
     var store: Store<Page> { get }
+
+    var content: ViewType { get }
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+
+extension SelmView {
+    
+    public var content: some View {
+        // I did this to prevent changing every view right now
+        // In the final implementation, this would be a requiement of conforming to SelmView
+        return Text("Hello, world")
+    }
+    
+    public var body: some View {
+        return content
+            .onAppear {
+                self.store.subscribe()
+            }
+            .onDisappear {
+                self.store.unsubscribe()
+            }
+    }
+    
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
