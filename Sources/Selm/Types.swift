@@ -5,7 +5,9 @@
 import Foundation
 import SwiftUI
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public typealias SelmInit<Msg, Model> = () -> (Model, Cmd<Msg>)
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public typealias SelmUpdate<Msg, Model> = (Msg, Model) -> (Model, Cmd<Msg>)
 public typealias Dispatch<Msg> = (Msg) -> ()
 public typealias Sub<Msg> = (@escaping Dispatch<Msg>) -> ()
@@ -18,10 +20,12 @@ public protocol _SelmPage {
     associatedtype Model
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol SelmPage: _SelmPage {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>)
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol SelmPageExt: _SelmPage {
     associatedtype ExternalMsg
     

@@ -145,7 +145,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     }
     
     private func removeSubstore(for keyPath: AnyKeyPath) {
-        substoreQueue.sync {
+        _ = substoreQueue.sync {
             substores.removeValue(forKey: keyPath)
         }
     }
