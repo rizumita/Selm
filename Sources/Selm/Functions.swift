@@ -4,6 +4,18 @@
 
 import Foundation
 
+func run(on queue: DispatchQueue, _ f: @escaping () -> ()) {
+    let label = String(cString: __dispatch_queue_get_label(.none), encoding: .utf8)
+
+    if label == queue.label {
+        f()
+    } else {
+        queue.sync {
+            f()
+        }
+    }
+}
+
 struct Memoizations {
     class Key: Hashable {
         class Box: Equatable {
