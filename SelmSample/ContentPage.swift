@@ -12,16 +12,11 @@ import Operadics
 import Selm
 
 struct ContentPage: SelmPage {
-    struct Model: Equatable {
+    struct Model: SelmModel, Equatable {
         var count: Int = 0
         var url: String = ""
         var historyPageModel: HistoryPage.Model
         var safariPageModel: SafariPage.Model?
-        
-        static func == (lhs: Model, rhs: Model) -> Bool {
-            if lhs.count != rhs.count { return false }
-            return true
-        }
     }
     
     enum Msg {
