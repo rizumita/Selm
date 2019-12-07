@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            let store = Runner<ContentPage>.create(initialize: ContentPage.initialize(), update: ContentPage.update)
+            let store = Runner<ContentPage>.create(initialize: ContentPage.initialize())
             
             window.rootViewController = UIHostingController(rootView: ContentView(store: store))
             self.window = window
