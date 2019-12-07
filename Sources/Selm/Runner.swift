@@ -24,7 +24,7 @@ public class Runner<Page> where Page: SelmPage {
         let (initialModel, cmd) = initialize()
         
         self.dispatcher.setDispatchThunk { msg in
-            self.dispatchQueue.async {
+            run(on: self.dispatchQueue) {
                 self.process(msg)
             }
         }
