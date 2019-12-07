@@ -12,6 +12,12 @@ import Operadics
 import Selm
 
 struct ContentPage: SelmPage {
+    @Depended static var dependency: Dependency
+    
+    struct Dependency {
+        var genStepPublisher: GenStepPublisherWithInterval
+    }
+    
     struct Model: SelmModel, Equatable {
         var stepInterval:     TimeInterval = 2.0
         var count:            Int          = 0
@@ -32,15 +38,12 @@ struct ContentPage: SelmPage {
         case showSafariPage
     }
 
-    static var genStepPublisher: GenStepPublisherWithInterval = { _, _ in fatalError() }    // Needs DI
-
-    static func initialize(stepInterval: TimeInterval = 2.0,
-                           genStepPublisher: @escaping GenStepPublisherWithInterval = SelmSample.genStepWithTimer) -> () -> (Model, Cmd<Msg>) {
-        self.genStepPublisher = genStepPublisher
+    static func initialize(dependency: Dependency = Dependency(genStepPublisher: SelmSample.genStepWithTimer)) -> SelmInit<Msg, Model> {
+        self.dependency = dependency
 
         return {
             let (m, c) = HistoryPage.initialize()
-            return (Model(stepInterval: stepInterval, historyPageModel: m), c.map(Msg.historyPageMsg))
+            return (Model(historyPageModel: m), c.map(Msg.historyPageMsg))
         }
     }
 
@@ -105,7 +108,7 @@ struct ContentPage: SelmPage {
         case .stepTimer(let step):
             return (
                 model,
-                stepTask(stepPublisher: self.genStepPublisher(step, model.stepInterval))
+                stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
                 |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
             )
 
