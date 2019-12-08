@@ -12,10 +12,10 @@ import Operadics
 import Selm
 
 struct ContentPage: SelmPage {
-    @Depended static var dependency: Dependency
+    static var dependency: Dependency = Dependency()
     
     struct Dependency {
-        var genStepPublisher: GenStepPublisherWithInterval
+        var genStepPublisher: GenStepPublisherWithInterval = SelmSample.genStepWithTimer
     }
     
     struct Model: SelmModel, Equatable {
@@ -38,13 +38,9 @@ struct ContentPage: SelmPage {
         case showSafariPage
     }
 
-    static func initialize(dependency: Dependency = Dependency(genStepPublisher: SelmSample.genStepWithTimer)) -> SelmInit<Msg, Model> {
-        self.dependency = dependency
-
-        return {
-            let (m, c) = HistoryPage.initialize()
-            return (Model(historyPageModel: m), c.map(Msg.historyPageMsg))
-        }
+    static let initialize: SelmInit<Msg, Model> = {
+        let (m, c) = HistoryPage.initialize()
+        return (Model(historyPageModel: m), c.map(Msg.historyPageMsg))
     }
 
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>) {
