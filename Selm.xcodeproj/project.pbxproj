@@ -36,7 +36,6 @@
 		6A46606522C9B5C20067FD51 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A46606422C9B5C20067FD51 /* SafariView.swift */; };
 		6A64C07022D21C620028584F /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C06F22D21C620028584F /* Store.swift */; };
 		6A64C07222D228DB0028584F /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C07122D228DB0028584F /* Step.swift */; };
-		6A9F6459239BDC0F00C60743 /* Depended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9F6458239BDC0F00C60743 /* Depended.swift */; };
 		6ACB294722F447980096AFF4 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB294622F447980096AFF4 /* StoreTests.swift */; };
 		6ACBC35E22C98E8A00845746 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 6ACBC35D22C98E8A00845746 /* Swiftz */; };
 		6ACBC36022C98EA600845746 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACBC35F22C98EA600845746 /* Functions.swift */; };
@@ -88,7 +87,6 @@
 		6A46606422C9B5C20067FD51 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		6A64C06F22D21C620028584F /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		6A64C07122D228DB0028584F /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
-		6A9F6458239BDC0F00C60743 /* Depended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Depended.swift; sourceTree = "<group>"; };
 		6ACB294622F447980096AFF4 /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		6ACBC35F22C98EA600845746 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 				OBJ_17 /* Types.swift */,
 				6A64C06F22D21C620028584F /* Store.swift */,
 				3D65A05F23917AE5002A7765 /* Task.swift */,
-				6A9F6458239BDC0F00C60743 /* Depended.swift */,
 			);
 			name = Selm;
 			path = Sources/Selm;
@@ -393,7 +390,6 @@
 			files = (
 				OBJ_36 /* Cmd.swift in Sources */,
 				OBJ_37 /* Dispatcher.swift in Sources */,
-				6A9F6459239BDC0F00C60743 /* Depended.swift in Sources */,
 				OBJ_38 /* Functions.swift in Sources */,
 				6A64C07022D21C620028584F /* Store.swift in Sources */,
 				OBJ_41 /* Runner.swift in Sources */,
