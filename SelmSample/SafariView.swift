@@ -15,11 +15,8 @@ import Selm
 struct SafariView: SelmView {
     @ObservedObject var store: Store<SafariPage>
     
-    var body: some View {
+    var content: some View {
         _SafariView(url: store.model.url)
-            .onDisappear {
-                self.store.dispatch(.dismiss)
-            }
     }
 }
 

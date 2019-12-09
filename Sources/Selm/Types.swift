@@ -18,6 +18,18 @@ public typealias DependsOn3<Item1: Equatable, Item2: Equatable, Item3: Equatable
 public protocol _SelmPage {
     associatedtype Msg
     associatedtype Model
+
+    static var subscribesOnAppear:   Bool { get }
+    static var unsubscribesOnDisappear: Bool { get }
+    static var onAppearMsg:             Msg? { get }
+    static var onDisappearMsg:          Msg? { get }
+}
+
+extension _SelmPage {
+    public static var subscribesOnAppear: Bool { true }
+    public static var unsubscribesOnDisappear: Bool { true }
+    public static var onAppearMsg:    Msg? { .none }
+    public static var onDisappearMsg: Msg? { .none }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -57,17 +69,17 @@ extension SelmView {
     public var body: some View {
         return content
             .onAppear {
-                self.store.subscribe()
+                self.store.handleOnAppear()
             }
             .onDisappear {
-                self.store.unsubscribe()
+                self.store.handleOnDisappear()
             }
     }
-    
+
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension SelmView {
-    public var model: Page.Model { store.model }
+    public var model:    Page.Model { store.model }
     public var dispatch: Dispatch<Page.Msg> { store.dispatch }
 }

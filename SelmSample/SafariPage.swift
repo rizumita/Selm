@@ -24,7 +24,9 @@ struct SafariPage: SelmPageExt {
     enum Msg {
         case dismiss
     }
-    
+
+    private(set) static var onDisappearMsg: Msg? = .dismiss
+
     enum ExternalMsg {
         case noOp
         case dismiss
