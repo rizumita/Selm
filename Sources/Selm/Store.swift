@@ -42,10 +42,6 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         self.isSubscribing = true
     }
 
-    deinit {
-        print("\(self) deinit")
-    }
-
     public func subscribe() {
         guard !isSubscribing else { return }
         
@@ -83,13 +79,13 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         }
     }
 
-    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                 _ keyPath: KeyPath<Model, SubPage.Model>,
-                                 isSubscribing: Bool = false) -> Store<SubPage> {
+    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, SubPage.Model>,
+                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage> {
         if let substore = substores[keyPath] as? Store<SubPage> {
             return substore
         }
-        
+
         let result = Store<SubPage>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).sink { [weak result] model in
             result?.model = model
@@ -102,16 +98,16 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         return result
     }
 
-    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                 _ keyPath: KeyPath<Model, SubPage.Model?>,
-                                 isSubscribing: Bool = true) -> Store<SubPage>? {
+    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                           _ keyPath: KeyPath<Model, SubPage.Model?>,
+                                           isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>? {
         if let substore = substores[keyPath] as? Store<SubPage> {
             return substore
         }
-        
+
         guard let m = model[keyPath: keyPath] else { return .none }
         let result = Store<SubPage>(model: m, dispatch: { self.dispatch(messaging($0)) })
-        
+
         $model.share().map(keyPath).sink { [weak self, weak result] model in
             guard let model = model else {
                 self?.removeSubstore(for: keyPath)
