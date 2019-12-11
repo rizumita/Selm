@@ -51,31 +51,11 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         }
     }
 
-    public func handleOnAppear() {
-        if Page.subscribesOnAppear {
-            subscribe()
-        }
-
-        if let onAppearMsg = Page.onAppearMsg {
-            dispatch(onAppearMsg)
-        }
-    }
-    
     public func unsubscribe() {
         guard isSubscribing else { return }
-        
+
         runOnQueue {
             self.isSubscribing = false
-        }
-    }
-
-    public func handleOnDisappear() {
-        if Page.unsubscribesOnDisappear {
-            unsubscribe()
-        }
-
-        if let onDisappearMsg = Page.onDisappearMsg {
-            dispatch(onDisappearMsg)
         }
     }
 

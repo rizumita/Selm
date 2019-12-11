@@ -69,10 +69,22 @@ extension SelmView {
     public var body: some View {
         return content
             .onAppear {
-                self.store.handleOnAppear()
+                if Page.subscribesOnAppear {
+                    self.store.subscribe()
+                }
+
+                if let onAppearMsg = Page.onAppearMsg {
+                    self.store.dispatch(onAppearMsg)
+                }
             }
             .onDisappear {
-                self.store.handleOnDisappear()
+                if Page.unsubscribesOnDisappear {
+                    self.store.unsubscribe()
+                }
+
+                if let onDisappearMsg = Page.onDisappearMsg {
+                    self.store.dispatch(onDisappearMsg)
+                }
             }
     }
 
