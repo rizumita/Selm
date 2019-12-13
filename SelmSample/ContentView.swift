@@ -50,19 +50,27 @@ struct ContentView: SelmView {
                     Text("Up with timer combine")
                 }
                 
-                Spacer()
-                
-                NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
-                    Text("Show history")
-                }
-                
                 Button(action: {
-                    self.store.dispatch(.showSafariPage)
+                    self.dispatch(.stepTimerTwice(.up))
                 }) {
-                    Text("Show Safari sheet")
+                    Text("Up twice with timer combine")
                 }
-                .sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { substore in
-                    SafariView(store: substore)
+
+                Spacer()
+
+                Group {
+                    NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
+                        Text("Show history")
+                    }
+                    
+                    Button(action: {
+                        self.store.dispatch(.showSafariPage)
+                    }) {
+                        Text("Show Safari sheet")
+                    }
+                    .sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { substore in
+                        SafariView(store: substore)
+                    }
                 }
 
                 Spacer()
