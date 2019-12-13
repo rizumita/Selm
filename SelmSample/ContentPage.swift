@@ -33,6 +33,7 @@ struct ContentPage: SelmPage {
         case stepDelayed(Step)
         case stepDelayedTask(Step)
         case stepTimer(Step)
+        case stepTimerTwice(Step)
         case stepDelayedTaskFinished(Result<Step, Never>)
         case updateCount(Step)
         case showSafariPage
@@ -105,7 +106,14 @@ struct ContentPage: SelmPage {
             return (
                 model,
                 stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
-                |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+            )
+            
+        case .stepTimerTwice(let step):
+            return (
+                model,
+                stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
+                    |> Task.attempt(toCmd: { .batch([.ofMsg(.stepDelayedTaskFinished($0)), .ofMsg(.stepDelayedTaskFinished($0))]) })
             )
 
         case .showSafariPage:
