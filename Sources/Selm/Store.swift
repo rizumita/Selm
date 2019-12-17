@@ -49,7 +49,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
             self.willChange.send(self.model)
         }
     }
-    
+
     public func unsubscribe() {
         guard isSubscribing else { return }
         
@@ -58,11 +58,11 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         }
     }
 
-    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                 _ keyPath: KeyPath<Model, SubPage.Model>,
-                                 isSubscribing: Bool = false) -> Store<SubPage> {
-        if let derivedStore = derivedStores[keyPath] as? Store<SubPage> {
-            return derivedStore
+    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, SubPage.Model>,
+                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage> {
+        if let substore = derivedStores[keyPath] as? Store<SubPage> {
+            return substore
         }
 
         let result = Store<SubPage>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
@@ -77,11 +77,11 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         return result
     }
 
-    public func derived<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                 _ keyPath: KeyPath<Model, SubPage.Model?>,
-                                 isSubscribing: Bool = true) -> Store<SubPage>? {
-        if let derivedStore = derivedStores[keyPath] as? Store<SubPage> {
-            return derivedStore
+    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
+                                           _ keyPath: KeyPath<Model, SubPage.Model?>,
+                                           isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>? {
+        if let substore = derivedStores[keyPath] as? Store<SubPage> {
+            return substore
         }
 
         guard let m = model[keyPath: keyPath] else { return .none }

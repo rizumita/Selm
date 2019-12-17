@@ -14,19 +14,13 @@ import Selm
 struct HistoryView : View, SelmView {
     @ObservedObject var store: Store<HistoryPage>
     
-    var body: some View {
+    var content: some View {
         VStack(spacing: 20.0) {
             List {
                 ForEach(model.history, id: \.self) { step in
                     Text(step.string)
                 }.onDelete(perform: dispatch • Msg.remove)
             }
-        }
-        .onAppear {
-            self.store.subscribe()
-        }
-        .onDisappear {
-            self.store.unsubscribe()
         }
     }
 }
