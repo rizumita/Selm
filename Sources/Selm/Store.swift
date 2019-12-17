@@ -8,19 +8,18 @@
 import Foundation
 import SwiftUI
 #if canImport(Combine)
-    import Combine
+import Combine
 #endif
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
+public final class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     public typealias Msg = Page.Msg
     public typealias Model = Page.Model
-    
+
     public let id = UUID()
-    public var objectWillChange: AnyPublisher<Model, Never> {
-        return willChange.eraseToAnyPublisher()
-    }
-    
+    public private(set) lazy var objectWillChange: AnyPublisher<Model, Never>
+        = willChange.removeDuplicates(by: Model.equals).eraseToAnyPublisher()
+
     @Published public private(set) var model: Model {
         willSet {
             if isSubscribing {
@@ -29,13 +28,13 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         }
     }
     public let dispatch: Dispatch<Msg>
-    
-    private var willChange = PassthroughSubject<Model, Never>()
+
+    private var willChange          = PassthroughSubject<Model, Never>()
     private var isSubscribing: Bool = false
-    private var substores = [AnyKeyPath : Any]()
-    private let substoreQueue = DispatchQueue(label: "Selm.Store.substoreQueue")
-    private var cancellables = Set<AnyCancellable>()
-    
+    private var derivedStores       = [AnyKeyPath: Any]()
+    private let derivedStoresQueue  = DispatchQueue(label: "Selm.Store.derivedStoresQueue")
+    private var cancellables        = Set<AnyCancellable>()
+
     public init(model: Model, dispatch: @escaping Dispatch<Msg> = { _ in }) {
         self.model = model
         self.dispatch = dispatch
@@ -44,8 +43,8 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
 
     public func subscribe() {
         guard !isSubscribing else { return }
-        
-        runOnQueue {
+
+        run(on: .main) {
             self.isSubscribing = true
             self.willChange.send(self.model)
         }
@@ -53,8 +52,8 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
 
     public func unsubscribe() {
         guard isSubscribing else { return }
-
-        runOnQueue {
+        
+        run(on: .main) {
             self.isSubscribing = false
         }
     }
@@ -62,7 +61,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
                                             _ keyPath: KeyPath<Model, SubPage.Model>,
                                             isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage> {
-        if let substore = substores[keyPath] as? Store<SubPage> {
+        if let substore = derivedStores[keyPath] as? Store<SubPage> {
             return substore
         }
 
@@ -72,8 +71,8 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         }.store(in: &cancellables)
 
         result.isSubscribing = isSubscribing
-        
-        addSubstore(result, for: keyPath)
+
+        addDerivedStore(result, for: keyPath)
 
         return result
     }
@@ -81,7 +80,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
     public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
                                            _ keyPath: KeyPath<Model, SubPage.Model?>,
                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>? {
-        if let substore = substores[keyPath] as? Store<SubPage> {
+        if let substore = derivedStores[keyPath] as? Store<SubPage> {
             return substore
         }
 
@@ -90,7 +89,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
 
         $model.share().map(keyPath).sink { [weak self, weak result] model in
             guard let model = model else {
-                self?.removeSubstore(for: keyPath)
+                self?.removeDerivedStore(for: keyPath)
                 return
             }
             result?.model = model
@@ -98,7 +97,7 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
 
         result.isSubscribing = isSubscribing
 
-        addSubstore(result, for: keyPath)
+        addDerivedStore(result, for: keyPath)
         
         return result
     }
@@ -122,27 +121,15 @@ public class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
         self.model = model
     }
     
-    private func runOnQueue(_ f: @escaping () -> ()) {
-        let label = String(cString: __dispatch_queue_get_label(.none), encoding: .utf8)
-        
-        if label == DispatchQueue.main.label {
-            f()
-        } else {
-            DispatchQueue.main.sync {
-                f()
-            }
+    private func addDerivedStore(_ derivedStore: Any, for keyPath: AnyKeyPath) {
+        derivedStoresQueue.sync {
+            derivedStores[keyPath] = derivedStore
         }
     }
 
-    private func addSubstore(_ substore: Any, for keyPath: AnyKeyPath) {
-        substoreQueue.sync {
-            substores[keyPath] = substore
-        }
-    }
-    
-    private func removeSubstore(for keyPath: AnyKeyPath) {
-        _ = substoreQueue.sync {
-            substores.removeValue(forKey: keyPath)
+    private func removeDerivedStore(for keyPath: AnyKeyPath) {
+        _ = derivedStoresQueue.sync {
+            derivedStores.removeValue(forKey: keyPath)
         }
     }
 }

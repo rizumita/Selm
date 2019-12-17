@@ -17,7 +17,7 @@ public typealias DependsOn3<Item1: Equatable, Item2: Equatable, Item3: Equatable
 
 public protocol _SelmPage {
     associatedtype Msg
-    associatedtype Model
+    associatedtype Model: SelmModel
 
     static var subscribesOnAppear:   Bool { get }
     static var unsubscribesOnDisappear: Bool { get }
@@ -40,8 +40,20 @@ public protocol SelmPage: _SelmPage {
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol SelmPageExt: _SelmPage {
     associatedtype ExternalMsg
-    
+
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg)
+}
+
+public protocol SelmModel {
+    static func equals(_ lhs: Self, _ rhs: Self) -> Bool
+}
+
+extension SelmModel {
+    public static func equals(_ lhs: Self, _ rhs: Self) -> Bool { false }
+}
+
+extension SelmModel where Self: Equatable {
+    public static func equals(_ lhs: Self, _ rhs: Self) -> Bool { lhs == rhs }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)

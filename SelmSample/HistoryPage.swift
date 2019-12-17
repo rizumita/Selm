@@ -12,7 +12,7 @@ import Operadics
 import Selm
 
 struct HistoryPage: SelmPageExt {
-    struct Model: Equatable {
+    struct Model: SelmModel, Equatable {
         var history: [Step] = []
     }
     

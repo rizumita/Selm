@@ -12,13 +12,8 @@ import Operadics
 import Selm
 
 struct SafariPage: SelmPageExt {
-    struct Model: Equatable {
+    struct Model: SelmModel, Equatable {
         var url: URL
-        
-        static func ==(lhs: Model, rhs: Model) -> Bool {
-            if lhs.url != rhs.url { return false }
-            return true
-        }
     }
     
     enum Msg {
