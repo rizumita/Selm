@@ -4,6 +4,7 @@
 
 import Foundation
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension Array where Element: Identifiable {
     public func first(id: Element.ID) -> Element? {
         first { $0.id == id }
