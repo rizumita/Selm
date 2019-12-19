@@ -59,10 +59,10 @@ struct HistoryPage: SelmPageExt {
 
             switch StepPage.update(sMsg, stepPageModel) {
             case let (m, c, .noOp):
-                models[id] = m
+                models[id: id] = m
                 return (model |> set(\.stepPageModels, models), c.map(Msg.stepPageMsg), .noOp)
-            case let (m, c, .remove):
-                models.remove(id: id)
+            case let (_, c, .remove):
+                _ = models.remove(id: id)
                 let count = models.reduce(0) { result, model in model.step.step(count: result) }
                 return (model |> set(\.stepPageModels, models), c.map(Msg.stepPageMsg), .updated(count: count))
             }

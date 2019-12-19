@@ -19,7 +19,7 @@ extension Array where Element: Identifiable {
         return remove(at: index)
     }
 
-    public subscript(id: Element.ID) -> Element? {
+    public subscript(id id: Element.ID) -> Element? {
         get {
             first(id: id)
         }
