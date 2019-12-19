@@ -98,16 +98,34 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         result.isSubscribing = isSubscribing
 
         addDerivedStore(result, for: keyPath)
-        
+
         return result
     }
-    
+
+    public func derived<SubPage: _SelmPage>(_ model: SubPage.Model,
+                                            _ messaging: @escaping (SubPage.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, [SubPage.Model]>,
+                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>
+        where SubPage.Model: Identifiable {
+        let result = Store<SubPage>(model: model, dispatch: { self.dispatch(messaging($0)) })
+        $model.share().map(keyPath).sink { [weak result] models in
+            guard let model = models.first(where: { $0.id == model.id }) else { return }
+            result?.model = model
+        }.store(in: &cancellables)
+
+        result.isSubscribing = isSubscribing
+
+        addDerivedStore(result, for: keyPath)
+
+        return result
+    }
+
     public func derivedBinding<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
                                         _ keyPath: KeyPath<Model, SubPage.Model?>) -> Binding<Store<SubPage>?> {
         Binding(get: { [weak self] in self?.derived(messaging, keyPath) },
                 set: { value in })
     }
-    
+
     public func binding<Value>(_ messaging: @escaping (Value) -> Msg,
                                _ keyPath: KeyPath<Model, Value>) -> Binding<Value> {
         Binding(get: { [weak self] in

@@ -82,7 +82,7 @@ struct ContentView: SelmView {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(store: Store(model: .init(historyPageModel: .init(history: []))))
+        ContentView(store: Store(model: .init(historyPageModel: .init())))
     }
 }
 #endif

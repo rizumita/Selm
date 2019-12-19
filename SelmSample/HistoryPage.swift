@@ -13,12 +13,15 @@ import Selm
 
 struct HistoryPage: SelmPageExt {
     struct Model: SelmModel, Equatable {
-        var history: [Step] = []
+        var selectedStepPageModelID: StepPage.Model.ID?
+        var stepPageModels:          [StepPage.Model] = []
     }
-    
+
     enum Msg {
         case add(Step)
         case remove(IndexSet)
+        case select(StepPage.Model.ID?)
+        case stepPageMsg(StepPage.Msg)
     }
     
     enum ExternalMsg {
@@ -33,17 +36,36 @@ struct HistoryPage: SelmPageExt {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
         case .add(let step):
-            return (model |> set(\.history, model.history + [step]),
-                    .none,
-                    .noOp)
-            
+            let (m, c) = StepPage.initialize(step: step)
+            return (model |> set(\.stepPageModels, model.stepPageModels + [m]),
+                c.map(Msg.stepPageMsg),
+                .noOp)
+
         case .remove(let indexSet):
-            var history = model.history
-            indexSet.forEach { index in history.remove(at: index) }
-            let count = history.reduce(0) { result, step in step.step(count: result) }
-            return (model |> set(\.history, history),
-                    .none,
-                    .updated(count: count))
+            var stepPageModels = model.stepPageModels
+            indexSet.forEach { index in stepPageModels.remove(at: index) }
+            let count = stepPageModels.reduce(0) { result, model in model.step.step(count: result) }
+            return (model |> set(\.stepPageModels, stepPageModels),
+                .none,
+                .updated(count: count))
+
+        case .select(let id):
+            return (model |> set(\.selectedStepPageModelID, id), .none, .noOp)
+
+        case .stepPageMsg(let sMsg):
+            guard let id = model.selectedStepPageModelID,
+                  let stepPageModel = model.stepPageModels.first(id: id) else { return (model, .none, .noOp) }
+            var models = model.stepPageModels
+
+            switch StepPage.update(sMsg, stepPageModel) {
+            case let (m, c, .noOp):
+                models[id] = m
+                return (model |> set(\.stepPageModels, models), c.map(Msg.stepPageMsg), .noOp)
+            case let (m, c, .remove):
+                models.remove(id: id)
+                let count = models.reduce(0) { result, model in model.step.step(count: result) }
+                return (model |> set(\.stepPageModels, models), c.map(Msg.stepPageMsg), .updated(count: count))
+            }
         }
     }
 }

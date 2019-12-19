@@ -37,8 +37,10 @@
 		6A64C07022D21C620028584F /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C06F22D21C620028584F /* Store.swift */; };
 		6A64C07222D228DB0028584F /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C07122D228DB0028584F /* Step.swift */; };
 		6ACB294722F447980096AFF4 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB294622F447980096AFF4 /* StoreTests.swift */; };
-		6ACBC35E22C98E8A00845746 /* Swiftz in Frameworks */ = {isa = PBXBuildFile; productRef = 6ACBC35D22C98E8A00845746 /* Swiftz */; };
 		6ACBC36022C98EA600845746 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACBC35F22C98EA600845746 /* Functions.swift */; };
+		CB8764CD4E8D98E179974230 /* Array+Selm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876026646E58DE0F1817D8 /* Array+Selm.swift */; };
+		CB876739F6AE12817519CFEC /* StepPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876F8626D4B294BE5DD2E4 /* StepPage.swift */; };
+		CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87607D7FB0D598B3F7A85C /* StepView.swift */; };
 		OBJ_36 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Cmd.swift */; };
 		OBJ_37 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Dispatcher.swift */; };
 		OBJ_38 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Functions.swift */; };
@@ -58,14 +60,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "Selm::Selm";
+			remoteGlobalIDString = Selm::Selm;
 			remoteInfo = Selm;
 		};
 		6A26078F22C98A740005A1AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = "Selm::SelmTests";
+			remoteGlobalIDString = Selm::SelmTests;
 			remoteInfo = SelmTests;
 		};
 /* End PBXContainerItemProxy section */
@@ -89,6 +91,9 @@
 		6A64C07122D228DB0028584F /* Step.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Step.swift; sourceTree = "<group>"; };
 		6ACB294622F447980096AFF4 /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		6ACBC35F22C98EA600845746 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		CB876026646E58DE0F1817D8 /* Array+Selm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Selm.swift"; sourceTree = "<group>"; };
+		CB87607D7FB0D598B3F7A85C /* StepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
+		CB876F8626D4B294BE5DD2E4 /* StepPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepPage.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
@@ -113,7 +118,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A26079022C98A7A0005A1AF /* Selm.framework in Frameworks */,
-				6ACBC35E22C98E8A00845746 /* Swiftz in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +156,8 @@
 				6A26078522C98A710005A1AF /* Preview Content */,
 				6ACBC35F22C98EA600845746 /* Functions.swift */,
 				6A64C07122D228DB0028584F /* Step.swift */,
+				CB87607D7FB0D598B3F7A85C /* StepView.swift */,
+				CB876F8626D4B294BE5DD2E4 /* StepPage.swift */,
 			);
 			path = SelmSample;
 			sourceTree = "<group>";
@@ -174,6 +180,7 @@
 				OBJ_17 /* Types.swift */,
 				6A64C06F22D21C620028584F /* Store.swift */,
 				3D65A05F23917AE5002A7765 /* Task.swift */,
+				CB876026646E58DE0F1817D8 /* Array+Selm.swift */,
 			);
 			name = Selm;
 			path = Sources/Selm;
@@ -258,7 +265,7 @@
 			);
 			name = SelmSample;
 			packageProductDependencies = (
-				6ACBC35D22C98E8A00845746 /* Swiftz */,
+				6ACBC35D22C98E8A00845746 /* XCSwiftPackageProductDependency */,
 			);
 			productName = SelmSample;
 			productReference = 6A26077B22C98A6F0005A1AF /* SelmSample.app */;
@@ -338,7 +345,7 @@
 			);
 			mainGroup = OBJ_5;
 			packageReferences = (
-				6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */,
+				6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference */,
 			);
 			productRefGroup = OBJ_26 /* Products */;
 			projectDirPath = "";
@@ -381,6 +388,8 @@
 				6A328BB12311781A000AFC30 /* HistoryPage.swift in Sources */,
 				6A46606322C9915C0067FD51 /* HistoryView.swift in Sources */,
 				6ACBC36022C98EA600845746 /* Functions.swift in Sources */,
+				CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */,
+				CB876739F6AE12817519CFEC /* StepPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +404,7 @@
 				OBJ_41 /* Runner.swift in Sources */,
 				3D65A06023917AE5002A7765 /* Task.swift in Sources */,
 				OBJ_42 /* Types.swift in Sources */,
+				CB8764CD4E8D98E179974230 /* Array+Selm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,7 +909,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */ = {
+		6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/typelift/Swiftz";
 			requirement = {
@@ -910,9 +920,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6ACBC35D22C98E8A00845746 /* Swiftz */ = {
+		6ACBC35D22C98E8A00845746 /* XCSwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference "Swiftz" */;
+			package = 6ACBC35C22C98E8A00845746 /* XCRemoteSwiftPackageReference */;
 			productName = Swiftz;
 		};
 /* End XCSwiftPackageProductDependency section */

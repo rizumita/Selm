@@ -91,10 +91,8 @@ struct ContentPage: SelmPage {
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
-                let newModel = model
-                    |> set(\.count, step.step(count: model.count))
-                    |> set(\.historyPageModel.history, model.historyPageModel.history + [step])
-                return (newModel, .none)
+                let newModel = model |> set(\.count, step.step(count: model.count))
+                return (newModel, .ofMsg(.historyPageMsg(.add(step))))
             case .failure:
                 return (model, .none)
             }

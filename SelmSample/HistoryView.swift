@@ -17,8 +17,13 @@ struct HistoryView : View, SelmView {
     var content: some View {
         VStack(spacing: 20.0) {
             List {
-                ForEach(model.history, id: \.self) { step in
-                    Text(step.string)
+                ForEach(model.stepPageModels, id: \.self) { model in
+                    NavigationLink(destination: StepView(store: self.store.derived(model,
+                                                                                   Msg.stepPageMsg,
+                                                                                   \.stepPageModels)),
+                                   tag: model.id,
+                                   selection: self.store.binding(Msg.select, \.selectedStepPageModelID),
+                                   label: { Text(model.step.string) })
                 }.onDelete(perform: dispatch • Msg.remove)
             }
         }
@@ -28,7 +33,7 @@ struct HistoryView : View, SelmView {
 #if DEBUG
 struct HistoryView_Previews : PreviewProvider {
     static var previews: some View {
-        HistoryView(store: .init(model: .init(history: [])))
+        HistoryView(store: .init(model: .init()))
     }
 }
 #endif
