@@ -17,11 +17,18 @@ enum Step: Equatable {
         case .down: return count - 1
         }
     }
-    
+
     var string: String {
         switch self {
         case .up: return "Up"
         case .down: return "Down"
+        }
+    }
+
+    var toggled: Step {
+        switch self {
+        case .up: return .down
+        case .down: return .up
         }
     }
 }

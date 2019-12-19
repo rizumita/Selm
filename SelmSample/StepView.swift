@@ -21,6 +21,10 @@ struct StepView: SelmView {
 
             Spacer()
 
+            Button(action: { self.dispatch(.toggle) }, label: { Text("Toggle") })
+
+            Spacer()
+
             Button(action: {
                 self.dispatch(.remove)
                 self.presentationMode.wrappedValue.dismiss()

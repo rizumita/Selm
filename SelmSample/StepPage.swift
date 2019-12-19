@@ -3,6 +3,8 @@
 //
 
 import Foundation
+import Operadics
+import Swiftx
 import Selm
 
 enum StepPage: SelmPageExt {
@@ -12,11 +14,13 @@ enum StepPage: SelmPageExt {
     }
 
     enum Msg {
+        case toggle
         case remove
     }
 
     enum ExternalMsg {
         case noOp
+        case update
         case remove
     }
 
@@ -26,6 +30,8 @@ enum StepPage: SelmPageExt {
 
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
+        case .toggle:
+            return (model |> set(\.step, model.step.toggled), .none, .update)
         case .remove:
             return (model, .none, .remove)
         }

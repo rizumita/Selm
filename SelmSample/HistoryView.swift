@@ -19,7 +19,7 @@ struct HistoryView : View, SelmView {
             List {
                 ForEach(model.stepPageModels, id: \.self) { model in
                     NavigationLink(destination: StepView(store: self.store.derived(model,
-                                                                                   Msg.stepPageMsg,
+                                                                                   { Msg.stepPageMsg(model.id, $0) },
                                                                                    \.stepPageModels)),
                                    tag: model.id,
                                    selection: self.store.binding(Msg.select, \.selectedStepPageModelID),
