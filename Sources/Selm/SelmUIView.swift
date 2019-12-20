@@ -17,6 +17,7 @@ public protocol SelmUIView where Self: UIViewController {
     func onDisappear()
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension SelmUIView {
     public var model:    Page.Model { store.model }
     public var dispatch: Dispatch<Page.Msg> { store.dispatch }
