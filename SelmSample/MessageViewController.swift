@@ -1,0 +1,55 @@
+//
+// Created by 和泉田 領一 on 2019/12/20.
+//
+
+import UIKit
+import Selm
+
+class MessageViewController: UIViewController, SelmUIView {
+    let store: Store<MessagePage>
+    var label  = UILabel()
+    var button = UIButton(type: .roundedRect)
+
+    init(store: Store<MessagePage>) {
+        self.store = store
+
+        super.init(nibName: .none, bundle: .none)
+    }
+
+    deinit {
+        dispatch(.dismiss)
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        label.text = "Label"
+        button.setTitle("Dismiss", for: .normal)
+        button.addTarget(self, action: #selector(handleDoing(_:)), for: .touchUpInside)
+
+        view.addSubview(label)
+        view.addSubview(button)
+
+        label.frame = CGRect(x: 20.0, y: 50.0, width: 100.0, height: 44.0)
+        button.sizeToFit()
+        button.frame = CGRect(origin: CGPoint(x: 20.0, y: 100.0), size: button.frame.size)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        onAppear()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        onDisappear()
+    }
+
+    @objc func handleDoing(_ sender: Any) {
+        dismiss(animated: true)
+    }
+}

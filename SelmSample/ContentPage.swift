@@ -24,11 +24,13 @@ struct ContentPage: SelmPage {
         var url:              String       = ""
         var historyPageModel: HistoryPage.Model
         var safariPageModel:  SafariPage.Model?
+        var messagePageModel: MessagePage.Model?
     }
     
     enum Msg {
         case historyPageMsg(HistoryPage.Msg)
         case safariPageMsg(SafariPage.Msg)
+        case messagePageMsg(MessagePage.Msg)
         case step(Step)
         case stepDelayed(Step)
         case stepDelayedTask(Step)
@@ -37,6 +39,7 @@ struct ContentPage: SelmPage {
         case stepDelayedTaskFinished(Result<Step, Never>)
         case updateCount(Step)
         case showSafariPage
+        case showMessagePage
     }
 
     static let initialize: SelmInit<Msg, Model> = {
@@ -56,7 +59,7 @@ struct ContentPage: SelmPage {
                 return (model |> set(\.historyPageModel, m) |> set(\.count, count),
                         c.map(Msg.historyPageMsg))
             }
-            
+
         case .safariPageMsg(let sMsg):
             guard let sModel = model.safariPageModel else { return (model, .none) }
             switch SafariPage.update(sMsg, sModel) {
@@ -65,16 +68,25 @@ struct ContentPage: SelmPage {
             case (_, let c, .dismiss):
                 return (model |> set(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
             }
-            
+
+        case .messagePageMsg(let mMsg):
+            guard let mModel = model.messagePageModel else { return (model, .none) }
+            switch MessagePage.update(mMsg, mModel) {
+            case let (m, c, .noOp):
+                return (model |> set(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+            case let (_, c, .dismiss):
+                return (model |> set(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
+            }
+
         case .step(let step):
             return (model,
-                    .batch([.ofMsg(.updateCount(step)),
-                            .ofMsg(.historyPageMsg(.add(step)))]))
-            
+                .batch([.ofMsg(.updateCount(step)),
+                        .ofMsg(.historyPageMsg(.add(step)))]))
+
         case .stepDelayed(let step):
             return (model,
-                    .ofAsyncCmd { fulfill in
-                        DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+                .ofAsyncCmd { fulfill in
+                    DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
                             .batch([.ofMsg(.updateCount(step)),
                                     .ofMsg(.historyPageMsg(.add(step)))])
                             |> fulfill
@@ -106,17 +118,23 @@ struct ContentPage: SelmPage {
                 stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
                     |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
             )
-            
+
         case .stepTimerTwice(let step):
             return (
                 model,
                 stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
-                    |> Task.attempt(toCmd: { .batch([.ofMsg(.stepDelayedTaskFinished($0)), .ofMsg(.stepDelayedTaskFinished($0))]) })
+                |> Task.attempt(toCmd: {
+                    .batch([.ofMsg(.stepDelayedTaskFinished($0)), .ofMsg(.stepDelayedTaskFinished($0))])
+                })
             )
 
         case .showSafariPage:
             let (m, c) = SafariPage.initialize(url: URL(string: "https://www.google.com")!)
             return (model |> set(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+
+        case .showMessagePage:
+            let (m, c) = MessagePage.initialize(message: "My Message")
+            return (model |> set(\.messagePageModel, m), c.map(Msg.messagePageMsg))
         }
     }
 

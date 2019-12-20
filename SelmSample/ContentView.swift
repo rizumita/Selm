@@ -67,10 +67,15 @@ struct ContentView: SelmView {
                         self.store.dispatch(.showSafariPage)
                     }) {
                         Text("Show Safari sheet")
+                    }.sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { safariStore in
+                        SafariView(store: safariStore)
                     }
-                    .sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { substore in
-                        SafariView(store: substore)
-                    }
+
+                    Button(action: {
+                        self.dispatch(.showMessagePage)
+                    }, label: { Text("Show message sheet") })
+                    .sheet(item: store.derivedBinding(Msg.messagePageMsg, \.messagePageModel, isTemporary: true),
+                           content: MessageView.init(store:))
                 }
 
                 Spacer()

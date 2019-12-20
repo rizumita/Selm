@@ -38,9 +38,16 @@
 		6A64C07222D228DB0028584F /* Step.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A64C07122D228DB0028584F /* Step.swift */; };
 		6ACB294722F447980096AFF4 /* StoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACB294622F447980096AFF4 /* StoreTests.swift */; };
 		6ACBC36022C98EA600845746 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ACBC35F22C98EA600845746 /* Functions.swift */; };
+		CB876152A28BA2C8E2EFBDC1 /* SelmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876254ACF660B499704058 /* SelmView.swift */; };
 		CB8764CD4E8D98E179974230 /* Array+Selm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876026646E58DE0F1817D8 /* Array+Selm.swift */; };
+		CB87670B77C9D10212339D1A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87603C4AB59E122616257D /* MessageView.swift */; };
 		CB876739F6AE12817519CFEC /* StepPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876F8626D4B294BE5DD2E4 /* StepPage.swift */; };
+		CB8767B8588547A80D117E3C /* MessagePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764AC926E838F6214B304 /* MessagePage.swift */; };
+		CB876928BFA3EF51B3B31476 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876220D498B39A6FF3443E /* MessageViewController.swift */; };
+		CB876C0A8548C2E7203F215E /* SelmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */; };
 		CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87607D7FB0D598B3F7A85C /* StepView.swift */; };
+		CB876C559872528FA3525784 /* SelmPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876C358B03117CCE62321E /* SelmPage.swift */; };
+		CB876FFDE2A52991C66E1544 /* SelmUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876353E8592822A10CD7D5 /* SelmUIView.swift */; };
 		OBJ_36 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Cmd.swift */; };
 		OBJ_37 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Dispatcher.swift */; };
 		OBJ_38 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Functions.swift */; };
@@ -92,7 +99,14 @@
 		6ACB294622F447980096AFF4 /* StoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTests.swift; sourceTree = "<group>"; };
 		6ACBC35F22C98EA600845746 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		CB876026646E58DE0F1817D8 /* Array+Selm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Selm.swift"; sourceTree = "<group>"; };
+		CB87603C4AB59E122616257D /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		CB87607D7FB0D598B3F7A85C /* StepView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
+		CB876220D498B39A6FF3443E /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		CB876254ACF660B499704058 /* SelmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmView.swift; sourceTree = "<group>"; };
+		CB876353E8592822A10CD7D5 /* SelmUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmUIView.swift; sourceTree = "<group>"; };
+		CB8764AC926E838F6214B304 /* MessagePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePage.swift; sourceTree = "<group>"; };
+		CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmModel.swift; sourceTree = "<group>"; };
+		CB876C358B03117CCE62321E /* SelmPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmPage.swift; sourceTree = "<group>"; };
 		CB876F8626D4B294BE5DD2E4 /* StepPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepPage.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
@@ -158,6 +172,9 @@
 				6A64C07122D228DB0028584F /* Step.swift */,
 				CB87607D7FB0D598B3F7A85C /* StepView.swift */,
 				CB876F8626D4B294BE5DD2E4 /* StepPage.swift */,
+				CB876220D498B39A6FF3443E /* MessageViewController.swift */,
+				CB8764AC926E838F6214B304 /* MessagePage.swift */,
+				CB87603C4AB59E122616257D /* MessageView.swift */,
 			);
 			path = SelmSample;
 			sourceTree = "<group>";
@@ -181,6 +198,10 @@
 				6A64C06F22D21C620028584F /* Store.swift */,
 				3D65A05F23917AE5002A7765 /* Task.swift */,
 				CB876026646E58DE0F1817D8 /* Array+Selm.swift */,
+				CB876254ACF660B499704058 /* SelmView.swift */,
+				CB876C358B03117CCE62321E /* SelmPage.swift */,
+				CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */,
+				CB876353E8592822A10CD7D5 /* SelmUIView.swift */,
 			);
 			name = Selm;
 			path = Sources/Selm;
@@ -390,6 +411,9 @@
 				6ACBC36022C98EA600845746 /* Functions.swift in Sources */,
 				CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */,
 				CB876739F6AE12817519CFEC /* StepPage.swift in Sources */,
+				CB876928BFA3EF51B3B31476 /* MessageViewController.swift in Sources */,
+				CB8767B8588547A80D117E3C /* MessagePage.swift in Sources */,
+				CB87670B77C9D10212339D1A /* MessageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +429,10 @@
 				3D65A06023917AE5002A7765 /* Task.swift in Sources */,
 				OBJ_42 /* Types.swift in Sources */,
 				CB8764CD4E8D98E179974230 /* Array+Selm.swift in Sources */,
+				CB876152A28BA2C8E2EFBDC1 /* SelmView.swift in Sources */,
+				CB876C559872528FA3525784 /* SelmPage.swift in Sources */,
+				CB876C0A8548C2E7203F215E /* SelmModel.swift in Sources */,
+				CB876FFDE2A52991C66E1544 /* SelmUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
