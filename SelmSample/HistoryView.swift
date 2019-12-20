@@ -18,7 +18,7 @@ struct HistoryView : View, SelmView {
         VStack(spacing: 20.0) {
             List {
                 ForEach(model.stepPageModels, id: \.self) { model in
-                    NavigationLink(destination: StepView(store: self.store.derived(model,
+                    NavigationLink(destination: StepView(store: self.store.derived(model.id,
                                                                                    { Msg.stepPageMsg(model.id, $0) },
                                                                                    \.stepPageModels)),
                                    tag: model.id,

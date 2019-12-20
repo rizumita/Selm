@@ -102,14 +102,16 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         return result
     }
 
-    public func derived<SubPage: _SelmPage>(_ model: SubPage.Model,
+    public func derived<SubPage: _SelmPage>(_ id: SubPage.Model.ID,
                                             _ messaging: @escaping (SubPage.Msg) -> Msg,
                                             _ keyPath: KeyPath<Model, [SubPage.Model]>,
                                             isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>
         where SubPage.Model: Identifiable {
-        let result = Store<SubPage>(model: model, dispatch: { self.dispatch(messaging($0)) })
+        guard let derivedModel = model[keyPath: keyPath][id: id] else { fatalError("Invalid ID") }
+
+        let result = Store<SubPage>(model: derivedModel, dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).sink { [weak result] models in
-            guard let model = models.first(where: { $0.id == model.id }) else { return }
+            guard let model = models.first(where: { $0.id == id }) else { return }
             result?.model = model
         }.store(in: &cancellables)
 
