@@ -23,12 +23,20 @@ extension SelmUIView {
     public var dispatch: Dispatch<Page.Msg> { store.dispatch }
 
     public func onAppear() {
+        if Page.subscribesOnAppear {
+            self.store.subscribe()
+        }
+
         if let msg = Page.onAppearMsg {
             store.dispatch(msg)
         }
     }
 
     public func onDisappear() {
+        if Page.unsubscribesOnDisappear {
+            self.store.unsubscribe()
+        }
+
         if let msg = Page.onDisappearMsg {
             store.dispatch(msg)
         }
