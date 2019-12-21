@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmUIView where Self: UIViewController {
+public protocol SelmUIView {
     associatedtype Page: _SelmPage
     associatedtype Msg = Page.Msg
     associatedtype Model = Page.Model
@@ -15,6 +15,7 @@ public protocol SelmUIView where Self: UIViewController {
 
     func onAppear()
     func onDisappear()
+    func onDisappear(onDismiss: () -> ())
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -39,6 +40,21 @@ extension SelmUIView {
 
         if let msg = Page.onDisappearMsg {
             store.dispatch(msg)
+        }
+    }
+
+    public func onDisappear(onDismiss: () -> ()) {
+        onDisappear()
+        onDismiss()
+    }
+}
+
+extension SelmUIView where Self: UIViewController {
+    public func onDisappear(onDismiss: () -> ()) {
+        onDisappear()
+
+        if (self.isMovingFromParent || self.isBeingDismissed) {
+            onDismiss()
         }
     }
 }

@@ -16,10 +16,6 @@ class MessageViewController: UIViewController, SelmUIView {
         super.init(nibName: .none, bundle: .none)
     }
 
-    deinit {
-        dispatch(.dismiss)
-    }
-
     required init?(coder: NSCoder) { fatalError() }
 
     override func viewDidLoad() {
@@ -43,10 +39,10 @@ class MessageViewController: UIViewController, SelmUIView {
         onAppear()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
-        onDisappear()
+        onDisappear(onDismiss: { dispatch(.dismiss) })
     }
 
     @objc func handleDoing(_ sender: Any) {
