@@ -49,6 +49,7 @@ extension SelmUIView {
     }
 }
 
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension SelmUIView where Self: UIViewController {
     public func onDisappear(onDismiss: () -> ()) {
         onDisappear()
