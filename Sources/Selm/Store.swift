@@ -29,7 +29,12 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
     }
     public let dispatch: Dispatch<Msg>
 
+    public var released: AnyPublisher<(), Never> {
+        releasedSubject.eraseToAnyPublisher()
+    }
+
     private let willChange              = PassthroughSubject<Model, Never>()
+    private let releasedSubject         = PassthroughSubject<(), Never>()
     private var isSubscribing: Bool     = false
     private var derivedStores           = [AnyKeyPath: Any]()
     private var identifiedDerivedStores = [AnyHashable: Any]()
@@ -99,6 +104,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
                 if !isTemporary {
                     self?.removeDerivedStore(for: keyPath)
                 }
+                self?.releasedSubject.send(())
                 return
             }
             result?.model = model
@@ -132,6 +138,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
                 if !isTemporary {
                     self?.removeIdentifiedDerivedStore(forID: id)
                 }
+                self?.releasedSubject.send(())
                 return
             }
             result?.model = model
