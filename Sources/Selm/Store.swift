@@ -104,7 +104,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
                 if !isTemporary {
                     self?.removeDerivedStore(for: keyPath)
                 }
-                self?.releasedSubject.send(())
+                result?.releasedSubject.send(())
                 return
             }
             result?.model = model
@@ -133,12 +133,13 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         }
 
         let result = Store<SubPage>(model: derivedModel, dispatch: { self.dispatch(messaging($0)) })
+
         $model.share().map(keyPath).sink { [weak self, weak result] models in
             guard let model = models.first(where: { $0.id == id }) else {
                 if !isTemporary {
                     self?.removeIdentifiedDerivedStore(forID: id)
                 }
-                self?.releasedSubject.send(())
+                result?.releasedSubject.send(())
                 return
             }
             result?.model = model
