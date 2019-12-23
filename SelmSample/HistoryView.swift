@@ -13,6 +13,7 @@ import Selm
 
 struct HistoryView : View, SelmView {
     @ObservedObject var store: Store<HistoryPage>
+    @State var selected: StepPage.Model.ID?
     
     var content: some View {
         VStack(spacing: 20.0) {
@@ -21,8 +22,8 @@ struct HistoryView : View, SelmView {
                     NavigationLink(destination: StepView(store: self.store.derived(model.id,
                                                                                    { Msg.stepPageMsg(model.id, $0) },
                                                                                    \.stepPageModels)),
-                                   tag: model.id,
-                                   selection: self.store.binding(Msg.select, \.selectedStepPageModelID),
+//                                   tag: model.id,
+//                                   selection: self.store.binding(id: "list"),
                                    label: { Text(model.step.string) })
                 }.onDelete(perform: dispatch • Msg.remove)
             }

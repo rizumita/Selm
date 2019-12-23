@@ -168,8 +168,36 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         Binding(get: { [weak self] in
             guard let this = self else { fatalError() }
             return this.model[keyPath: keyPath]
-            },
-                set: { [weak self] value in self?.dispatch(messaging(value)) })
+        }, set: { [weak self] value in self?.dispatch(messaging(value)) })
+    }
+
+    public func binding<Value>(_ value: Value,
+                               _ messaging: @escaping (Value?) -> Msg,
+                               _ keyPath: KeyPath<Model, Value?>) -> Binding<Value?> where Value: Equatable {
+        Binding(get: { [weak self] in
+            self?.model[keyPath: keyPath]
+        }, set: { [weak self] newValue in
+            if let newValue = newValue {
+                self?.dispatch(messaging(newValue))
+            } else {
+                if let current = self?.model[keyPath: keyPath],
+                   current == value {
+                    self?.dispatch(messaging(newValue))
+                }
+            }
+        })
+    }
+
+    private var identifiedBindings = [AnyHashable: Any]()
+
+    public func binding<ID: Hashable, Value>(id: ID, type: Value.Type = Value.self) -> Binding<Value?> {
+        Binding(get: { [weak self] in
+            self?.identifiedBindings[id] as? Value
+        }, set: { [weak self] value in
+            guard let `self` = self else { return }
+            self.identifiedBindings[id] = value
+            self.willChange.send(self.model)
+        })
     }
 
     func update(_ model: Model) {

@@ -14,7 +14,7 @@ import Selm
 struct HistoryPage: SelmPageExt {
     struct Model: SelmModel, Equatable {
         var selectedStepPageModelID: StepPage.Model.ID?
-        var stepPageModels:          [StepPage.Model] = []
+        var stepPageModels: [StepPage.Model] = []
     }
 
     enum Msg {
@@ -34,6 +34,7 @@ struct HistoryPage: SelmPageExt {
     }
     
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
+        dump(msg)
         switch msg {
         case .add(let step):
             let (m, c) = StepPage.initialize(step: step)
