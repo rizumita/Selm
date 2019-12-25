@@ -15,10 +15,6 @@ class CancellablesHolder {
 
     var cancellables = Set<AnyCancellable>()
 
-    deinit {
-        print("CancellablesHolder deinit")
-    }
-
     func cancel() {
         cancellables.forEach { $0.cancel() }
     }
@@ -26,7 +22,7 @@ class CancellablesHolder {
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Task<Value, ErrorType: Swift.Error> {
+public struct Task<Value, ErrorType: Swift.Error> {
 
     public typealias Observer = (Result<Value, ErrorType>) -> Void
     public typealias Work = (@escaping Observer) -> Void
@@ -95,13 +91,13 @@ public class Task<Value, ErrorType: Swift.Error> {
         }
     }
 
-    public convenience init(result: Result<Value, ErrorType>) {
+    public init(result: Result<Value, ErrorType>) {
         self.init { fulfill in
             fulfill(result)
         }
     }
 
-    public convenience init(value: Value) {
+    public init(value: Value) {
         self.init(result: .success(value))
     }
 
