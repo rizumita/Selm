@@ -49,7 +49,7 @@ public struct Cmd<Msg> {
     public static func ofAsyncMsg(_ async: @escaping (@escaping (Msg) -> ()) -> ()) -> Cmd<Msg> {
         return Cmd(value: [{ dispatch in
             async { msg in
-                DispatchQueue.main.async { dispatch(msg) }
+                dispatch(msg)
             }
         }])
     }
@@ -58,7 +58,7 @@ public struct Cmd<Msg> {
         return Cmd(value: [{ dispatch in
             async { msg in
                 guard let msg = msg else { return }
-                DispatchQueue.main.async { dispatch(msg) }
+                dispatch(msg)
             }
         }])
     }
@@ -66,7 +66,7 @@ public struct Cmd<Msg> {
     public static func ofAsyncCmd(_ async: @escaping (@escaping (Cmd<Msg>) -> ()) -> ()) -> Cmd<Msg> {
         return Cmd(value: [{ dispatch in
             async { cmd in
-                DispatchQueue.main.async { cmd.dispatch(dispatch) }
+                cmd.dispatch(dispatch)
             }
         }])
     }
@@ -75,7 +75,7 @@ public struct Cmd<Msg> {
         return Cmd(value: [{ dispatch in
             async { cmd in
                 guard let cmd = cmd else { return }
-                DispatchQueue.main.async { cmd.dispatch(dispatch) }
+                cmd.dispatch(dispatch)
             }
         }])
     }
@@ -86,20 +86,20 @@ public struct Cmd<Msg> {
                 { dispatch in
                     work { result in
                         let msg = toMsg(result)
-                        DispatchQueue.main.async { dispatch(msg) }
+                        dispatch(msg)
                     }
                 }
             ]
         )
     }
-    
+
     static func ofTask<Value, ErrorType: Swift.Error>(toCmd: @escaping (Result<Value, ErrorType>) -> Cmd<Msg>, work: @escaping Task<Value, ErrorType>.Work) ->Cmd<Msg> {
         Cmd(value: [
             {
                 dispatch in
                 work { result in
                     let cmd = toCmd(result)
-                    DispatchQueue.main.async { cmd.dispatch(dispatch) }
+                    cmd.dispatch(dispatch)
                 }
             }
         ]

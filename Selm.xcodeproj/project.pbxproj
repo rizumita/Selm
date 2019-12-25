@@ -47,6 +47,7 @@
 		CB876C0A8548C2E7203F215E /* SelmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */; };
 		CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87607D7FB0D598B3F7A85C /* StepView.swift */; };
 		CB876C559872528FA3525784 /* SelmPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876C358B03117CCE62321E /* SelmPage.swift */; };
+		CB876EF84D5C32F265ACA9CF /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876EFDF2069E05B434DAB9 /* TaskTests.swift */; };
 		CB876FFDE2A52991C66E1544 /* SelmUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876353E8592822A10CD7D5 /* SelmUIView.swift */; };
 		OBJ_36 /* Cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Cmd.swift */; };
 		OBJ_37 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Dispatcher.swift */; };
@@ -107,6 +108,7 @@
 		CB8764AC926E838F6214B304 /* MessagePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePage.swift; sourceTree = "<group>"; };
 		CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmModel.swift; sourceTree = "<group>"; };
 		CB876C358B03117CCE62321E /* SelmPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmPage.swift; sourceTree = "<group>"; };
+		CB876EFDF2069E05B434DAB9 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		CB876F8626D4B294BE5DD2E4 /* StepPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepPage.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				OBJ_24 /* RunnerTests.swift */,
 				OBJ_25 /* XCTestManifests.swift */,
 				6ACB294622F447980096AFF4 /* StoreTests.swift */,
+				CB876EFDF2069E05B434DAB9 /* TaskTests.swift */,
 			);
 			name = SelmTests;
 			path = Tests/SelmTests;
@@ -454,6 +457,7 @@
 				6ACB294722F447980096AFF4 /* StoreTests.swift in Sources */,
 				OBJ_64 /* RunnerTests.swift in Sources */,
 				OBJ_65 /* XCTestManifests.swift in Sources */,
+				CB876EF84D5C32F265ACA9CF /* TaskTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

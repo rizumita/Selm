@@ -25,16 +25,6 @@ extension _SelmPage {
     }
 }
 
-private func write<Item, Value>(_ keyPath: WritableKeyPath<Item, Value>) -> (@escaping (Value) -> Value) -> (Item) -> Item {
-    { update in
-        { item in
-            var item = item
-            item[keyPath: keyPath] = update(item[keyPath: keyPath])
-            return item
-        }
-    }
-}
-
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol SelmPage: _SelmPage {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>)

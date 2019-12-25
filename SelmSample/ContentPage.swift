@@ -52,7 +52,7 @@ struct ContentPage: SelmPage {
         case .historyPageMsg(let hvMsg):
             switch HistoryPage.update(hvMsg, model.historyPageModel) {
             case (let m, let c, .noOp):
-                return (model |> modify(\.historyPageModel, m),
+                return (model.modified(\.historyPageModel, m),
                     c.map(Msg.historyPageMsg))
                 
             case (let m, let c, .updated(count: let count)):
@@ -96,8 +96,7 @@ struct ContentPage: SelmPage {
         case .stepDelayedTask(let step):
             return (
                 model,
-                stepTask(step: step)
-                |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+                stepTask(step: step).attemptToMsg { .stepDelayedTaskFinished($0) }
             )
 
         case .stepDelayedTaskFinished(let result):
@@ -115,17 +114,17 @@ struct ContentPage: SelmPage {
         case .stepTimer(let step):
             return (
                 model,
-                stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
-                    |> Task.attempt(toMsg: { .stepDelayedTaskFinished($0) })
+                Task(self.dependency.genStepPublisher(step, model.stepInterval))
+                    .attemptToMsg { .stepDelayedTaskFinished($0) }
             )
 
         case .stepTimerTwice(let step):
             return (
                 model,
-                stepTask(stepPublisher: self.dependency.genStepPublisher(step, model.stepInterval))
-                |> Task.attempt(toCmd: {
-                    .batch([.ofMsg(.stepDelayedTaskFinished($0)), .ofMsg(.stepDelayedTaskFinished($0))])
-                })
+                Task(self.dependency.genStepPublisher(step, model.stepInterval))
+                    .attemptToCmd {
+                        .batch([.ofMsg(.stepDelayedTaskFinished($0)), .ofMsg(.stepDelayedTaskFinished($0))])
+                    }
             )
 
         case .showSafariPage:
@@ -145,19 +144,14 @@ struct ContentPage: SelmPage {
             }
         }
     }
-
-    static func stepTask(stepPublisher: AnyPublisher<Step, Never>) -> Task<Step, Never> {
-        Task { observer, cancellables in
-            stepPublisher.sink { observer(.success($0)) }.store(in: &cancellables)
-        }
-    }
 }
 
 typealias GenStepPublisherWithInterval = (Step, TimeInterval) -> AnyPublisher<Step, Never>
 private let genStepWithTimer: GenStepPublisherWithInterval = { step, interval in
     Timer.publish(every: interval, on: .main, in: .default)
-         .autoconnect()
-         .first()
-         .map(const(step))
-         .eraseToAnyPublisher()
+        .autoconnect()
+        .first()
+        .map(const(step))
+        .print()
+        .eraseToAnyPublisher()
 }

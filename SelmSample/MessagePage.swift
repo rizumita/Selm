@@ -29,7 +29,6 @@ enum MessagePage: SelmPageExt {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
         case .printMessage:
-            print(model.message)
             return (model, .none, .noOp)
 
         case .dismiss:

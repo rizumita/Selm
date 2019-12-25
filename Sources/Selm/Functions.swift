@@ -156,3 +156,13 @@ public func dependsOn<Root, Value1: Equatable, Value2: Equatable, Value3: Equata
     Memoizations.add(key: key, value: weakRef)
     return result
 }
+
+func write<Item, Value>(_ keyPath: WritableKeyPath<Item, Value>) -> (@escaping (Value) -> Value) -> (Item) -> Item {
+    { update in
+        { item in
+            var item = item
+            item[keyPath: keyPath] = update(item[keyPath: keyPath])
+            return item
+        }
+    }
+}

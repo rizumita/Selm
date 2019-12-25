@@ -15,3 +15,9 @@ extension SelmModel {
 extension SelmModel where Self: Equatable {
     public static func equals(_ lhs: Self, _ rhs: Self) -> Bool { lhs == rhs }
 }
+
+extension SelmModel {
+    public func modified<Value>(_ keyPath: WritableKeyPath<Self, Value>, _ value: Value) -> Self {
+        (write(keyPath)) { _ in value }(self)
+    }
+}
