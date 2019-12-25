@@ -19,6 +19,20 @@ extension _SelmPage {
     public static var unsubscribesOnDisappear: Bool { true }
     public static var onAppearMsg:             Msg! { .none }
     public static var onDisappearMsg:          Msg! { .none }
+
+    public static func modify<Value>(_ keyPath: WritableKeyPath<Model, Value>, _ value: Value) -> (Model) -> Model {
+        (write(keyPath)) { _ in value }
+    }
+}
+
+private func write<Item, Value>(_ keyPath: WritableKeyPath<Item, Value>) -> (@escaping (Value) -> Value) -> (Item) -> Item {
+    { update in
+        { item in
+            var item = item
+            item[keyPath: keyPath] = update(item[keyPath: keyPath])
+            return item
+        }
+    }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)

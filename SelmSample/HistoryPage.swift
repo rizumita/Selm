@@ -38,7 +38,7 @@ struct HistoryPage: SelmPageExt {
         switch msg {
         case .add(let step):
             let (m, c) = StepPage.initialize(step: step)
-            return (model |> set(\.stepPageModels, model.stepPageModels + [m]),
+            return (model |> modify(\.stepPageModels, model.stepPageModels + [m]),
                 c.map { Msg.stepPageMsg(m.id, $0) },
                 .noOp)
 
@@ -46,12 +46,12 @@ struct HistoryPage: SelmPageExt {
             var stepPageModels = model.stepPageModels
             indexSet.forEach { index in stepPageModels.remove(at: index) }
             let count = stepPageModels.reduce(0) { result, model in model.step.step(count: result) }
-            return (model |> set(\.stepPageModels, stepPageModels),
+            return (model |> modify(\.stepPageModels, stepPageModels),
                 .none,
                 .updated(count: count))
 
         case .select(let id):
-            return (model |> set(\.selectedStepPageModelID, id), .none, .noOp)
+            return (model |> modify(\.selectedStepPageModelID, id), .none, .noOp)
 
         case let .stepPageMsg(id, sMsg):
             guard let stepPageModel = model.stepPageModels.first(id: id) else { return (model, .none, .noOp) }
@@ -60,19 +60,19 @@ struct HistoryPage: SelmPageExt {
             switch StepPage.update(sMsg, stepPageModel) {
             case let (m, c, .noOp):
                 models[id: id] = m
-                return (model |> set(\.stepPageModels, models), c.map { Msg.stepPageMsg(id, $0) }, .noOp)
+                return (model |> modify(\.stepPageModels, models), c.map { Msg.stepPageMsg(id, $0) }, .noOp)
 
             case let (m, c, .update):
                 models[id: id] = m
                 let count = models.reduce(0) { result, model in model.step.step(count: result) }
-                return (model |> set(\.stepPageModels, models),
+                return (model |> modify(\.stepPageModels, models),
                     c.map { Msg.stepPageMsg(id, $0) },
                     .updated(count: count))
 
             case let (_, c, .remove):
                 _ = models.remove(id: id)
                 let count = models.reduce(0) { result, model in model.step.step(count: result) }
-                return (model |> set(\.stepPageModels, models),
+                return (model |> modify(\.stepPageModels, models),
                     c.map { Msg.stepPageMsg(id, $0) },
                     .updated(count: count))
             }

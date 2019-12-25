@@ -52,11 +52,11 @@ struct ContentPage: SelmPage {
         case .historyPageMsg(let hvMsg):
             switch HistoryPage.update(hvMsg, model.historyPageModel) {
             case (let m, let c, .noOp):
-                return (model |> set(\.historyPageModel, m),
+                return (model |> modify(\.historyPageModel, m),
                     c.map(Msg.historyPageMsg))
                 
             case (let m, let c, .updated(count: let count)):
-                return (model |> set(\.historyPageModel, m) |> set(\.count, count),
+                return (model |> modify(\.historyPageModel, m) |> modify(\.count, count),
                         c.map(Msg.historyPageMsg))
             }
 
@@ -64,18 +64,18 @@ struct ContentPage: SelmPage {
             guard let sModel = model.safariPageModel else { return (model, .none) }
             switch SafariPage.update(sMsg, sModel) {
             case (let m, let c, .noOp):
-                return (model |> set(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+                return (model |> modify(\.safariPageModel, m), c.map(Msg.safariPageMsg))
             case (_, let c, .dismiss):
-                return (model |> set(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
+                return (model |> modify(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
             }
 
         case .messagePageMsg(let mMsg):
             guard let mModel = model.messagePageModel else { return (model, .none) }
             switch MessagePage.update(mMsg, mModel) {
             case let (m, c, .noOp):
-                return (model |> set(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+                return (model |> modify(\.messagePageModel, m), c.map(Msg.messagePageMsg))
             case let (_, c, .dismiss):
-                return (model |> set(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
+                return (model |> modify(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
             }
 
         case .step(let step):
@@ -103,14 +103,14 @@ struct ContentPage: SelmPage {
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
-                let newModel = model |> set(\.count, step.step(count: model.count))
+                let newModel = model |> modify(\.count, step.step(count: model.count))
                 return (newModel, .ofMsg(.historyPageMsg(.add(step))))
             case .failure:
                 return (model, .none)
             }
             
         case .updateCount(let step):
-            return (model |> set(\.count, step.step(count: model.count)), .none)
+            return (model |> modify(\.count, step.step(count: model.count)), .none)
 
         case .stepTimer(let step):
             return (
@@ -130,11 +130,11 @@ struct ContentPage: SelmPage {
 
         case .showSafariPage:
             let (m, c) = SafariPage.initialize(url: URL(string: "https://www.google.com")!)
-            return (model |> set(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+            return (model |> modify(\.safariPageModel, m), c.map(Msg.safariPageMsg))
 
         case .showMessagePage:
             let (m, c) = MessagePage.initialize(message: "My Message")
-            return (model |> set(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+            return (model |> modify(\.messagePageModel, m), c.map(Msg.messagePageMsg))
         }
     }
 
