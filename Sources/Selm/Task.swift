@@ -109,6 +109,14 @@ public struct Task<Value, ErrorType: Swift.Error> {
         }
     }
 
+    public func attemptToMsgOptional<Msg>(_ toMsgOptional: @escaping (Result<Value, ErrorType>) -> Msg?) -> Cmd<Msg> {
+        .ofTask(toMsgOptional: toMsgOptional) { fulfill in
+            self.work { result in
+                fulfill(result)
+            }
+        }
+    }
+
     public func attemptToCmd<Msg>(_ toCmd: @escaping (Result<Value, ErrorType>) -> Cmd<Msg>) -> Cmd<Msg> {
         .ofTask(toCmd: toCmd) { fulfill in
             self.work { result in
@@ -121,6 +129,19 @@ public struct Task<Value, ErrorType: Swift.Error> {
         { task in
             .ofTask(
                 toMsg: toMsg,
+                work: { fulfill in
+                    task.work { result in
+                        fulfill(result)
+                    }
+                }
+            )
+        }
+    }
+
+    public static func attemptToMsgOptional<Msg>(_ toMsgOptional: @escaping (Result<Value, ErrorType>) -> Msg?) -> (Task<Value, ErrorType>) -> Cmd<Msg> {
+        { task in
+            .ofTask(
+                toMsgOptional: toMsgOptional,
                 work: { fulfill in
                     task.work { result in
                         fulfill(result)
