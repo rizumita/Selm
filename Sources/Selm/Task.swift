@@ -161,7 +161,7 @@ public struct Task<Value, ErrorType: Swift.Error> {
         }
     }
 
-    public func flatMap<NewValue>(mapTask: @escaping (Value) -> Task<NewValue, ErrorType>) -> Task<NewValue, ErrorType> {
+    public func flatMap<NewValue>(_ mapTask: @escaping (Value) -> Task<NewValue, ErrorType>) -> Task<NewValue, ErrorType> {
         Task<NewValue, ErrorType> { fulfill in
             self.work { (oldResult: Result<Value, ErrorType>) in
                 switch oldResult {
@@ -175,9 +175,38 @@ public struct Task<Value, ErrorType: Swift.Error> {
         }
     }
 
-    public func map<NewValue>(transform: @escaping (Value) -> NewValue) -> Task<NewValue, ErrorType> {
+    public func map<NewValue>(_ transform: @escaping (Value) -> NewValue) -> Task<NewValue, ErrorType> {
         flatMap { value in
             Task<NewValue, ErrorType>(value: transform(value))
+        }
+    }
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension Task where ErrorType == Never {
+    public func setFailureType<E: Error>(to type: E.Type) -> Task<Value, E> {
+        Task<Value, E> { fulfill in
+            self.work { (oldResult: Result<Value, ErrorType>) in
+                switch oldResult {
+                case let .success(value):
+                    fulfill(.success(value))
+                case .failure:
+                    fatalError()
+                }
+            }
+        }
+    }
+
+    public func dematerialize<V, E>() -> Task<V, E> where Value == Result<V, E> {
+        setFailureType(to: E.self).flatMap { (result: Result<V, E>) in
+            Task<V, E> { fulfill in
+                switch result {
+                case let .success(v):
+                    fulfill(.success(v))
+                case let .failure(e):
+                    fulfill(.failure(e))
+                }
+            }
         }
     }
 }

@@ -50,4 +50,34 @@ class TaskTests: XCTestCase {
 
         waitForExpectations(timeout: 1.0)
     }
+
+    func testDematerialize() {
+        let expSuccess = expectation(description: "success")
+        expSuccess.expectedFulfillmentCount = 2
+        let expFailure = expectation(description: "failure")
+        expFailure.expectedFulfillmentCount = 1
+
+        let exe = PassthroughSubject<Result<Int, NSError>, Never>()
+        var num = 0
+        Task(exe).dematerialize().work { result in
+            switch result {
+            case let .success(value):
+                XCTAssertEqual(value, num)
+                expSuccess.fulfill()
+            case let .failure(error):
+                XCTAssertEqual(error.domain, "domain")
+                expFailure.fulfill()
+            }
+        }
+
+        num = 1
+        exe.send(.success(num))
+        
+        exe.send(.failure(NSError(domain: "domain", code: 1)))
+
+        num = 2
+        exe.send(.success(num))
+
+        waitForExpectations(timeout: 1.0)
+    }
 }
