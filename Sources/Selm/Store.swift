@@ -36,9 +36,8 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
     private let willChange              = PassthroughSubject<Model, Never>()
     private let releasedSubject         = PassthroughSubject<(), Never>()
     private var isSubscribing: Bool     = false
-    private var derivedStores           = [AnyKeyPath: Any]()
-    private var identifiedDerivedStores = [AnyHashable: Any]()
-    private let derivedStoresQueue      = DispatchQueue(label: "Selm.Store.derivedStoresQueue")
+    private var storeStorage            = StoreStorage<Page.Model>()
+    private var identifiedBindings = [AnyHashable: Any]()
     private var cancellables            = Set<AnyCancellable>()
 
     public init(model: Model, dispatch: @escaping Dispatch<Msg> = { _ in }) {
@@ -58,7 +57,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
 
     public func unsubscribe() {
         guard isSubscribing else { return }
-        
+
         run(on: .main) {
             self.isSubscribing = false
         }
@@ -68,7 +67,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
                                             _ keyPath: KeyPath<Model, SubPage.Model>,
                                             isTemporary: Bool = false,
                                             isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage> {
-        if let derivedStore = derivedStores[keyPath] as? Store<SubPage> {
+        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubPage> {
             derivedStore.model = model[keyPath: keyPath]
             return derivedStore
         }
@@ -81,7 +80,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         result.isSubscribing = isSubscribing
 
         if !isTemporary {
-            addDerivedStore(result, for: keyPath)
+            storeStorage.save(result, forKeyPath: keyPath)
         }
 
         return result
@@ -92,7 +91,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
                                             isTemporary: Bool = false,
                                             isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>? {
         guard let m = model[keyPath: keyPath] else { return .none }
-        if !isTemporary, let derivedStore = derivedStores[keyPath] as? Store<SubPage> {
+        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubPage> {
             derivedStore.model = m
             return derivedStore
         }
@@ -102,7 +101,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         $model.share().map(keyPath).sink { [weak self, weak result] model in
             guard let model = model else {
                 if !isTemporary {
-                    self?.removeDerivedStore(for: keyPath)
+                    self?.storeStorage.remove(forKeyPath: keyPath)
                 }
                 result?.releasedSubject.send(())
                 return
@@ -113,7 +112,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         result.isSubscribing = isSubscribing
 
         if !isTemporary {
-            addDerivedStore(result, for: keyPath)
+            storeStorage.save(result, forKeyPath: keyPath)
         }
 
         return result
@@ -127,7 +126,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         where SubPage.Model: Identifiable {
         guard let derivedModel = model[keyPath: keyPath][id: id] else { fatalError("Invalid ID") }
 
-        if !isTemporary, let store = identifiedDerivedStores[id] as? Store<SubPage> {
+        if !isTemporary, let store = storeStorage.load(forID: id) as? Store<SubPage> {
             store.model = derivedModel
             return store
         }
@@ -137,7 +136,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         $model.share().map(keyPath).sink { [weak self, weak result] models in
             guard let model = models.first(where: { $0.id == id }) else {
                 if !isTemporary {
-                    self?.removeIdentifiedDerivedStore(forID: id)
+                    self?.storeStorage.remove(forID: id)
                 }
                 result?.releasedSubject.send(())
                 return
@@ -148,7 +147,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         result.isSubscribing = isSubscribing
 
         if !isTemporary {
-            addIdentifiedDerivedStore(result, forID: id)
+            storeStorage.save(result, forID: id)
         }
 
         return result
@@ -188,8 +187,6 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         })
     }
 
-    private var identifiedBindings = [AnyHashable: Any]()
-
     public func binding<ID: Hashable, Value>(id: ID, type: Value.Type = Value.self) -> Binding<Value?> {
         Binding(get: { [weak self] in
             self?.identifiedBindings[id] as? Value
@@ -202,30 +199,6 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
 
     func update(_ model: Model) {
         self.model = model
-    }
-
-    private func addDerivedStore(_ derivedStore: Any, for keyPath: AnyKeyPath) {
-        _ = derivedStoresQueue.sync {
-            derivedStores[keyPath] = derivedStore
-        }
-    }
-
-    private func addIdentifiedDerivedStore(_ derivedStore: Any, forID id: AnyHashable) {
-        _ = derivedStoresQueue.sync {
-            identifiedDerivedStores[id] = derivedStore
-        }
-    }
-
-    private func removeDerivedStore(for keyPath: AnyKeyPath) {
-        _ = derivedStoresQueue.sync {
-            derivedStores.removeValue(forKey: keyPath)
-        }
-    }
-
-    private func removeIdentifiedDerivedStore<DerivedID: Hashable>(forID id: DerivedID) {
-        _ = derivedStoresQueue.sync {
-            identifiedDerivedStores.removeValue(forKey: id)
-        }
     }
 }
 
