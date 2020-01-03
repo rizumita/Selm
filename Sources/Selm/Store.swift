@@ -134,7 +134,7 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         let result = Store<SubPage>(model: derivedModel, dispatch: { self.dispatch(messaging($0)) })
 
         $model.share().map(keyPath).sink { [weak self, weak result] models in
-            guard let model = models.first(where: { $0.id == id }) else {
+            guard let model = models[id: id] else {
                 if !isTemporary {
                     self?.storeStorage.remove(forID: id)
                 }
