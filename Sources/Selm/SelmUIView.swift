@@ -6,12 +6,14 @@ import Foundation
 import UIKit
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmUIView {
-    associatedtype Page: _SelmPage
-    associatedtype Msg = Page.Msg
-    associatedtype Model = Page.Model
+public protocol SelmUIView: _SelmView {
+    associatedtype Msg
+    associatedtype Model
 
-    var store: Store<Page> { get }
+    static var subscribesOnAppear:      Bool { get }
+    static var unsubscribesOnDisappear: Bool { get }
+    static var onAppearMsg:             Msg! { get }
+    static var onDisappearMsg:          Msg! { get }
 
     func onAppear()
     func onDisappear()
@@ -20,25 +22,30 @@ public protocol SelmUIView {
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension SelmUIView {
-    public var model:    Page.Model { store.model }
-    public var dispatch: Dispatch<Page.Msg> { store.dispatch }
+    public static var subscribesOnAppear:      Bool { true }
+    public static var unsubscribesOnDisappear: Bool { true }
+    public static var onAppearMsg:             Msg! { .none }
+    public static var onDisappearMsg:          Msg! { .none }
+
+    public var model:    Model { store.model }
+    public var dispatch: Dispatch<Msg> { store.dispatch }
 
     public func onAppear() {
-        if Page.subscribesOnAppear {
+        if Self.subscribesOnAppear {
             self.store.subscribe()
         }
 
-        if let msg = Page.onAppearMsg {
+        if let msg = Self.onAppearMsg {
             store.dispatch(msg)
         }
     }
 
     public func onDisappear() {
-        if Page.unsubscribesOnDisappear {
+        if Self.unsubscribesOnDisappear {
             self.store.unsubscribe()
         }
 
-        if let msg = Page.onDisappearMsg {
+        if let msg = Self.onDisappearMsg {
             store.dispatch(msg)
         }
     }

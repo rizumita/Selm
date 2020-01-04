@@ -5,20 +5,20 @@
 import Foundation
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Runner<Page> where Page: SelmPage {
-    private let update:     SelmUpdate<Page.Msg, Page.Model>
-    private let dispatcher = Dispatcher<Page.Msg>()
-    private var store: Store<Page>!
+public class Runner<View> where View: SelmView {
+    private let update:     SelmUpdate<View.Msg, View.Model>
+    private let dispatcher = Dispatcher<View.Msg>()
+    private var store: Store<View>!
     private let dispatchQueue = DispatchQueue.main
 
-    public static func create(initialize: @escaping SelmInit<Page.Msg, Page.Model>,
-                              update: @escaping SelmUpdate<Page.Msg, Page.Model> = Page.update) -> Store<Page> {
+    public static func create(initialize: @escaping SelmInit<View.Msg, View.Model>,
+                              update: @escaping SelmUpdate<View.Msg, View.Model> = View.update) -> Store<View> {
         let runner = Runner(initialize: initialize, update: update)
         return runner.store
     }
 
-    private init(initialize: @escaping () -> (Page.Model, Cmd<Page.Msg>),
-                 update: @escaping (Page.Msg, Page.Model) -> (Page.Model, Cmd<Page.Msg>)) {
+    private init(initialize: @escaping () -> (View.Model, Cmd<View.Msg>),
+                 update: @escaping (View.Msg, View.Model) -> (View.Model, Cmd<View.Msg>)) {
         self.update = update
 
         let (initialModel, cmd) = initialize()
@@ -34,7 +34,7 @@ public class Runner<Page> where Page: SelmPage {
         cmd.dispatch(self.dispatcher.dispatch)
     }
 
-    private func process(_ msg: Page.Msg) {
+    private func process(_ msg: View.Msg) {
         let (updatedModel, newCommand) = update(msg, store.model)
         store.update(updatedModel)
         newCommand.dispatch(dispatcher.dispatch)

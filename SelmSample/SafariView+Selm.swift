@@ -1,36 +1,38 @@
 //
-// Created by 和泉田 領一 on 2019/12/20.
+//  SafariView+Selm.swift
+//  SelmSample
+//
+//  Created by 和泉田 領一 on 2019/08/24.
 //
 
 import Foundation
+import Combine
+import Swiftx
+import Operadics
 import Selm
 
-enum MessagePage: SelmPageExt {
+extension SafariView: SelmViewExt {
     struct Model: SelmModel, Equatable {
-        var message: String
+        var url: URL
     }
-
+    
     enum Msg {
-        case printMessage
         case dismiss
     }
 
-    static let onAppearMsg: Msg! = .printMessage
+    private(set) static var onDisappearMsg: Msg! = .dismiss
 
     enum ExternalMsg {
         case noOp
         case dismiss
     }
-
-    static func initialize(message: String) -> (Model, Cmd<Msg>) {
-        (Model(message: message), .none)
+    
+    static func initialize(url: URL) -> (Model, Cmd<Msg>) {
+        (Model(url: url), .none)
     }
-
+    
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
-        case .printMessage:
-            return (model, .none, .noOp)
-
         case .dismiss:
             return (model, .none, .dismiss)
         }

@@ -11,16 +11,16 @@ import Swiftx
 import Operadics
 import Selm
 
-struct HistoryView : View, SelmView {
-    @ObservedObject var store: Store<HistoryPage>
+struct HistoryView: View {
+    let store: Store<Self>
 
-    var content: some View {
+    var body: some View {
         VStack(spacing: 20.0) {
             List {
-                ForEach(model.stepPageModels, id: \.self) { model in
+                ForEach(model.stepViewModels, id: \.self) { model in
                     NavigationLink(destination: StepView(store: self.store.derived(model.id,
                                                                                    { Msg.stepPageMsg(model.id, $0) },
-                                                                                   \.stepPageModels)),
+                                                                                   \.stepViewModels)),
 //                                   tag: model.id,
 //                                   selection: self.store.binding(id: "list"),
                                    label: { Text(model.step.string) })

@@ -6,52 +6,31 @@ import Foundation
 import SwiftUI
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmView: View {
-    associatedtype Page: _SelmPage
-    associatedtype Msg = Page.Msg
-    associatedtype Model = Page.Model
-    associatedtype ViewType: View
+public protocol _SelmView {
+    associatedtype Msg
+    associatedtype Model
 
-    var store: Store<Page> { get }
-
-    var content: ViewType { get }
+    var store: Store<Self> { get }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension SelmView {
+extension _SelmView {
+    public var model:    Self.Model { store.model }
+    public var dispatch: Dispatch<Self.Msg> { store.dispatch }
 
-    public var content: some View {
-        // I did this to prevent changing every view right now
-        // In the final implementation, this would be a requiement of conforming to SelmView
-        return Text("Hello, world")
+    public static func modify<Value>(_ keyPath: WritableKeyPath<Model, Value>, _ value: Value) -> (Model) -> Model {
+        (write(keyPath)) { _ in value }
     }
-
-    public var body: some View {
-        content
-            .onAppear {
-                if Page.subscribesOnAppear {
-                    self.store.subscribe()
-                }
-
-                if let onAppearMsg = Page.onAppearMsg {
-                    self.store.dispatch(onAppearMsg)
-                }
-            }
-            .onDisappear {
-                if Page.unsubscribesOnDisappear {
-                    self.store.unsubscribe()
-                }
-
-                if let onDisappearMsg = Page.onDisappearMsg {
-                    self.store.dispatch(onDisappearMsg)
-                }
-            }
-    }
-
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension SelmView {
-    public var model:    Page.Model { store.model }
-    public var dispatch: Dispatch<Page.Msg> { store.dispatch }
+public protocol SelmView: _SelmView, View {
+    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>)
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol SelmViewExt: _SelmView, View {
+    associatedtype ExternalMsg
+
+    static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg)
 }

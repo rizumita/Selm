@@ -7,7 +7,7 @@ import Operadics
 import Swiftx
 import Selm
 
-enum StepPage: SelmPageExt {
+extension StepView: SelmViewExt {
     struct Model: SelmModel, Hashable, Identifiable {
         var id = UUID()
         var step: Step

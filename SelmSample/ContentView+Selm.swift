@@ -1,5 +1,5 @@
 //
-//  ContentPage.swift
+//  ContentView+Selm.swift
 //  SelmSample
 //
 //  Created by 和泉田 領一 on 2019/08/24.
@@ -11,7 +11,7 @@ import Swiftx
 import Operadics
 import Selm
 
-struct ContentPage: SelmPage {
+extension ContentView: SelmView {
     static var dependency: Dependency = Dependency()
 
     struct Dependency {
@@ -22,15 +22,15 @@ struct ContentPage: SelmPage {
         var stepInterval:     TimeInterval = 2.0
         var count:            Int          = 0
         var url:              String       = ""
-        var historyPageModel: HistoryPage.Model
-        var safariPageModel:  SafariPage.Model?
-        var messagePageModel: MessagePage.Model?
+        var historyPageModel: HistoryView.Model
+        var safariPageModel:  SafariView.Model?
+        var messagePageModel: MessageViewController.Model?
     }
     
     enum Msg {
-        case historyPageMsg(HistoryPage.Msg)
-        case safariPageMsg(SafariPage.Msg)
-        case messagePageMsg(MessagePage.Msg)
+        case historyPageMsg(HistoryView.Msg)
+        case safariPageMsg(SafariView.Msg)
+        case messagePageMsg(MessageViewController.Msg)
         case step(Step)
         case stepDelayed(Step)
         case stepDelayedTask(Step)
@@ -43,14 +43,14 @@ struct ContentPage: SelmPage {
     }
 
     static let initialize: SelmInit<Msg, Model> = {
-        let (m, c) = HistoryPage.initialize()
+        let (m, c) = HistoryView.initialize()
         return (Model(historyPageModel: m), c.map(Msg.historyPageMsg))
     }
 
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>) {
         switch msg {
         case .historyPageMsg(let hvMsg):
-            switch HistoryPage.update(hvMsg, model.historyPageModel) {
+            switch HistoryView.update(hvMsg, model.historyPageModel) {
             case (let m, let c, .noOp):
                 return (model.modified(\.historyPageModel, m),
                     c.map(Msg.historyPageMsg))
@@ -66,7 +66,7 @@ struct ContentPage: SelmPage {
 
         case .safariPageMsg(let sMsg):
             guard let sModel = model.safariPageModel else { return (model, .none) }
-            switch SafariPage.update(sMsg, sModel) {
+            switch SafariView.update(sMsg, sModel) {
             case (let m, let c, .noOp):
                 return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
             case (_, let c, .dismiss):
@@ -75,7 +75,7 @@ struct ContentPage: SelmPage {
 
         case .messagePageMsg(let mMsg):
             guard let mModel = model.messagePageModel else { return (model, .none) }
-            switch MessagePage.update(mMsg, mModel) {
+            switch MessageViewController.update(mMsg, mModel) {
             case let (m, c, .noOp):
                 return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
             case let (_, c, .dismiss):
@@ -132,11 +132,11 @@ struct ContentPage: SelmPage {
             )
 
         case .showSafariPage:
-            let (m, c) = SafariPage.initialize(url: URL(string: "https://www.google.com")!)
+            let (m, c) = SafariView.initialize(url: URL(string: "https://www.google.com")!)
             return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
 
         case .showMessagePage:
-            let (m, c) = MessagePage.initialize(message: "My Message")
+            let (m, c) = MessageViewController.initialize(message: "My Message")
             return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
         }
     }

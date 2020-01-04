@@ -1,5 +1,5 @@
 //
-//  HistoryPage.swift
+//  HistoryView+Selm.swift
 //  SelmSample
 //
 //  Created by 和泉田 領一 on 2019/08/24.
@@ -11,17 +11,17 @@ import Swiftx
 import Operadics
 import Selm
 
-struct HistoryPage: SelmPageExt {
+extension HistoryView: SelmViewExt {
     struct Model: SelmModel, Equatable {
-        var selectedStepPageModelID: StepPage.Model.ID?
-        var stepPageModels: [StepPage.Model] = []
+        var selectedStepViewModelID: StepView.Model.ID?
+        var stepViewModels:          [StepView.Model] = []
     }
 
     enum Msg {
         case add(Step)
         case remove(IndexSet)
-        case select(StepPage.Model.ID?)
-        case stepPageMsg(StepPage.Model.ID, StepPage.Msg)
+        case select(StepView.Model.ID?)
+        case stepPageMsg(StepView.Model.ID, StepView.Msg)
     }
     
     enum ExternalMsg {
@@ -37,42 +37,42 @@ struct HistoryPage: SelmPageExt {
         dump(msg)
         switch msg {
         case .add(let step):
-            let (m, c) = StepPage.initialize(step: step)
-            return (model |> modify(\.stepPageModels, model.stepPageModels + [m]),
+            let (m, c) = StepView.initialize(step: step)
+            return (model |> modify(\.stepViewModels, model.stepViewModels + [m]),
                 c.map { Msg.stepPageMsg(m.id, $0) },
                 .noOp)
 
         case .remove(let indexSet):
-            var stepPageModels = model.stepPageModels
+            var stepPageModels = model.stepViewModels
             indexSet.forEach { index in stepPageModels.remove(at: index) }
             let count = stepPageModels.reduce(0) { result, model in model.step.step(count: result) }
-            return (model |> modify(\.stepPageModels, stepPageModels),
+            return (model |> modify(\.stepViewModels, stepPageModels),
                 .none,
                 .updated(count: count))
 
         case .select(let id):
-            return (model |> modify(\.selectedStepPageModelID, id), .none, .noOp)
+            return (model |> modify(\.selectedStepViewModelID, id), .none, .noOp)
 
         case let .stepPageMsg(id, sMsg):
-            guard let stepPageModel = model.stepPageModels.first(id: id) else { return (model, .none, .noOp) }
-            var models = model.stepPageModels
+            guard let stepPageModel = model.stepViewModels.first(id: id) else { return (model, .none, .noOp) }
+            var models = model.stepViewModels
 
-            switch StepPage.update(sMsg, stepPageModel) {
+            switch StepView.update(sMsg, stepPageModel) {
             case let (m, c, .noOp):
                 models[id: id] = m
-                return (model |> modify(\.stepPageModels, models), c.map { Msg.stepPageMsg(id, $0) }, .noOp)
+                return (model |> modify(\.stepViewModels, models), c.map { Msg.stepPageMsg(id, $0) }, .noOp)
 
             case let (m, c, .update):
                 models[id: id] = m
                 let count = models.reduce(0) { result, model in model.step.step(count: result) }
-                return (model |> modify(\.stepPageModels, models),
+                return (model |> modify(\.stepViewModels, models),
                     c.map { Msg.stepPageMsg(id, $0) },
                     .updated(count: count))
 
             case let (_, c, .remove):
                 _ = models.remove(id: id)
                 let count = models.reduce(0) { result, model in model.step.step(count: result) }
-                return (model |> modify(\.stepPageModels, models),
+                return (model |> modify(\.stepViewModels, models),
                     c.map { Msg.stepPageMsg(id, $0) },
                     .updated(count: count))
             }

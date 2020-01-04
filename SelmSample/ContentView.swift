@@ -11,8 +11,8 @@ import Swiftx
 import Operadics
 import Selm
 
-struct ContentView: SelmView {
-    @ObservedObject var store: Store<ContentPage>
+struct ContentView: View {
+    let store: Store<Self>
     
     var body: some View {
         NavigationView {

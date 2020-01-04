@@ -9,11 +9,11 @@
 import SwiftUI
 import Selm
 
-struct StepView: SelmView {
-    @ObservedObject var store: Store<StepPage>
+struct StepView: View {
+    let store: Store<Self>
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    var content: some View {
+    var body: some View {
         VStack {
             Spacer()
 

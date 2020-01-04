@@ -12,13 +12,12 @@ import Combine
 #endif
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public final class Store<Page>: ObservableObject, Identifiable where Page: _SelmPage {
-    public typealias Msg = Page.Msg
-    public typealias Model = Page.Model
+public final class Store<View>: ObservableObject, Identifiable where View: _SelmView {
+    public typealias Msg = View.Msg
+    public typealias Model = View.Model
 
     public let id = UUID()
-    public private(set) lazy var objectWillChange: AnyPublisher<Model, Never>
-        = willChange.removeDuplicates(by: Model.equals).eraseToAnyPublisher()
+    public let objectWillChange: AnyPublisher<Model, Never>
 
     @Published public private(set) var model: Model {
         willSet {
@@ -33,17 +32,17 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         releasedSubject.eraseToAnyPublisher()
     }
 
-    private let willChange              = PassthroughSubject<Model, Never>()
-    private let releasedSubject         = PassthroughSubject<(), Never>()
-    private var isSubscribing: Bool     = false
-    private var storeStorage            = StoreStorage<Page.Model>()
-    private var identifiedBindings = [AnyHashable: Any]()
-    private var cancellables            = Set<AnyCancellable>()
+    private let willChange          = PassthroughSubject<Model, Never>()
+    private let releasedSubject     = PassthroughSubject<(), Never>()
+    private var isSubscribing: Bool = true
+    private var storeStorage        = StoreStorage<View.Model>()
+    private var identifiedBindings  = [AnyHashable: Any]()
+    private var cancellables        = Set<AnyCancellable>()
 
     public init(model: Model, dispatch: @escaping Dispatch<Msg> = { _ in }) {
         self.model = model
         self.dispatch = dispatch
-        self.isSubscribing = true
+        self.objectWillChange = Self.generateObjectWillChange(willChange)
     }
 
     public func subscribe() {
@@ -63,21 +62,18 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         }
     }
 
-    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                            _ keyPath: KeyPath<Model, SubPage.Model>,
-                                            isTemporary: Bool = false,
-                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage> {
-        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubPage> {
+    public func derived<SubView: _SelmView>(_ messaging: @escaping (SubView.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, SubView.Model>,
+                                            isTemporary: Bool = false) -> Store<SubView> {
+        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubView> {
             derivedStore.model = model[keyPath: keyPath]
             return derivedStore
         }
 
-        let result = Store<SubPage>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
+        let result = Store<SubView>(model: model[keyPath: keyPath], dispatch: { self.dispatch(messaging($0)) })
         $model.share().map(keyPath).sink { [weak result] model in
             result?.model = model
         }.store(in: &cancellables)
-
-        result.isSubscribing = isSubscribing
 
         if !isTemporary {
             storeStorage.save(result, forKeyPath: keyPath)
@@ -86,17 +82,16 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         return result
     }
 
-    public func derived<SubPage: _SelmPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                            _ keyPath: KeyPath<Model, SubPage.Model?>,
-                                            isTemporary: Bool = false,
-                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>? {
+    public func derived<SubView: _SelmView>(_ messaging: @escaping (SubView.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, SubView.Model?>,
+                                            isTemporary: Bool = false) -> Store<SubView>? {
         guard let m = model[keyPath: keyPath] else { return .none }
-        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubPage> {
+        if !isTemporary, let derivedStore = storeStorage.load(forKeyPath: keyPath) as? Store<SubView> {
             derivedStore.model = m
             return derivedStore
         }
 
-        let result = Store<SubPage>(model: m, dispatch: { self.dispatch(messaging($0)) })
+        let result = Store<SubView>(model: m, dispatch: { self.dispatch(messaging($0)) })
 
         $model.share().map(keyPath).sink { [weak self, weak result] model in
             guard let model = model else {
@@ -109,8 +104,6 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
             result?.model = model
         }.store(in: &cancellables)
 
-        result.isSubscribing = isSubscribing
-
         if !isTemporary {
             storeStorage.save(result, forKeyPath: keyPath)
         }
@@ -118,20 +111,19 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         return result
     }
 
-    public func derived<SubPage: _SelmPage>(_ id: SubPage.Model.ID,
-                                            _ messaging: @escaping (SubPage.Msg) -> Msg,
-                                            _ keyPath: KeyPath<Model, [SubPage.Model]>,
-                                            isTemporary: Bool = false,
-                                            isSubscribing: Bool = SubPage.unsubscribesOnDisappear) -> Store<SubPage>
-        where SubPage.Model: Identifiable {
+    public func derived<SubView: _SelmView>(_ id: SubView.Model.ID,
+                                            _ messaging: @escaping (SubView.Msg) -> Msg,
+                                            _ keyPath: KeyPath<Model, [SubView.Model]>,
+                                            isTemporary: Bool = false) -> Store<SubView>
+        where SubView.Model: Identifiable {
         guard let derivedModel = model[keyPath: keyPath][id: id] else { fatalError("Invalid ID") }
 
-        if !isTemporary, let store = storeStorage.load(forID: id) as? Store<SubPage> {
+        if !isTemporary, let store = storeStorage.load(forID: id) as? Store<SubView> {
             store.model = derivedModel
             return store
         }
 
-        let result = Store<SubPage>(model: derivedModel, dispatch: { self.dispatch(messaging($0)) })
+        let result = Store<SubView>(model: derivedModel, dispatch: { self.dispatch(messaging($0)) })
 
         $model.share().map(keyPath).sink { [weak self, weak result] models in
             guard let model = models[id: id] else {
@@ -144,8 +136,6 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
             result?.model = model
         }.store(in: &cancellables)
 
-        result.isSubscribing = isSubscribing
-
         if !isTemporary {
             storeStorage.save(result, forID: id)
         }
@@ -153,12 +143,11 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
         return result
     }
 
-    public func derivedBinding<SubPage>(_ messaging: @escaping (SubPage.Msg) -> Msg,
-                                        _ keyPath: KeyPath<Model, SubPage.Model?>,
-                                        isTemporary: Bool = false,
-                                        isSubscribing: Bool = true) -> Binding<Store<SubPage>?> {
+    public func derivedBinding<SubView>(_ messaging: @escaping (SubView.Msg) -> Msg,
+                                        _ keyPath: KeyPath<Model, SubView.Model?>,
+                                        isTemporary: Bool = false) -> Binding<Store<SubView>?> {
         Binding(get: { [weak self] in
-            self?.derived(messaging, keyPath, isTemporary: isTemporary, isSubscribing: isSubscribing)
+            self?.derived(messaging, keyPath, isTemporary: isTemporary)
         }, set: { value in })
     }
 
@@ -203,9 +192,12 @@ public final class Store<Page>: ObservableObject, Identifiable where Page: _Selm
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension Store: Equatable where Model: Equatable {
-    public static func ==(lhs: Store<Page>, rhs: Store<Page>) -> Bool {
-        if lhs.model != rhs.model { return false }
-        return true
+extension Store {
+    static func generateObjectWillChange<P: Publisher>(_ base: P) -> AnyPublisher<P.Output, P.Failure> where P.Output == Model, P.Output: Equatable, P.Failure == Never {
+        base.removeDuplicates().eraseToAnyPublisher()
+    }
+
+    static func generateObjectWillChange<P: Publisher>(_ base: P) -> AnyPublisher<P.Output, P.Failure> where P.Output == Model, P.Failure == Never {
+        base.eraseToAnyPublisher()
     }
 }

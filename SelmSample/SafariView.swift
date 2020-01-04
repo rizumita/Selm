@@ -12,10 +12,10 @@ import Swiftx
 import Operadics
 import Selm
 
-struct SafariView: SelmView {
-    @ObservedObject var store: Store<SafariPage>
+struct SafariView: View {
+    let store: Store<Self>
     
-    var content: some View {
+    var body: some View {
         _SafariView(url: store.model.url)
     }
 }

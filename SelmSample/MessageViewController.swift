@@ -5,12 +5,12 @@
 import UIKit
 import Selm
 
-class MessageViewController: UIViewController, SelmUIView {
-    let store: Store<MessagePage>
+final class MessageViewController: UIViewController {
+    let store: Store<MessageViewController>
     var label  = UILabel()
     var button = UIButton(type: .roundedRect)
 
-    init(store: Store<MessagePage>) {
+    init(store: Store<MessageViewController>) {
         self.store = store
 
         super.init(nibName: .none, bundle: .none)
