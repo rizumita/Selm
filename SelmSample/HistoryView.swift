@@ -13,8 +13,7 @@ import Selm
 
 struct HistoryView : View, SelmView {
     @ObservedObject var store: Store<HistoryPage>
-    @State var selected: StepPage.Model.ID?
-    
+
     var content: some View {
         VStack(spacing: 20.0) {
             List {
