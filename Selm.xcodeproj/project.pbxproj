@@ -44,6 +44,7 @@
 		CB87670B77C9D10212339D1A /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87603C4AB59E122616257D /* MessageView.swift */; };
 		CB876739F6AE12817519CFEC /* StepPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876F8626D4B294BE5DD2E4 /* StepPage.swift */; };
 		CB8767B8588547A80D117E3C /* MessagePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764AC926E838F6214B304 /* MessagePage.swift */; };
+		CB8768BDC748EC6ACD1E1643 /* ModifyBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876DC8E12A41D9A6F2A857 /* ModifyBuilder.swift */; };
 		CB876928BFA3EF51B3B31476 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB876220D498B39A6FF3443E /* MessageViewController.swift */; };
 		CB876C0A8548C2E7203F215E /* SelmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */; };
 		CB876C1FEAC20392AEBB4C8B /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB87607D7FB0D598B3F7A85C /* StepView.swift */; };
@@ -110,6 +111,7 @@
 		CB8764D0A70DA983338DD813 /* StoreStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreStorage.swift; sourceTree = "<group>"; };
 		CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmModel.swift; sourceTree = "<group>"; };
 		CB876C358B03117CCE62321E /* SelmPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelmPage.swift; sourceTree = "<group>"; };
+		CB876DC8E12A41D9A6F2A857 /* ModifyBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyBuilder.swift; sourceTree = "<group>"; };
 		CB876EFDF2069E05B434DAB9 /* TaskTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 		CB876F8626D4B294BE5DD2E4 /* StepPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepPage.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Cmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cmd.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				CB8764E6C5C148A00B6EC2CE /* SelmModel.swift */,
 				CB876353E8592822A10CD7D5 /* SelmUIView.swift */,
 				CB8764D0A70DA983338DD813 /* StoreStorage.swift */,
+				CB876DC8E12A41D9A6F2A857 /* ModifyBuilder.swift */,
 			);
 			name = Selm;
 			path = Sources/Selm;
@@ -440,6 +443,7 @@
 				CB876C0A8548C2E7203F215E /* SelmModel.swift in Sources */,
 				CB876FFDE2A52991C66E1544 /* SelmUIView.swift in Sources */,
 				CB87629D55A398E894F25C8E /* StoreStorage.swift in Sources */,
+				CB8768BDC748EC6ACD1E1643 /* ModifyBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

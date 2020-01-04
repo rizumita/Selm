@@ -13,11 +13,11 @@ import Selm
 
 struct ContentPage: SelmPage {
     static var dependency: Dependency = Dependency()
-    
+
     struct Dependency {
         var genStepPublisher: GenStepPublisherWithInterval = SelmSample.genStepWithTimer
     }
-    
+
     struct Model: SelmModel, Equatable {
         var stepInterval:     TimeInterval = 2.0
         var count:            Int          = 0
@@ -54,28 +54,32 @@ struct ContentPage: SelmPage {
             case (let m, let c, .noOp):
                 return (model.modified(\.historyPageModel, m),
                     c.map(Msg.historyPageMsg))
-                
+
             case (let m, let c, .updated(count: let count)):
-                return (model |> modify(\.historyPageModel, m) |> modify(\.count, count),
-                        c.map(Msg.historyPageMsg))
+                return (
+                    model.modified {
+                        (\Model.historyPageModel, m)
+                        (\Model.count, count)
+                    },
+                    c.map(Msg.historyPageMsg))
             }
 
         case .safariPageMsg(let sMsg):
             guard let sModel = model.safariPageModel else { return (model, .none) }
             switch SafariPage.update(sMsg, sModel) {
             case (let m, let c, .noOp):
-                return (model |> modify(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+                return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
             case (_, let c, .dismiss):
-                return (model |> modify(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
+                return (model.modified(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
             }
 
         case .messagePageMsg(let mMsg):
             guard let mModel = model.messagePageModel else { return (model, .none) }
             switch MessagePage.update(mMsg, mModel) {
             case let (m, c, .noOp):
-                return (model |> modify(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+                return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
             case let (_, c, .dismiss):
-                return (model |> modify(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
+                return (model.modified(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
             }
 
         case .step(let step):
@@ -102,14 +106,14 @@ struct ContentPage: SelmPage {
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
-                let newModel = model |> modify(\.count, step.step(count: model.count))
+                let newModel = model.modified(\.count, step.step(count: model.count))
                 return (newModel, .ofMsg(.historyPageMsg(.add(step))))
             case .failure:
                 return (model, .none)
             }
             
         case .updateCount(let step):
-            return (model |> modify(\.count, step.step(count: model.count)), .none)
+            return (model.modified(\.count, step.step(count: model.count)), .none)
 
         case .stepTimer(let step):
             return (
@@ -129,11 +133,11 @@ struct ContentPage: SelmPage {
 
         case .showSafariPage:
             let (m, c) = SafariPage.initialize(url: URL(string: "https://www.google.com")!)
-            return (model |> modify(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+            return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
 
         case .showMessagePage:
             let (m, c) = MessagePage.initialize(message: "My Message")
-            return (model |> modify(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+            return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
         }
     }
 

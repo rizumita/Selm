@@ -20,4 +20,8 @@ extension SelmModel {
     public func modified<Value>(_ keyPath: WritableKeyPath<Self, Value>, _ value: Value) -> Self {
         (write(keyPath)) { _ in value }(self)
     }
+
+    public func modified(@ModifyBuilder _ block: () -> (Self) -> Self) -> Self {
+        block()(self)
+    }
 }
