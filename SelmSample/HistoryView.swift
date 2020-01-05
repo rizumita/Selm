@@ -12,7 +12,7 @@ import Operadics
 import Selm
 
 struct HistoryView: View {
-    let store: Store<Self>
+    @ObservedObject var store: Store<Msg, Model>
 
     var body: some View {
         VStack(spacing: 20.0) {
@@ -26,7 +26,7 @@ struct HistoryView: View {
                                    label: { Text(model.step.string) })
                 }.onDelete(perform: dispatch • Msg.remove)
             }
-        }
+        }.selmish(self)
     }
 }
 

@@ -6,7 +6,7 @@ import Foundation
 import Selm
 
 extension MessageViewController: SelmUIView {
-    struct Model: SelmModel, Equatable {
+    struct Model: Equatable {
         var message: String
     }
 

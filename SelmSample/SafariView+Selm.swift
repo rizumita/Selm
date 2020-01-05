@@ -7,12 +7,10 @@
 
 import Foundation
 import Combine
-import Swiftx
-import Operadics
 import Selm
 
 extension SafariView: SelmViewExt {
-    struct Model: SelmModel, Equatable {
+    struct Model: Equatable {
         var url: URL
     }
     

@@ -11,7 +11,7 @@ import Combine
 import Selm
 
 struct MessageView: UIViewControllerRepresentable {
-    var store: Store<MessageViewController>
+    @ObservedObject var store: Store<MessageViewController.Msg, MessageViewController.Model>
 
     func makeUIViewController(context: Context) -> MessageViewController {
         MessageViewController(store: store)

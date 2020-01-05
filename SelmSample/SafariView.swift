@@ -8,15 +8,13 @@
 import SwiftUI
 import SafariServices
 import Combine
-import Swiftx
-import Operadics
 import Selm
 
 struct SafariView: View {
-    let store: Store<Self>
+    let store: Store<Msg, Model>
     
     var body: some View {
-        _SafariView(url: store.model.url)
+        _SafariView(url: store.model.url).selmish(self)
     }
 }
 

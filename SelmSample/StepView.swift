@@ -10,7 +10,7 @@ import SwiftUI
 import Selm
 
 struct StepView: View {
-    let store: Store<Self>
+    @ObservedObject var store: Store<Msg, Model>
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
@@ -31,7 +31,7 @@ struct StepView: View {
             }, label: { Text("Remove") })
 
             Spacer()
-        }
+        }.selmish(self)
     }
 }
 

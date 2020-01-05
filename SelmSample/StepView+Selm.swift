@@ -3,12 +3,10 @@
 //
 
 import Foundation
-import Operadics
-import Swiftx
 import Selm
 
 extension StepView: SelmViewExt {
-    struct Model: SelmModel, Hashable, Identifiable {
+    struct Model: Hashable, Identifiable {
         var id = UUID()
         var step: Step
     }
@@ -31,7 +29,7 @@ extension StepView: SelmViewExt {
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg) {
         switch msg {
         case .toggle:
-            return (model |> modify(\.step, model.step.toggled), .none, .update)
+            return (modify(model, \.step, model.step.toggled), .none, .update)
         case .remove:
             return (model, .none, .remove)
         }

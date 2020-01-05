@@ -18,19 +18,19 @@ extension ContentView: SelmView {
         var genStepPublisher: GenStepPublisherWithInterval = SelmSample.genStepWithTimer
     }
 
-    struct Model: SelmModel, Equatable {
+    struct Model: Equatable {
         var stepInterval:     TimeInterval = 2.0
         var count:            Int          = 0
         var url:              String       = ""
-        var historyPageModel: HistoryView.Model
-        var safariPageModel:  SafariView.Model?
-        var messagePageModel: MessageViewController.Model?
+        var historyViewModel: HistoryView.Model
+        var safariViewModel:  SafariView.Model?
+        var messageViewModel: MessageViewController.Model?
     }
-    
+
     enum Msg {
-        case historyPageMsg(HistoryView.Msg)
-        case safariPageMsg(SafariView.Msg)
-        case messagePageMsg(MessageViewController.Msg)
+        case historyViewMsg(HistoryView.Msg)
+        case safariViewMsg(SafariView.Msg)
+        case messageViewMsg(MessageViewController.Msg)
         case step(Step)
         case stepDelayed(Step)
         case stepDelayedTask(Step)
@@ -38,61 +38,61 @@ extension ContentView: SelmView {
         case stepTimerTwice(Step)
         case stepDelayedTaskFinished(Result<Step, Never>)
         case updateCount(Step)
-        case showSafariPage
-        case showMessagePage
+        case showSafariView
+        case showMessageView
     }
 
     static let initialize: SelmInit<Msg, Model> = {
         let (m, c) = HistoryView.initialize()
-        return (Model(historyPageModel: m), c.map(Msg.historyPageMsg))
+        return (Model(historyViewModel: m), c.map(Msg.historyViewMsg))
     }
 
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>) {
         switch msg {
-        case .historyPageMsg(let hvMsg):
-            switch HistoryView.update(hvMsg, model.historyPageModel) {
+        case .historyViewMsg(let hvMsg):
+            switch HistoryView.update(hvMsg, model.historyViewModel) {
             case (let m, let c, .noOp):
-                return (model.modified(\.historyPageModel, m),
-                    c.map(Msg.historyPageMsg))
+                return (modify(model, \.historyViewModel, m),
+                    c.map(Msg.historyViewMsg))
 
             case (let m, let c, .updated(count: let count)):
                 return (
-                    model.modified {
-                        (\Model.historyPageModel, m)
+                    modify(model) {
+                        (\Model.historyViewModel, m)
                         (\Model.count, count)
                     },
-                    c.map(Msg.historyPageMsg))
+                    c.map(Msg.historyViewMsg))
             }
 
-        case .safariPageMsg(let sMsg):
-            guard let sModel = model.safariPageModel else { return (model, .none) }
+        case .safariViewMsg(let sMsg):
+            guard let sModel = model.safariViewModel else { return (model, .none) }
             switch SafariView.update(sMsg, sModel) {
             case (let m, let c, .noOp):
-                return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+                return (modify(model, \.safariViewModel, m), c.map(Msg.safariViewMsg))
             case (_, let c, .dismiss):
-                return (model.modified(\.safariPageModel, .none), c.map(Msg.safariPageMsg))
+                return (modify(model, \.safariViewModel, .none), c.map(Msg.safariViewMsg))
             }
 
-        case .messagePageMsg(let mMsg):
-            guard let mModel = model.messagePageModel else { return (model, .none) }
+        case .messageViewMsg(let mMsg):
+            guard let mModel = model.messageViewModel else { return (model, .none) }
             switch MessageViewController.update(mMsg, mModel) {
             case let (m, c, .noOp):
-                return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+                return (modify(model, \.messageViewModel, m), c.map(Msg.messageViewMsg))
             case let (_, c, .dismiss):
-                return (model.modified(\.messagePageModel, .none), c.map(Msg.messagePageMsg))
+                return (modify(model, \.messageViewModel, .none), c.map(Msg.messageViewMsg))
             }
 
         case .step(let step):
             return (model,
                 .batch([.ofMsg(.updateCount(step)),
-                        .ofMsg(.historyPageMsg(.add(step)))]))
+                        .ofMsg(.historyViewMsg(.add(step)))]))
 
         case .stepDelayed(let step):
             return (model,
                 .ofAsyncCmd { fulfill in
                     DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
                             .batch([.ofMsg(.updateCount(step)),
-                                    .ofMsg(.historyPageMsg(.add(step)))])
+                                    .ofMsg(.historyViewMsg(.add(step)))])
                             |> fulfill
                         }
                     })
@@ -106,14 +106,14 @@ extension ContentView: SelmView {
         case .stepDelayedTaskFinished(let result):
             switch result {
             case .success(let step):
-                let newModel = model.modified(\.count, step.step(count: model.count))
-                return (newModel, .ofMsg(.historyPageMsg(.add(step))))
+                let newModel = modify(model, \.count, step.step(count: model.count))
+                return (newModel, .ofMsg(.historyViewMsg(.add(step))))
             case .failure:
                 return (model, .none)
             }
             
         case .updateCount(let step):
-            return (model.modified(\.count, step.step(count: model.count)), .none)
+            return (modify(model, \.count, step.step(count: model.count)), .none)
 
         case .stepTimer(let step):
             return (
@@ -131,13 +131,13 @@ extension ContentView: SelmView {
                     }
             )
 
-        case .showSafariPage:
+        case .showSafariView:
             let (m, c) = SafariView.initialize(url: URL(string: "https://www.google.com")!)
-            return (model.modified(\.safariPageModel, m), c.map(Msg.safariPageMsg))
+            return (modify(model, \.safariViewModel, m), c.map(Msg.safariViewMsg))
 
-        case .showMessagePage:
+        case .showMessageView:
             let (m, c) = MessageViewController.initialize(message: "My Message")
-            return (model.modified(\.messagePageModel, m), c.map(Msg.messagePageMsg))
+            return (modify(model, \.messageViewModel, m), c.map(Msg.messageViewMsg))
         }
     }
 
@@ -156,6 +156,5 @@ private let genStepWithTimer: GenStepPublisherWithInterval = { step, interval in
         .autoconnect()
         .first()
         .map(const(step))
-        .print()
         .eraseToAnyPublisher()
 }

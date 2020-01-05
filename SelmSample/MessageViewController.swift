@@ -6,11 +6,11 @@ import UIKit
 import Selm
 
 final class MessageViewController: UIViewController {
-    let store: Store<MessageViewController>
+    let store: Store<Msg, Model>
     var label  = UILabel()
     var button = UIButton(type: .roundedRect)
 
-    init(store: Store<MessageViewController>) {
+    init(store: Store<Msg, Model>) {
         self.store = store
 
         super.init(nibName: .none, bundle: .none)
@@ -21,7 +21,7 @@ final class MessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        label.text = "Label"
+        label.text = store.model.message
         button.setTitle("Dismiss", for: .normal)
         button.addTarget(self, action: #selector(handleDoing(_:)), for: .touchUpInside)
 

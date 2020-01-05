@@ -7,12 +7,10 @@
 
 import SwiftUI
 import Combine
-import Swiftx
-import Operadics
 import Selm
 
 struct ContentView: View {
-    let store: Store<Self>
+    @ObservedObject var store: Store<Msg, Model>
     
     var body: some View {
         NavigationView {
@@ -59,27 +57,27 @@ struct ContentView: View {
                 Spacer()
 
                 Group {
-                    NavigationLink(destination: HistoryView(store: store.derived(Msg.historyPageMsg, \.historyPageModel))) {
+                    NavigationLink(destination: HistoryView(store: store.derived(Msg.historyViewMsg, \.historyViewModel))) {
                         Text("Show history")
                     }
                     
                     Button(action: {
-                        self.store.dispatch(.showSafariPage)
+                        self.store.dispatch(.showSafariView)
                     }) {
                         Text("Show Safari sheet")
-                    }.sheet(item: store.derivedBinding(Msg.safariPageMsg, \.safariPageModel)) { safariStore in
+                    }.sheet(item: store.derivedBinding(Msg.safariViewMsg, \.safariViewModel)) { safariStore in
                         SafariView(store: safariStore)
                     }
 
                     Button(action: {
-                        self.dispatch(.showMessagePage)
+                        self.dispatch(.showMessageView)
                     }, label: { Text("Show message sheet") })
-                    .sheet(item: store.derivedBinding(Msg.messagePageMsg, \.messagePageModel, isTemporary: true),
+                    .sheet(item: store.derivedBinding(Msg.messageViewMsg, \.messageViewModel),
                            content: MessageView.init(store:))
                 }
 
                 Spacer()
-            }
+            }.selmish(self)
         }
     }
 }
@@ -87,7 +85,7 @@ struct ContentView: View {
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
-        ContentView(store: Store(model: .init(historyPageModel: .init())))
+        ContentView(store: Store(model: .init(historyViewModel: .init())))
     }
 }
 #endif
