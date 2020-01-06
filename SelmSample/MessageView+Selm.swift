@@ -5,7 +5,7 @@
 import Foundation
 import Selm
 
-extension MessageViewController: SelmUIView {
+extension MessageViewController: SelmUIViewExt {
     struct Model: Equatable {
         var message: String
     }

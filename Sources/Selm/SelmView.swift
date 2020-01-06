@@ -42,12 +42,25 @@ extension _SelmView {
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmView: _SelmView, View {
+public protocol SelmView: UpdatableSelmView, View {
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol SelmViewExt: UpdatableExtSelmView, View {
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol UpdatableSelmView: _SelmView {
+    associatedtype Msg
+    associatedtype Model
+
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>)
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmViewExt: _SelmView, View {
+public protocol UpdatableExtSelmView: _SelmView {
+    associatedtype Msg
+    associatedtype Model
     associatedtype ExternalMsg
 
     static func update(_ msg: Msg, _ model: Model) -> (Model, Cmd<Msg>, ExternalMsg)

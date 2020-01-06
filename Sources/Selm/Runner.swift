@@ -6,7 +6,7 @@ import Foundation
 import Combine
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public class Runner<View> where View: SelmView {
+public class Runner<View> where View: UpdatableSelmView {
     private let update: SelmUpdate<View.Msg, View.Model>
     private let dispatcher    = Dispatcher<View.Msg>()
     private var store:  Store<View.Msg, View.Model>!

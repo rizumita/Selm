@@ -6,17 +6,14 @@ import Foundation
 import UIKit
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public protocol SelmUIView: _SelmView {
-    associatedtype Msg
-    associatedtype Model
-
+public protocol _SelmUIView: _SelmView {
     func onAppear()
     func onDisappear()
     func onDisappear(onDismiss: () -> ())
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension SelmUIView {
+extension _SelmUIView {
     public var model:    Model { store.model }
     public var dispatch: Dispatch<Msg> { store.dispatch }
 
@@ -47,7 +44,7 @@ extension SelmUIView {
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension SelmUIView where Self: UIViewController {
+extension _SelmUIView where Self: UIViewController {
     public func onDisappear(onDismiss: () -> ()) {
         onDisappear()
 
@@ -55,4 +52,12 @@ extension SelmUIView where Self: UIViewController {
             onDismiss()
         }
     }
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol SelmUIView: UpdatableSelmView, _SelmUIView {
+}
+
+@available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol SelmUIViewExt: UpdatableExtSelmView, _SelmUIView {
 }
