@@ -39,6 +39,11 @@ extension _SelmView {
     public static func modify(_ model: Model, @ModifyBuilder _ block: () -> (Model) -> (Model)) -> Model {
         block()(model)
     }
+    
+    public static func t<Value>(_ keyPath: WritableKeyPath<Model, Value>,
+                                _ value: Value) -> (WritableKeyPath<Model, Value>, Value) {
+        (keyPath, value)
+    }
 }
 
 @available(OSX 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
